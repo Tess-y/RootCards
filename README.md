@@ -7,17 +7,17 @@ A card pack for Rounds
 - Johson's Ingenuity (By Tess)-- Increases damage and bullet size by 65% and gives your bullets extra drag
 - Box of Used Ammo (By Lilith)-- Gives you a random amount(1-5) of extra ammo.
 
-###Uncommons
+### Uncommons
 - Battle Rage (By Tess)-- Adds 10% extra health, and buffs your dmage and movement speed every time you get hurt during a round.
 - Down?Up? Here (By Tess)-- Gives you the ability to flip your gravity by pressing jump. Will also flip it automaticly if your hight doesn't change for to long.
 - Lilith's Deal (By Lilith)-- Adds 10 health per second regen, but makes your attacks more **painful** for you.
 
-###Rares
+### Rares
 - One Hit Wonder (By Tess)-- Sets your health to basicly 0, but makes your attacks kill on hit.
 - Time Loop (By Tess)-- Every 5 seconds, your health and location is reset to what it was 2 seconds prior.
 
 
-##Change log:
+## Change log:
 
 ##### 0.1.2
 - Added this readme
