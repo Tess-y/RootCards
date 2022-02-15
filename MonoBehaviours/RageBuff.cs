@@ -11,6 +11,7 @@ namespace RootCards.MonoBehaviours
         {
             characterStatModifiers.movementSpeed = 1.2f;
             gun.damage = 1.4f;
+            this.ApplyModifiers();
         }
     }
 }

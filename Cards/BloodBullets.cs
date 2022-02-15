@@ -15,8 +15,8 @@ namespace RootCards.Cards
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
-            statModifiers.health = 0.75f;
-            gun.ammo = 5;
+            statModifiers.health = 0.5f;
+            gun.ammo = 50;
             UnityEngine.Debug.Log($"[{RootCards.ModInitials}][Card] {GetTitle()} has been setup.");
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
@@ -44,7 +44,7 @@ namespace RootCards.Cards
         }
         protected override CardInfo.Rarity GetRarity()
         {
-            return CardInfo.Rarity.Common;
+            return CardInfo.Rarity.Uncommon;
         }
         protected override CardInfoStat[] GetStats()
         {
@@ -54,14 +54,14 @@ namespace RootCards.Cards
                 {
                     positive = false,
                     stat = "Health",
-                    amount = "-25%",
+                    amount = "-50%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
                 new CardInfoStat()
                 {
                     positive = true,
                     stat = "Ammo",
-                    amount = "+5",
+                    amount = "+50",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 }
             };
