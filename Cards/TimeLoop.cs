@@ -39,7 +39,7 @@ namespace RootCards.Cards
 
             LoopedTime loopedTime = loopObject.AddComponent<LoopedTime>();
             loopedTime.player = player;
-            loopedTime.gun = gun;
+            loopedTime.gun = player.data.weaponHandler.gun;
 
             loopedTime.timeToFill = 5f;
             loopedTime.timeToEmpty = 0f;

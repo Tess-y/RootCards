@@ -10,8 +10,7 @@ namespace RootCards.MonoBehaviours
     {
         private float timer = 0;
         private bool stored = false;
-        private float playerX;
-        private float playerY;
+        private Vector3 playerPos;
         private float playerHealth;
         private int playerAmmo;
         public Player player;
@@ -40,8 +39,12 @@ namespace RootCards.MonoBehaviours
 
         public void Awake()
         {
-            player = base.gameObject.GetComponent<Player>();
-            gun = base.gameObject.GetComponent<Gun>();
+            try
+            {
+                player = base.gameObject.GetComponent<Player>();
+                gun = player.data.weaponHandler.gun;
+            }
+            catch (Exception e) { }
         }
 
         public void Start()
@@ -51,45 +54,48 @@ namespace RootCards.MonoBehaviours
 
         public void Update()
         {
-            timer += Time.deltaTime;
-            counter = timer / 5;
-            this.outerRing.fillAmount = this.counter;
-            this.fill.fillAmount = this.counter;
-            this.rotator.transform.localEulerAngles = new Vector3(0f, 0f, -Mathf.Lerp(0f, 360f, this.counter));
-           
-            if(timer > 2.5 && timer < 3)
+            if (player.data.view.IsMine)
             {
-                if (outerRing.color.r == 0)
+
+                timer += Time.deltaTime;
+                counter = timer / 5;
+                this.outerRing.fillAmount = this.counter;
+                this.fill.fillAmount = this.counter;
+                this.rotator.transform.localEulerAngles = new Vector3(0f, 0f, -Mathf.Lerp(0f, 360f, this.counter));
+
+                if (timer > 2.5 && timer < 3)
                 {
-                    outerRing.color = new Color32(255, 150, 0, 255);
-                    rotator.gameObject.GetComponentInChildren<ProceduralImage>().color = outerRing.color;
+                    if (outerRing.color.r == 0)
+                    {
+                        outerRing.color = new Color32(255, 150, 0, 255);
+                        rotator.gameObject.GetComponentInChildren<ProceduralImage>().color = outerRing.color;
+                    }
+                    else
+                    {
+                        outerRing.color = new Color32(150, 255, 0, 255);
+                        rotator.gameObject.GetComponentInChildren<ProceduralImage>().color = outerRing.color;
+                    }
                 }
-                else
+                else if (!stored && timer >= 3)
                 {
-                    outerRing.color = new Color32(150, 255, 0, 255);
+                    outerRing.color = new Color32(255, 0, 0, 255);
                     rotator.gameObject.GetComponentInChildren<ProceduralImage>().color = outerRing.color;
-                }                
-            }
-            else if (!stored && timer >= 3)
-            {
-                outerRing.color = new Color32(255, 0, 0, 255);
-                rotator.gameObject.GetComponentInChildren<ProceduralImage>().color = outerRing.color;
-                playerX = player.transform.position.x;
-                playerY = player.transform.position.y;
-                playerHealth = player.data.health;
-                playerAmmo = gun.ammo;
-                stored = true; 
-            }
-            else if(timer >= 5.1)
-            {
-                outerRing.color = new Color32(0, 255, 0, 255);
-                rotator.gameObject.GetComponentInChildren<ProceduralImage>().color = outerRing.color;
-                timer = 0;
-                stored = false;
-                player.GetComponentInParent<PlayerCollision>().IgnoreWallForFrames(2);
-                player.transform.position = new Vector3(playerX, playerY, player.transform.position.y);
-                player.data.healthHandler.Heal(playerHealth - player.data.health);
-                gun.ammo = playerAmmo;
+                    playerPos = player.transform.position;
+                    playerHealth = player.data.health;
+                    playerAmmo = gun.ammo;
+                    stored = true;
+                }
+                else if (timer >= 5.1)
+                {
+                    outerRing.color = new Color32(0, 255, 0, 255);
+                    rotator.gameObject.GetComponentInChildren<ProceduralImage>().color = outerRing.color;
+                    timer = 0;
+                    stored = false;
+                    player.GetComponentInParent<PlayerCollision>().IgnoreWallForFrames(2);
+                    player.transform.position = playerPos;
+                    player.data.healthHandler.Heal(playerHealth - player.data.health);
+                    gun.ammo = playerAmmo;
+                }
             }
         }
     }

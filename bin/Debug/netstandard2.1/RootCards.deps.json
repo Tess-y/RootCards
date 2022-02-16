@@ -14,6 +14,9 @@
           "BepInEx": "5.4.11.0",
           "CardChoiceSpawnUniqueCardPatch": "1.0.0.0",
           "ModdingUtils": "1.0.0.0",
+          "PhotonUnityNetworking.Demos": "0.0.0.0",
+          "PhotonUnityNetworking": "0.0.0.0",
+          "PhotonUnityNetworking.Utilities": "0.0.0.0",
           "UnboundLib": "2.10.2.0",
           "Unity.TextMeshPro": "0.0.0.0",
           "UnityEngine.CoreModule": "0.0.0.0",
@@ -63,6 +66,30 @@
           "ModdingUtils.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "PhotonUnityNetworking.Demos/0.0.0.0": {
+        "runtime": {
+          "PhotonUnityNetworking.Demos.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "PhotonUnityNetworking/0.0.0.0": {
+        "runtime": {
+          "PhotonUnityNetworking.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "PhotonUnityNetworking.Utilities/0.0.0.0": {
+        "runtime": {
+          "PhotonUnityNetworking.Utilities.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
           }
         }
       },
@@ -143,14 +170,6 @@
           "MonoMod.RuntimeDetour.dll": {
             "assemblyVersion": "21.4.21.3",
             "fileVersion": "21.4.21.3"
-          }
-        }
-      },
-      "PhotonUnityNetworking/0.0.0.0": {
-        "runtime": {
-          "PhotonUnityNetworking.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.0.0.0"
           }
         }
       },
@@ -699,6 +718,21 @@
       "serviceable": false,
       "sha512": ""
     },
+    "PhotonUnityNetworking.Demos/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "PhotonUnityNetworking/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "PhotonUnityNetworking.Utilities/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
     "UnboundLib/2.10.2.0": {
       "type": "reference",
       "serviceable": false,
@@ -745,11 +779,6 @@
       "sha512": ""
     },
     "MonoMod.RuntimeDetour/21.4.21.3": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "PhotonUnityNetworking/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

@@ -188,3 +188,5 @@ C:\Users\Tess\Source\Repos\Tess-y\RootCards\obj\Debug\netstandard2.1\RootCards.c
 C:\Users\Tess\source\repos\Tess-y\RootCards\obj\Debug\netstandard2.1\RootCards.csproj.CopyComplete
 C:\Users\Tess\Source\Repos\Tess-y\RootCards\obj\Debug\netstandard2.1\RootCards.dll
 C:\Users\Tess\Source\Repos\Tess-y\RootCards\obj\Debug\netstandard2.1\RootCards.pdb
+C:\Users\Tess\Source\Repos\Tess-y\RootCards\bin\Debug\netstandard2.1\PhotonUnityNetworking.Demos.dll
+C:\Users\Tess\Source\Repos\Tess-y\RootCards\bin\Debug\netstandard2.1\PhotonUnityNetworking.Utilities.dll
