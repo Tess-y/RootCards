@@ -21,7 +21,7 @@ A card pack for Rounds
 ## Change log:
 
 ##### 0.2.1
--Fixed Time Loop not working in online mode
+- Fixed Time Loop not working in online mode
 
 ##### 0.2.0
 - Added a visual indicator for Time Loop
