@@ -12,7 +12,7 @@ A card pack for Rounds
 ### Uncommons
 - Battle Rage (By Tess)-- Adds 10% extra health, and buffs your dmage and movement speed every time you get hurt during a round.
 - Down?Up? Here (By Tess)-- Gives you the ability to flip your gravity by pressing jump. Will also flip it automaticly if your hight doesn't change for to long.
-- Quick Shield (By Lilirg)-- Reduces your block cooldown by 50% but makes it so your block only stops 50% bullet damage.
+- Quick Shield (By Lilith)-- Reduces your block cooldown by 50% but makes it so your block only stops 50% bullet damage.
 
 ### Rares
 - One Hit Wonder (By Tess)-- Sets your health to basicly 0, but makes your attacks kill on hit.

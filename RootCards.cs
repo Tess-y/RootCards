@@ -18,7 +18,7 @@ namespace RootCards
     [BepInProcess("Rounds.exe")]
     public class RootCards : BaseUnityPlugin
     {
-        public const bool DEBUG = false;
+        public const bool DEBUG = true;
         private const string ModId = "com.Root.Cards";
         private const string ModName = "RootCards";
         public const string Version = "0.2.3"; // What version are we On (major.minor.patch)?
