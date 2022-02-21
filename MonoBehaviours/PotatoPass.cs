@@ -14,7 +14,7 @@ namespace RootCards.MonoBehaviours
 {
     internal class PotatoPass : DealtDamageEffect
     {
-        public override void DealtDamage(Vector2 damage, bool selfDamage, Player damagedPlayer = null)
+        public override void DealtDamage(Vector2 damage, bool selfDamage, Player damagedPlayer)
         {
             damagedPlayer.gameObject.GetOrAddComponent<PotatoEffect>();
             damagedPlayer.gameObject.GetOrAddComponent<PotatoPass>();

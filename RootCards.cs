@@ -4,6 +4,7 @@ using UnboundLib.Cards;
 using RootCards.Cards;
 using HarmonyLib;
 using CardChoiceSpawnUniqueCardPatch.CustomCategories;
+using UnityEngine;
 
 namespace RootCards
 {
@@ -17,9 +18,12 @@ namespace RootCards
     [BepInProcess("Rounds.exe")]
     public class RootCards : BaseUnityPlugin
     {
+        public const bool DEBUG = true;
         private const string ModId = "com.Root.Cards";
         private const string ModName = "RootCards";
         public const string Version = "0.1.2"; // What version are we On (major.minor.patch)?
+        internal static AssetBundle ArtAssets;
+        //private static readonly AssetBundle Bundle = Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("rootassets", typeof(RootCards).Assembly);
         public const string ModInitials = "Root";
         public static RootCards instance { get; private set; }
 
@@ -32,6 +36,9 @@ namespace RootCards
         void Start()
         {
             instance = this;
+            
+            ArtAssets =  Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("rootassets", typeof(RootCards).Assembly);
+
             CustomCard.BuildCard<BloodBullets>(BloodBullets.callback);
             CustomCard.BuildCard<DownUpHere>(DownUpHere.callback);
             CustomCard.BuildCard<JohsonsIngenuity>(JohsonsIngenuity.callback);
@@ -40,8 +47,15 @@ namespace RootCards
             //CustomCard.BuildCard<FrozenPotato>(FrozenPotato.callback); card is currently bugged.
             CustomCard.BuildCard<OneHitWonder>(OneHitWonder.callback); 
             CustomCard.BuildCard<BattleRage>(BattleRage.callback); 
-            CustomCard.BuildCard<TimeLoop>(TimeLoop.callback);  // I plan to go back and add a timer visual at some point --Tess
+            CustomCard.BuildCard<TimeLoop>(TimeLoop.callback); 
             CustomCard.BuildCard<DropGrenade>(DropGrenade.callback);
+        }
+        public static void Debug(string message)
+        {
+            if (DEBUG)
+            {
+                UnityEngine.Debug.Log(message);
+            }
         }
     }
 }

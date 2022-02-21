@@ -14,11 +14,12 @@ namespace RootCards.Cards
 {
     class TimeLoop : CustomCard
     {
+        private LoopedTime loopedTime;
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
             cardInfo.allowMultiple = false;
-            UnityEngine.Debug.Log($"[{RootCards.ModInitials}][Card] {GetTitle()} has been setup.");
+            RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been setup.");
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
@@ -28,16 +29,16 @@ namespace RootCards.Cards
             var statMods = abyssalCard.gameObject.GetComponentInChildren<CharacterStatModifiers>();
             var abyssalObj = statMods.AddObjectToPlayer;
 
-            UnityEngine.Debug.Log("making loop");
+            RootCards.Debug("making loop");
 
             var loopObject = Instantiate(abyssalObj, player.transform);
             loopObject.name = "LoopedTime";
             loopObject.transform.localPosition = Vector3.zero;
             var abyssal = loopObject.GetComponent<AbyssalCountdown>();
 
-            UnityEngine.Debug.Log("Abyssal made");
+            RootCards.Debug("Abyssal made");
 
-            LoopedTime loopedTime = loopObject.AddComponent<LoopedTime>();
+            loopedTime = loopObject.AddComponent<LoopedTime>();
             loopedTime.player = player;
             loopedTime.gun = player.data.weaponHandler.gun;
 
@@ -51,7 +52,7 @@ namespace RootCards.Cards
 
 
 
-            RootCards.instance.ExecuteAfterFrames(5, () =>
+            RootCards.instance.ExecuteAfterFrames(25, () =>
             {
                 try
                 {
@@ -69,8 +70,8 @@ namespace RootCards.Cards
                 }
                 catch (Exception e)
                 {
-                    UnityEngine.Debug.Log("First Catch");
-                    UnityEngine.Debug.LogException(e);
+                    RootCards.Debug("First Catch");
+                    RootCards.Debug(e.ToString());
                 }
                 try
                 {
@@ -82,17 +83,18 @@ namespace RootCards.Cards
                 }
                 catch (Exception e)
                 {
-                    UnityEngine.Debug.Log("Last Catch");
-                    UnityEngine.Debug.LogException(e);
+                    RootCards.Debug("Last Catch");
+                    RootCards.Debug(e.ToString());
                 }
             });
 
-            UnityEngine.Debug.Log($"[{RootCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
+            RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
         }
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Run when the card is removed from the player
-            UnityEngine.Debug.Log($"[{RootCards.ModInitials}][Card] {GetTitle()} has been removed from player {player.playerID}.");
+            Destroy(loopedTime);
+            RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been removed from player {player.playerID}.");
         }
 
         protected override string GetTitle()

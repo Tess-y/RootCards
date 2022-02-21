@@ -19,6 +19,7 @@
           "PhotonUnityNetworking.Utilities": "0.0.0.0",
           "UnboundLib": "2.10.2.0",
           "Unity.TextMeshPro": "0.0.0.0",
+          "UnityEngine.AssetBundleModule": "0.0.0.0",
           "UnityEngine.CoreModule": "0.0.0.0",
           "UnityEngine": "0.0.0.0",
           "UnityEngine.Physics2DModule": "0.0.0.0",
@@ -104,6 +105,14 @@
       "Unity.TextMeshPro/0.0.0.0": {
         "runtime": {
           "Unity.TextMeshPro.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "UnityEngine.AssetBundleModule/0.0.0.0": {
+        "runtime": {
+          "UnityEngine.AssetBundleModule.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
@@ -362,14 +371,6 @@
           "HalFloat.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
-          }
-        }
-      },
-      "UnityEngine.AssetBundleModule/0.0.0.0": {
-        "runtime": {
-          "UnityEngine.AssetBundleModule.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.0.0.0"
           }
         }
       },
@@ -743,6 +744,11 @@
       "serviceable": false,
       "sha512": ""
     },
+    "UnityEngine.AssetBundleModule/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
     "UnityEngine.CoreModule/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
@@ -899,11 +905,6 @@
       "sha512": ""
     },
     "HalFloat/1.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "UnityEngine.AssetBundleModule/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

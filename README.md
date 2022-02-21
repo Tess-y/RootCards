@@ -20,6 +20,11 @@ A card pack for Rounds
 
 ## Change log:
 
+##### 0.2.2
+- Started work on card art
+- Removed debug statements in production build to appease the Pykess
+- Made it so monos get removed on card removeal
+
 ##### 0.2.1
 - Fixed Time Loop not working in online mode
 

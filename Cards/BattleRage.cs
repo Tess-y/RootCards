@@ -13,22 +13,24 @@ namespace RootCards.Cards
 {
     class BattleRage : CustomCard
     {
+        private MonoBehaviours.Rage rage_effect;
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
             statModifiers.health = 1.1f;
-            UnityEngine.Debug.Log($"[{RootCards.ModInitials}][Card] {GetTitle()} has been setup.");
+            RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been setup.");
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            player.gameObject.AddComponent<MonoBehaviours.Rage>();
-            UnityEngine.Debug.Log($"[{RootCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
+            rage_effect = player.gameObject.AddComponent<MonoBehaviours.Rage>();
+            RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
         }
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Run when the card is removed from the player
-            UnityEngine.Debug.Log($"[{RootCards.ModInitials}][Card] {GetTitle()} has been removed from player {player.playerID}.");
+            Destroy(rage_effect);
+            RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been removed from player {player.playerID}.");
         }
 
         protected override string GetTitle()

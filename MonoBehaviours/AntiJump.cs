@@ -23,7 +23,7 @@ namespace RootCards.MonoBehaviours
 
         public override void OnUpdate()
         {
-            //UnityEngine.Debug.Log(lastY + "," + player.gameObject.transform.position.y + "(" + grounded + ")");
+            //RootCards.Debug(lastY + "," + player.gameObject.transform.position.y + "(" + grounded + ")");
             if (System.Math.Round(lastY,1) == System.Math.Round(player.gameObject.transform.position.y,1))
             {
                 grounded -= Time.deltaTime;
@@ -32,7 +32,7 @@ namespace RootCards.MonoBehaviours
 
             if(grounded <= 0)
             {
-                UnityEngine.Debug.Log("auto flipping!");
+                RootCards.Debug("auto flipping!");
                 if (fliped)
                 {
                     ClearModifiers();

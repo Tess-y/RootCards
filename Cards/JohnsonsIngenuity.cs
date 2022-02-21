@@ -18,17 +18,17 @@ namespace RootCards.Cards
             gun.projectileSize = .65f;
             gun.damage = 1.65f;
             gun.drag = 2;
-            UnityEngine.Debug.Log($"[{RootCards.ModInitials}][Card] {GetTitle()} has been setup.");
+            RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been setup.");
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            UnityEngine.Debug.Log($"[{RootCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
+            RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
         }
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Run when the card is removed from the player
-            UnityEngine.Debug.Log($"[{RootCards.ModInitials}][Card] {GetTitle()} has been removed from player {player.playerID}.");
+            RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been removed from player {player.playerID}.");
         }
 
         protected override string GetTitle()
