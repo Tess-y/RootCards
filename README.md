@@ -12,13 +12,18 @@ A card pack for Rounds
 ### Uncommons
 - Battle Rage (By Tess)-- Adds 10% extra health, and buffs your dmage and movement speed every time you get hurt during a round.
 - Down?Up? Here (By Tess)-- Gives you the ability to flip your gravity by pressing jump. Will also flip it automaticly if your hight doesn't change for to long.
+- Quick Shield (By Lilirg)-- Reduces your block cooldown by 50% but makes it so your block only stops 50% bullet damage.
 
 ### Rares
 - One Hit Wonder (By Tess)-- Sets your health to basicly 0, but makes your attacks kill on hit.
 - Time Loop (By Tess)-- Every 5 seconds, your health and location is reset to what it was 2 seconds prior.
+- Genie (By Lilith)-- Lets you name a card to add it to your cardbar, similar to sandbox mode. (Downside to come)
 
 
 ## Change log:
+
+##### 0.2.3
+- Added Quick Shield and Genie
 
 ##### 0.2.2
 - Started work on card art

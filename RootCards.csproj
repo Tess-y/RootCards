@@ -22,6 +22,9 @@
     <Reference Include="ModdingUtils">
       <HintPath>C:\Users\Tess\AppData\Roaming\Thunderstore Mod Manager\DataFolder\ROUNDS\profiles\modding\BepInEx\plugins\Pykess-ModdingUtils\ModdingUtils.dll</HintPath>
     </Reference>
+    <Reference Include="PhotonRealtime">
+      <HintPath>F:\SteamLibrary\steamapps\common\ROUNDS\Rounds_Data\Managed\PhotonRealtime.dll</HintPath>
+    </Reference>
     <Reference Include="PhotonUnityNetworking">
       <HintPath>F:\SteamLibrary\steamapps\common\ROUNDS\Rounds_Data\Managed\PhotonUnityNetworking.dll</HintPath>
     </Reference>
