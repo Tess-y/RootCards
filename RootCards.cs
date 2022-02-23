@@ -18,10 +18,10 @@ namespace RootCards
     [BepInProcess("Rounds.exe")]
     public class RootCards : BaseUnityPlugin
     {
-        public const bool DEBUG = true;
+        public const bool DEBUG = false;
         private const string ModId = "com.Root.Cards";
         private const string ModName = "RootCards";
-        public const string Version = "0.2.3"; // What version are we On (major.minor.patch)?
+        public const string Version = "0.2.4"; // What version are we On (major.minor.patch)?
         internal static AssetBundle ArtAssets;
         //private static readonly AssetBundle Bundle = Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("rootassets", typeof(RootCards).Assembly);
         public const string ModInitials = "Root";

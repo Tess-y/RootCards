@@ -9,15 +9,15 @@ using UnityEngine;
 namespace RootCards.Patches
 {
 
-    [HarmonyPatch(typeof(DevConsole), "RPCA_SendChat")]
+    [HarmonyPatch(typeof(DevConsole), "Send")]
     internal class DevConsolePatchSend
     {
-        private static void Postfix(string message, int playerViewID)
+        private static void Postfix(DevConsole __instance, string message)
         {
-            RootCards.Debug(message + " " + playerViewID);
-            Player controller = GetPlayerWithActorID(PhotonNetwork.LocalPlayer.ActorNumber, PlayerManager.instance.players);
-            RootCards.Debug(controller);
-            if (controller != null && controller.data.stats.GetRootData().freeCards > 0)
+            RootCards.Debug(message);
+            Player wisher = GetPlayerWithActorID(PhotonNetwork.LocalPlayer.ActorNumber, PlayerManager.instance.players);
+            RootCards.Debug(wisher);
+            if (wisher != null && wisher.data.stats.GetRootData().freeCards > 0)
             {
                 CardInfo[] cards = CardChoice.instance.cards;
                 int num = -1;
@@ -26,6 +26,7 @@ namespace RootCards.Patches
                 {
                     string text = cards[i].GetComponent<CardInfo>().cardName.ToUpper();
                     text = text.Replace(" ", "");
+                    if (text == "GENIE") continue;
                     string text2 = message.ToUpper();
                     text2 = text2.Replace(" ", "");
                     float num3 = 0f;
@@ -44,12 +45,7 @@ namespace RootCards.Patches
                         num = i;
                     }
                 }
-
-                if (num != -1)
-                {
-                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(controller, cards[num], addToCardBar: true);
-                    controller.data.stats.GetRootData().freeCards -= 1;
-                }
+                __instance.GetComponent<PhotonView>().RPC("RPCA_SendChat", RpcTarget.All, "[GRANT_WISH*****{{}}{{}}]" + num, PhotonNetwork.LocalPlayer.ActorNumber); //this is bad --Lilith
             }
         }
         internal static Player GetPlayerWithActorID(int actorID, List<Player> players)
@@ -63,6 +59,41 @@ namespace RootCards.Patches
             }
 
             return null;
+        }
+    }
+
+    [HarmonyPatch(typeof(DevConsole), "RPCA_SendChat")]
+    internal class DevConsolePatchSendChat ///Litteraly ALL OF THIS needs ta be replaced with somethin more inteligent at somepoint --Lilith
+    {
+        [PunRPC]
+        private static bool Prefix(DevConsole __instance, string message, int playerViewID)
+        {
+            try
+            {
+                if (message.Substring(0, "[GRANT_WISH*****{{}}{{}}]".Length) == "[GRANT_WISH*****{{}}{{}}]")
+            {
+                
+                    Player wisher = DevConsolePatchSend.GetPlayerWithActorID(playerViewID, PlayerManager.instance.players);
+                    int num = int.Parse(message.Substring("[GRANT_WISH*****{{}}{{}}]".Length));
+                    CardInfo[] cards = CardChoice.instance.cards;
+
+                    if (num != -1 && wisher.data.stats.GetRootData().freeCards > 0)
+                    {
+                        ModdingUtils.Utils.Cards.instance.AddCardToPlayer(wisher, cards[num], addToCardBar: true);
+                        wisher.data.stats.GetRootData().freeCards -= 1;
+                    }
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+
+            }
+            catch (Exception e)
+            {
+                return true;
+            }
         }
     }
 }

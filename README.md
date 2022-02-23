@@ -22,6 +22,9 @@ A card pack for Rounds
 
 ## Change log:
 
+##### 0.2.4
+- Fixed a bug preventing Genie from working in multiplayer.
+
 ##### 0.2.3
 - Added Quick Shield and Genie
 
