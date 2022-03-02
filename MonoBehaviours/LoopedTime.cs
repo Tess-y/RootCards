@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using UnboundLib.GameModes;
 using UnityEngine;
 using UnityEngine.UI.ProceduralImage;
 
@@ -49,10 +51,16 @@ namespace RootCards.MonoBehaviours
 
         public void Start()
         {
-
+            GameModeManager.AddHook(GameModeHooks.HookPointStart, Reset);
         }
 
-        public void Update()
+        private IEnumerator Reset(IGameModeHandler gm)
+        {
+            timer = 0;
+            return null;
+        }
+
+            public void Update()
         {
             if (player.data.view.IsMine)
             {

@@ -8,38 +8,40 @@ using UnboundLib.Cards;
 using UnityEngine;
 using RootCards.Cards.Util.Authors;
 using RootCards.MonoBehaviours;
+using CardChoiceSpawnUniqueCardPatch.CustomCategories;
+
 
 namespace RootCards.Cards
 {
-    class LilithsDeal : CustomCard
+    class GenieDeath : CustomCard
     {
-        private PainfullAttacks painfullAttacks;
+        private RoundDeath roundDeath;
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
-            statModifiers.regen = 20;
+            cardInfo.categories = new CardCategory[] { CustomCardCategories.instance.CardCategory("NoRandom"), CustomCardCategories.instance.CardCategory("GenieCard") };
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been setup.");
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            painfullAttacks = player.gameObject.AddComponent<PainfullAttacks>();
+            roundDeath = player.gameObject.AddComponent<RoundDeath>();
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
         }
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Run when the card is removed from the player
-            Destroy(painfullAttacks);
+            Destroy(roundDeath);
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been removed from player {player.playerID}.");
         }
 
         protected override string GetTitle()
         {
-            return "Lilith’s Deal";
+            return "Genie: Death";
         }
         protected override string GetDescription()
         {
-            return "You know it is tempting; what could posibly go wrong?";
+            return "Would you die for the power you seek? Your answer matters not; you no longer have the choice.";
         }
         protected override GameObject GetCardArt()
         {
@@ -47,40 +49,30 @@ namespace RootCards.Cards
         }
         protected override CardInfo.Rarity GetRarity()
         {
-            return CardInfo.Rarity.Uncommon;
+            return CardInfo.Rarity.Common;
         }
         protected override CardInfoStat[] GetStats()
         {
-            return new CardInfoStat[]
-            {
-                new CardInfoStat()
-                {
-                    positive = true,
-                    stat = "Regeneration",
-                    amount = "+20",
-                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
-                },
-                new CardInfoStat()
-                {
-                    positive = false,
-                    stat = "attacks",
-                    amount = "+Painful",
-                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
-                }
-            };
+            return new CardInfoStat[] { };
         }
         protected override CardThemeColor.CardThemeColorType GetTheme()
         {
-            return CardThemeColor.CardThemeColorType.ColdBlue;
+            return CardThemeColor.CardThemeColorType.MagicPink;
         }
         public override string GetModName()
         {
             return RootCards.ModInitials;
         }
 
+        public override bool GetEnabled()
+        {
+            return false;
+        }
+
         internal static void callback(CardInfo card)
         {
             card.gameObject.AddComponent<Lilith>();//set the author of the card
+            ModdingUtils.Utils.Cards.instance.AddHiddenCard(card);
         }
     }
 }

@@ -8,6 +8,7 @@ using UnboundLib.Cards;
 using UnityEngine;
 using RootCards.Cards.Util.Authors;
 using RootCards.MonoBehaviours;
+using RootCards.Extensions;
 
 namespace RootCards.Cards
 {
@@ -17,14 +18,16 @@ namespace RootCards.Cards
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
+            cardInfo.allowMultiple = false;
             statModifiers.health = 0.000001f;
-            statModifiers.sizeMultiplier = 10;
+            statModifiers.sizeMultiplier = 15;
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been setup.");
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
             lethalAttacks = player.gameObject.AddComponent<LethalAttacks>();
+            characterStats.GetRootData().ammoCap = 1;
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
         }
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
@@ -58,7 +61,7 @@ namespace RootCards.Cards
                 {
                     positive = true,
                     stat = "Damage",
-                    amount = "+Lethal",
+                    amount = "Lethal",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
                 new CardInfoStat()
@@ -67,6 +70,13 @@ namespace RootCards.Cards
                     stat = "Your Health",
                     amount = "-All",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
+                },
+                new CardInfoStat()
+                {
+                    positive = false,
+                    stat = "MaxAmmo",
+                    amount = "1",
+                    simepleAmount = CardInfoStat.SimpleAmount.aLotLower
                 }
             };
         }

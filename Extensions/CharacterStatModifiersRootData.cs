@@ -11,10 +11,20 @@ namespace RootCards.Extensions
     {
         public float shieldEfectiveness;
         public int freeCards;
+        public int ammoCap;
+        public int trueMaxAmmo;
+        public CardInfo? lockedCard;
+        public int nulls;
+        public int roundNulls;
         public CharacterStatModifiersRootData()
         {
             shieldEfectiveness = 1;
             freeCards = 0;
+            ammoCap = 90;
+            trueMaxAmmo = 3;
+            lockedCard = null;
+            nulls = 0;
+            roundNulls = 0;
         }
     }
 
@@ -47,6 +57,9 @@ namespace RootCards.Extensions
         {
             __instance.GetRootData().shieldEfectiveness = 1;
             __instance.GetRootData().freeCards = 0;
+            __instance.GetRootData().ammoCap = 90;
+            __instance.GetRootData().trueMaxAmmo = 3;
+            __instance.GetRootData().nulls = 0;
         }
     }
 }

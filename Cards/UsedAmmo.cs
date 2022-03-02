@@ -35,7 +35,7 @@ namespace RootCards.Cards
         }
         protected override string GetDescription()
         {
-            return "An old box of ammo, looks like some of it is still good";
+            return "An old box of ammo; looks like some of it is still good.";
         }
         protected override GameObject GetCardArt()
         {

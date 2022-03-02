@@ -39,7 +39,7 @@ namespace RootCards.Cards
         }
         protected override string GetDescription()
         {
-            return "As you get hurt RAGE flows throw your body. Granting you a movement speed and damage buff";
+            return "As you get hurt RAGE flows throw your body, granting you a movement speed and damage buff";
         }
         protected override GameObject GetCardArt()
         {
