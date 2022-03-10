@@ -20,7 +20,25 @@ A card pack for Rounds
 - Genie (By Lilith)-- Lets you name a card to add it to your cardbar, similar to sandbox mode. (Downside to come)
 
 
+### Genie outcomes
+- Granted (Common - Stardard) -- You get your wish and nothing else happens
+- Smiles (Common - Special) -- You get two copies of your wished card
+- Fee (Uncommon - Standard) -- You lose 10% of some basic stats
+- Death (Rare - Standard) -- You die at the start of the first match point of each round
+- Greed (Rare - Special) -- You lose all cards other then the one you wished for
+
+
 ## Change log:
+
+##### 0.3.2
+- After reciving reports of many gamebraking bugs related the genie card, it and all related functions and code have been disabled untill we can ensure that it is all working properly (which may not be for a long time.)
+
+##### 0.3.1
+- Rolled Genie back to using the text chat for wishs as the menu broke the game when using RoundsWithEvenMoreFrends..... opps
+
+##### 0.3.0
+- Masivly overhalled Genie to use the card pick menu rather then the chat
+- Added 5 new posible outcomes for genie depending on the rarity of the card you wished for
 
 ##### 0.2.4
 - Fixed a bug preventing Genie from working in multiplayer.

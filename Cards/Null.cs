@@ -18,6 +18,9 @@ namespace RootCards.Cards
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
+          /*  System.Random random = new System.Random();
+            cardInfo.cardDestription = Guid.NewGuid().ToString();
+            cardInfo.cardColor = new Color(random.Next(255), random.Next(255), random.Next(255));*/
             cardInfo.categories = new CardCategory[] { CustomCardCategories.instance.CardCategory("NoRandom") };
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been setup.");
         }
@@ -34,7 +37,7 @@ namespace RootCards.Cards
 
         protected override string GetTitle()
         {
-            return " ";
+            return "NULL";
         }
         protected override string GetDescription()
         {

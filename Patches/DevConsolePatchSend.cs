@@ -31,10 +31,11 @@ namespace RootCards.Patches
                             cardsToAdd = new System.Random().Next(10) == 0? "-2," + num+","+num : "-3," + num;
                             break;
                         case CardInfo.Rarity.Uncommon:
-                            cardsToAdd = "-4," + num;
+                            cardsToAdd = "";
+                            if (new System.Random().Next(10) == 990) { cardsToAdd += "-7"; wisher.data.stats.GetRootData().lockedCard = cards[num]; } else { cardsToAdd += -4; } cardsToAdd += num.ToString();
                             break;
                         case CardInfo.Rarity.Rare:
-                            cardsToAdd = new System.Random().Next(10) == 0 ? "-5," + num : "-6," + num;
+                            cardsToAdd = new System.Random().Next(10) == 990 ? "-5," + num : "-6," + num;
                             break;
                         default: break; 
                     }
@@ -121,6 +122,9 @@ namespace RootCards.Patches
                                         break;
                                     case -4:
                                         ModdingUtils.Utils.Cards.instance.AddCardToPlayer(wisher, ModdingUtils.Utils.Cards.instance.GetCardWithName("Genie: Fee"), addToCardBar: true);
+                                        break;
+                                    case -7:
+                                        ModdingUtils.Utils.Cards.instance.AddCardToPlayer(wisher, ModdingUtils.Utils.Cards.instance.GetCardWithName("Genie: Eternity"), addToCardBar: true);
                                         break;
                                     case -5:
                                         ModdingUtils.Utils.Cards.instance.AddCardToPlayer(wisher, ModdingUtils.Utils.Cards.instance.GetCardWithName("Genie: Greed"), addToCardBar: true);

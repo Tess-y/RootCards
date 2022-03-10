@@ -31,16 +31,16 @@ namespace RootCards.Patches
             {
                 if (player.data.stats.GetRootData().roundNulls < player.data.stats.GetRootData().nulls)
                 {
+                    Vector3 rotV = rot.eulerAngles;
 
                     GameObject.Destroy(__result);
                     GameObject gameObject = (GameObject)typeof(CardChoice).InvokeMember("Spawn", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, __instance, new object[]
                     {
-                    ModdingUtils.Utils.Cards.instance.GetCardWithName(" ").gameObject,
+                    ModdingUtils.Utils.Cards.instance.GetCardWithName("NULL").gameObject,
                     pos,
-                    rot
+                    Quaternion.Euler( new Vector3(rotV.x,rotV.y,rotV.z+180))
                     });
-
-                    gameObject.GetComponent<CardInfo>().sourceCard = player.data.stats.GetRootData().lockedCard.GetComponent<CardInfo>();
+                    gameObject.GetComponent<CardInfo>().sourceCard = ModdingUtils.Utils.Cards.instance.GetCardWithName("NULL");
                     gameObject.GetComponentInChildren<DamagableEvent>().GetComponent<Collider2D>().enabled = false;
                     __result = gameObject;
                     player.data.stats.GetRootData().roundNulls++;

@@ -93,8 +93,8 @@ namespace RootCards.Cards
             foreach (Player player in PlayerManager.instance.players.ToArray())
             {
                 RootCards.Debug(player + ":" + Extensions.CharacterStatModifiersExtension.GetRootData(player.data.stats).freeCards);
-                if (Extensions.CharacterStatModifiersExtension.GetRootData(player.data.stats).freeCards > 0)
-                {
+                if (/*Extensions.CharacterStatModifiersExtension.GetRootData(player.data.stats).freeCards > 0*/true)
+                {/*
                     CardChoice.instance.IsPicking = true;
                     yield return GameModeManager.TriggerHook(GameModeHooks.HookPlayerPickStart);
                     yield return CardPickMenu.PickCard(player);
@@ -102,10 +102,10 @@ namespace RootCards.Cards
                     yield return GameModeManager.TriggerHook(GameModeHooks.HookPlayerPickEnd);
                     yield return new WaitForSecondsRealtime(0.1f);
                     CardChoice.instance.IsPicking = false;
+                    yield return new WaitForSecondsRealtime(0.2f);*/
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithName("NULL"), addToCardBar:false);
                     yield return new WaitForSecondsRealtime(0.2f);
-                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithName(" "), addToCardBar:false);
-                    yield return new WaitForSecondsRealtime(0.2f);
-                    ModdingUtils.Utils.Cards.instance.RemoveCardFromPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithName(" "), ModdingUtils.Utils.Cards.SelectionType.Newest);
+                    ModdingUtils.Utils.Cards.instance.RemoveCardFromPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithName("NULL"), ModdingUtils.Utils.Cards.SelectionType.Newest);
                 }
             }
             yield break;
