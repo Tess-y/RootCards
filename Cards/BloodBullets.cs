@@ -16,7 +16,7 @@ namespace RootCards.Cards
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
             statModifiers.health = 0.5f;
-            gun.ammo = 50;
+            gun.ammo = 25;
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been setup.");
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
@@ -40,7 +40,7 @@ namespace RootCards.Cards
         }
         protected override GameObject GetCardArt()
         {
-            return null;
+            return RootCards.ArtAssets.LoadAsset<GameObject>("C_BLOOD_BULLETS");
         }
         protected override CardInfo.Rarity GetRarity()
         {
@@ -61,14 +61,14 @@ namespace RootCards.Cards
                 {
                     positive = true,
                     stat = "Ammo",
-                    amount = "+50",
+                    amount = "+25",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 }
             };
         }
         protected override CardThemeColor.CardThemeColorType GetTheme()
         {
-            return CardThemeColor.CardThemeColorType.ColdBlue;
+            return CardThemeColor.CardThemeColorType.DestructiveRed;
         }
         public override string GetModName()
         {

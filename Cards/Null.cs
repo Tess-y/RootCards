@@ -15,6 +15,7 @@ namespace RootCards.Cards
 {
     class Null : CustomCard
     {
+        public static CardInfo NULLCARD;
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
@@ -45,7 +46,7 @@ namespace RootCards.Cards
         }
         protected override GameObject GetCardArt()
         {
-            return null;
+            return RootCards.ArtAssets.LoadAsset<GameObject>("C_NULL");
         }
         protected override CardInfo.Rarity GetRarity()
         {
@@ -66,22 +67,34 @@ namespace RootCards.Cards
 
         public override bool GetEnabled()
         {
-            return false;
+            return false;  
         }
 
         internal static void callback(CardInfo card)
         {
-            card.gameObject.AddComponent<None>();//set the author of the card
+            card.gameObject.AddComponent<NullCard>();
             ModdingUtils.Utils.Cards.instance.AddHiddenCard(card);
+            NULLCARD = card;
         }
 
-        internal static IEnumerator clearTempNulls()
+        internal static IEnumerator clearNulls()
         {
             foreach (Player player in PlayerManager.instance.players.ToArray())
             {
-                Extensions.CharacterStatModifiersExtension.GetRootData(player.data.stats).roundNulls = 0;
+                Extensions.CharacterStatModifiersExtension.GetRootData(player.data.stats).nulls = 0;
             }
             yield break;
+        }
+    }
+
+    internal class NullCard : MonoBehaviour
+    {
+        public void Update()
+        {
+            if(gameObject.GetComponent<CardInfo>().sourceCard != Null.NULLCARD)
+            {
+                gameObject.GetComponent<CardInfo>().sourceCard = Null.NULLCARD;
+            }
         }
     }
 }

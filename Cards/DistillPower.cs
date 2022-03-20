@@ -11,6 +11,7 @@ using RootCards.MonoBehaviours;
 using UnboundLib.Utils;
 using System.Reflection;
 using System.Collections.ObjectModel;
+using ModdingUtils.Extensions;
 
 namespace RootCards.Cards
 {
@@ -21,6 +22,7 @@ namespace RootCards.Cards
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
             cardInfo.categories = new CardCategory[] { CardChoiceSpawnUniqueCardPatch.CustomCategories.CustomCardCategories.instance.CardCategory("CardManipulation") };
+            cardInfo.GetAdditionalData().canBeReassigned = false;
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been setup.");
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
@@ -61,7 +63,7 @@ namespace RootCards.Cards
         }
         protected override GameObject GetCardArt()
         {
-            return null;
+            return RootCards.ArtAssets.LoadAsset<GameObject>("C_DISTILL_POWER");
         }
         protected override CardInfo.Rarity GetRarity()
         {
@@ -82,7 +84,7 @@ namespace RootCards.Cards
         }
         protected override CardThemeColor.CardThemeColorType GetTheme()
         {
-            return CardThemeColor.CardThemeColorType.ColdBlue;
+            return CardThemeColor.CardThemeColorType.MagicPink;
         }
         public override string GetModName()
         {

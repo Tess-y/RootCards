@@ -28,6 +28,7 @@ namespace RootCards.Cards
             //Edits values on player when card is selected
             lethalAttacks = player.gameObject.AddComponent<LethalAttacks>();
             characterStats.GetRootData().ammoCap = 1;
+            characterStats.GetRootData().bulletCap = 1;
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
         }
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
@@ -47,7 +48,7 @@ namespace RootCards.Cards
         }
         protected override GameObject GetCardArt()
         {
-            return null;
+            return RootCards.ArtAssets.LoadAsset<GameObject>("C_ONE_HIT_WONDER");
         }
         protected override CardInfo.Rarity GetRarity()
         {
@@ -77,12 +78,19 @@ namespace RootCards.Cards
                     stat = "MaxAmmo",
                     amount = "1",
                     simepleAmount = CardInfoStat.SimpleAmount.aLotLower
+                },
+                new CardInfoStat()
+                {
+                    positive = false,
+                    stat = "MaxBullets",
+                    amount = "1",
+                    simepleAmount = CardInfoStat.SimpleAmount.aLotLower
                 }
             };
         }
         protected override CardThemeColor.CardThemeColorType GetTheme()
         {
-            return CardThemeColor.CardThemeColorType.ColdBlue;
+            return CardThemeColor.CardThemeColorType.NatureBrown;
         }
         public override string GetModName()
         {

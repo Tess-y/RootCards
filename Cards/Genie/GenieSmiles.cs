@@ -40,7 +40,7 @@ namespace RootCards.Cards
         }
         protected override GameObject GetCardArt()
         {
-            return null;
+            return RootCards.ArtAssets.LoadAsset<GameObject>("C_OUTCOME");
         }
         protected override CardInfo.Rarity GetRarity()
         {

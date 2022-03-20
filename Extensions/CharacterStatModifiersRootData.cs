@@ -12,19 +12,25 @@ namespace RootCards.Extensions
         public float shieldEfectiveness;
         public int freeCards;
         public int ammoCap;
+        public int bulletCap;
         public int trueMaxAmmo;
         public CardInfo? lockedCard;
         public int nulls;
         public int roundNulls;
+        public float witchTimeDuration;
+        public bool stillShoping;
         public CharacterStatModifiersRootData()
         {
             shieldEfectiveness = 1;
             freeCards = 0;
-            ammoCap = 90;
+            ammoCap = -1;
+            bulletCap = -1;
             trueMaxAmmo = 3;
             lockedCard = null;
             nulls = 0;
             roundNulls = 0;
+            witchTimeDuration = 0;
+            stillShoping = false;
         }
     }
 
@@ -57,9 +63,11 @@ namespace RootCards.Extensions
         {
             __instance.GetRootData().shieldEfectiveness = 1;
             __instance.GetRootData().freeCards = 0;
-            __instance.GetRootData().ammoCap = 90;
+            __instance.GetRootData().ammoCap = -1;
+            __instance.GetRootData().ammoCap = -1;
             __instance.GetRootData().trueMaxAmmo = 3;
-            __instance.GetRootData().nulls = 0;
+            __instance.GetRootData().witchTimeDuration = 0;
+            __instance.GetRootData().stillShoping = false;
         }
     }
 }

@@ -16,6 +16,7 @@ namespace RootCards.MonoBehaviours
         private float playerHealth;
         private int playerAmmo;
         public Player player;
+        public GunAmmo gunAmmo;
         public Gun gun;
 
 
@@ -45,6 +46,7 @@ namespace RootCards.MonoBehaviours
             {
                 player = base.gameObject.GetComponent<Player>();
                 gun = player.data.weaponHandler.gun;
+                gunAmmo = gun.GetComponentInChildren<GunAmmo>();
             }
             catch (Exception e) { }
         }
@@ -89,8 +91,10 @@ namespace RootCards.MonoBehaviours
                     outerRing.color = new Color32(255, 0, 0, 255);
                     rotator.gameObject.GetComponentInChildren<ProceduralImage>().color = outerRing.color;
                     playerPos = player.transform.position;
-                    playerHealth = player.data.health;
-                    playerAmmo = gun.ammo;
+                    playerHealth = player.data.health;/*
+                    if(gunAmmo == null) gunAmmo = gun.GetComponentInChildren<GunAmmo>();
+                    playerAmmo = (int)gunAmmo.GetType().GetField("currentAmmo", System.Reflection.BindingFlags.NonPublic
+    | System.Reflection.BindingFlags.Instance).GetValue(gunAmmo);*/
                     stored = true;
                 }
                 else if (timer >= 5.1)
@@ -102,7 +106,10 @@ namespace RootCards.MonoBehaviours
                     player.GetComponentInParent<PlayerCollision>().IgnoreWallForFrames(2);
                     player.transform.position = playerPos;
                     player.data.healthHandler.Heal(playerHealth - player.data.health);
-                    gun.ammo = playerAmmo;
+                   
+                    /*
+                    gunAmmo.GetType().GetField("currentAmmo", System.Reflection.BindingFlags.NonPublic
+    | System.Reflection.BindingFlags.Instance).SetValue(gunAmmo,playerAmmo);*/
                 }
             }
         }
