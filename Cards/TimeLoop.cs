@@ -52,21 +52,11 @@ namespace RootCards.Cards
 
 
 
-            RootCards.instance.ExecuteAfterFrames(25, () =>
+            RootCards.instance.ExecuteAfterFrames(5, () =>
             {
                 try
                 {
                     UnityEngine.GameObject.Destroy(abyssal);
-
-                    var COs = loopObject.GetComponentsInChildren<Transform>().Where(child => child.parent == loopObject.transform).Select(child => child.gameObject).ToArray();
-
-                    foreach (var CO in COs)
-                    {
-                        if (CO.transform.gameObject != loopObject.transform.Find("Canvas").gameObject)
-                        {
-                            UnityEngine.GameObject.Destroy(CO);
-                        }
-                    }
                 }
                 catch (Exception e)
                 {
@@ -107,7 +97,7 @@ namespace RootCards.Cards
         }
         protected override GameObject GetCardArt()
         {
-            return null;
+            return RootCards.ArtAssets.LoadAsset<GameObject>("C_TIME_LOOP");
         }
         protected override CardInfo.Rarity GetRarity()
         {
@@ -135,7 +125,7 @@ namespace RootCards.Cards
         }
         protected override CardThemeColor.CardThemeColorType GetTheme()
         {
-            return CardThemeColor.CardThemeColorType.ColdBlue;
+            return CardThemeColor.CardThemeColorType.PoisonGreen;
         }
         public override string GetModName()
         {

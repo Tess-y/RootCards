@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Tess\\Source\\Repos\\Tess-y\\RootCards\\RootCards.csproj": {}
+    "C:\\Users\\Tess\\source\\repos\\Tess-y\\RootCards\\RootCards.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Tess\\Source\\Repos\\Tess-y\\RootCards\\RootCards.csproj": {
+    "C:\\Users\\Tess\\source\\repos\\Tess-y\\RootCards\\RootCards.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Tess\\Source\\Repos\\Tess-y\\RootCards\\RootCards.csproj",
+        "projectUniqueName": "C:\\Users\\Tess\\source\\repos\\Tess-y\\RootCards\\RootCards.csproj",
         "projectName": "RootCards",
-        "projectPath": "C:\\Users\\Tess\\Source\\Repos\\Tess-y\\RootCards\\RootCards.csproj",
+        "projectPath": "C:\\Users\\Tess\\source\\repos\\Tess-y\\RootCards\\RootCards.csproj",
         "packagesPath": "C:\\Users\\Tess\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Tess\\Source\\Repos\\Tess-y\\RootCards\\obj\\",
+        "outputPath": "C:\\Users\\Tess\\source\\repos\\Tess-y\\RootCards\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Tess\\AppData\\Roaming\\NuGet\\NuGet.Config",

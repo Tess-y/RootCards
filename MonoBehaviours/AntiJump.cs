@@ -43,7 +43,7 @@ namespace RootCards.MonoBehaviours
                 }
                 grounded = .5f;
                 fliped = !fliped;
-                player.data.jump.Jump(forceJump: true, 1f);
+                player.data.jump.Jump(forceJump: true, 2f);
             }
             if (base.data.input.jumpIsPressed)
             {
@@ -58,7 +58,7 @@ namespace RootCards.MonoBehaviours
                         ApplyModifiers();
                     }
                     fliped = !fliped;
-                    player.data.jump.Jump(forceJump: true, 0.5f);
+                    player.data.jump.Jump(forceJump: true, 1f);
                 }
                 pressed = true;
             }

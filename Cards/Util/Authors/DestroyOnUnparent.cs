@@ -10,7 +10,7 @@ namespace RootCards.Cards.Util.Authors
     {
         void LateUpdate()
         {
-            if (this.gameObject.transform.parent == null) { Destroy(this.gameObject); }
+            if (this.gameObject.transform.parent == null) { Destroy(this.gameObject); } 
         }
     }
 }

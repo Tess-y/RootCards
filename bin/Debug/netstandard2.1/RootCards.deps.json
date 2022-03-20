@@ -13,19 +13,21 @@
           "Assembly-CSharp": "0.0.0.0",
           "BepInEx": "5.4.11.0",
           "CardChoiceSpawnUniqueCardPatch": "1.0.0.0",
+          "ItemShops": "1.0.0.0",
           "ModdingUtils": "1.0.0.0",
           "PhotonRealtime": "0.0.0.0",
           "PhotonUnityNetworking.Demos": "0.0.0.0",
           "PhotonUnityNetworking": "0.0.0.0",
           "PhotonUnityNetworking.Utilities": "0.0.0.0",
-          "UnboundLib": "2.10.2.0",
+          "UnboundLib": "2.11.0.0",
           "Unity.TextMeshPro": "0.0.0.0",
           "UnityEngine.AssetBundleModule": "0.0.0.0",
           "UnityEngine.CoreModule": "0.0.0.0",
           "UnityEngine": "0.0.0.0",
           "UnityEngine.Physics2DModule": "0.0.0.0",
           "UnityEngine.PhysicsModule": "0.0.0.0",
-          "UnityEngine.UI": "1.0.0.0"
+          "UnityEngine.UI": "1.0.0.0",
+          "UnityEngine.UIModule": "0.0.0.0"
         },
         "runtime": {
           "RootCards.dll": {}
@@ -58,6 +60,14 @@
       "CardChoiceSpawnUniqueCardPatch/1.0.0.0": {
         "runtime": {
           "CardChoiceSpawnUniqueCardPatch.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "ItemShops/1.0.0.0": {
+        "runtime": {
+          "ItemShops.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
@@ -103,11 +113,11 @@
           }
         }
       },
-      "UnboundLib/2.10.2.0": {
+      "UnboundLib/2.11.0.0": {
         "runtime": {
           "UnboundLib.dll": {
-            "assemblyVersion": "2.10.2.0",
-            "fileVersion": "2.10.2.0"
+            "assemblyVersion": "2.11.0.0",
+            "fileVersion": "2.11.0.0"
           }
         }
       },
@@ -167,6 +177,14 @@
           }
         }
       },
+      "UnityEngine.UIModule/0.0.0.0": {
+        "runtime": {
+          "UnityEngine.UIModule.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
       "Mono.Cecil/0.10.4.0": {
         "runtime": {
           "Mono.Cecil.dll": {
@@ -218,14 +236,6 @@
       "SonigonAudioEngine.Runtime/0.0.0.0": {
         "runtime": {
           "SonigonAudioEngine.Runtime.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
-      "UnityEngine.UIModule/0.0.0.0": {
-        "runtime": {
-          "UnityEngine.UIModule.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
@@ -715,6 +725,11 @@
       "serviceable": false,
       "sha512": ""
     },
+    "ItemShops/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
     "ModdingUtils/1.0.0.0": {
       "type": "reference",
       "serviceable": false,
@@ -740,7 +755,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "UnboundLib/2.10.2.0": {
+    "UnboundLib/2.11.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -780,6 +795,11 @@
       "serviceable": false,
       "sha512": ""
     },
+    "UnityEngine.UIModule/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
     "Mono.Cecil/0.10.4.0": {
       "type": "reference",
       "serviceable": false,
@@ -811,11 +831,6 @@
       "sha512": ""
     },
     "SonigonAudioEngine.Runtime/0.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "UnityEngine.UIModule/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

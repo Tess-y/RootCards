@@ -5,6 +5,15 @@ using RootCards.Cards;
 using HarmonyLib;
 using CardChoiceSpawnUniqueCardPatch.CustomCategories;
 using UnityEngine;
+using UnboundLib.GameModes;
+using System;
+using RootCards.Patches;
+using System.Collections;
+using BepInEx.Configuration;
+using TMPro;
+using UnboundLib.Utils.UI;
+using ItemShops.Utils;
+using UnityEngine.UI;
 
 namespace RootCards
 {
@@ -12,31 +21,43 @@ namespace RootCards
     [BepInDependency("com.willis.rounds.unbound", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("pykess.rounds.plugins.moddingutils", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("pykess.rounds.plugins.cardchoicespawnuniquecardpatch", BepInDependency.DependencyFlags.HardDependency)]
+    [BepInDependency("com.willuwontu.rounds.itemshops", BepInDependency.DependencyFlags.HardDependency)]
     // Declares our Mod to Bepin
     [BepInPlugin(ModId, ModName, Version)]
     // The game our Mod Is associated with
     [BepInProcess("Rounds.exe")]
     public class RootCards : BaseUnityPlugin
     {
-        public const bool DEBUG = false;
+        public static  Type UniqueCardPatchType = typeof(CardChoiceSpawnUniqueCardPatch.NullCard).Assembly.GetType("CardChoicePatchSpawnUniqueCard");
+        public static ConfigEntry<bool> DEBUG;
         private const string ModId = "com.Root.Cards";
         private const string ModName = "RootCards";
-        public const string Version = "0.2.4"; // What version are we On (major.minor.patch)?
+        public const string Version = "0.5.4"; // What version are we On (major.minor.patch)?
         internal static AssetBundle ArtAssets;
         //private static readonly AssetBundle Bundle = Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("rootassets", typeof(RootCards).Assembly);
         public const string ModInitials = "Root";
         public static RootCards instance { get; private set; }
 
+        
+
         void Awake()
         {
             // Use this to call any harmony patch files your Mod may have
             var harmony = new Harmony(ModId);
-            harmony.PatchAll();
+            harmony.PatchAll();/*
+            var prefix = typeof(CardChoiceSpawnUniqueCardPatchPatchGetCondition).GetMethod("Prefix");
+            harmony.Patch(UniqueCardPatchType.GetMethod("GetCondition"), new HarmonyMethod(prefix)
+            {
+                priority = 9999,
+            });*/
+
+            DEBUG = base.Config.Bind<bool>(ModInitials, "Debug", false, "Enable to turn on concole spam from our mod");
         }
         void Start()
         {
             instance = this;
-            
+            Unbound.RegisterMenu("<b>Root Settings</b>", delegate () { }, new Action<GameObject>(this.NewGUI), null, true);
+
             ArtAssets =  Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("rootassets", typeof(RootCards).Assembly);
 
             CustomCard.BuildCard<BloodBullets>(BloodBullets.callback);
@@ -51,13 +72,52 @@ namespace RootCards
             CustomCard.BuildCard<DropGrenade>(DropGrenade.callback);
             CustomCard.BuildCard<QuickShield>(QuickShield.callback);
             CustomCard.BuildCard<Genie>(Genie.callback);
+            CustomCard.BuildCard<Null>(Null.callback);
+            CustomCard.BuildCard<DistillPower>(DistillPower.callback); //work in progress 
+            CustomCard.BuildCard<WitchTime>(WitchTime.callback);
+            CustomCard.BuildCard<StayHungry>(StayHungry.callback);
+
+            //CustomCard.BuildCard<DistillAcquisition>(DistillAcquisition.callback);
+
+            ///Genie Outcomes/
+            
+            CustomCard.BuildCard<GenieDeath>(GenieDeath.callback);
+            CustomCard.BuildCard<GenieFee>(GenieFee.callback);
+            CustomCard.BuildCard<GenieGranted>(GenieGranted.callback);
+            CustomCard.BuildCard<GenieGreed>(GenieGreed.callback);
+            CustomCard.BuildCard<GenieSmiles>(GenieSmiles.callback);
+            CustomCard.BuildCard<GenieEternity>(GenieEternity.callback);
+            ///End Outcomes
+
+            GameModeManager.AddHook(GameModeHooks.HookGameStart, (gm) => Genie.Wish());
+            GameModeManager.AddHook(GameModeHooks.HookPickEnd, (gm) => Genie.WaitTillShopDone());
+            GameModeManager.AddHook(GameModeHooks.HookGameStart, (gm) => Genie.RestCardLock());
+            GameModeManager.AddHook(GameModeHooks.HookGameStart, (gm) => Null.clearNulls());
+
+
+            CurrencyManager.instance.RegisterCurrencyIcon("Wish",(image) =>
+            {
+                image.sprite = ArtAssets.LoadAsset<Sprite>("WISH");
+                image.color = new Color32(118, 117, 35, 255);
+            });
+
         }
         public static void Debug(object message)
         {
-            if (DEBUG)
+            if (DEBUG.Value)
             {
-                UnityEngine.Debug.Log(message);
+                UnityEngine.Debug.Log("ROOT=>" + message);
             }
+        }
+
+        private void NewGUI(GameObject menu)
+        {
+            TextMeshProUGUI textMeshProUGUI;
+            MenuHandler.CreateText("Root Settings", menu, out textMeshProUGUI, 60, false, null, null, null, null);
+            GameObject toggle = MenuHandler.CreateToggle(RootCards.DEBUG.Value, "Debug Mode", menu, delegate (bool value)
+            {
+                RootCards.DEBUG.Value = value;
+            }, 50, false, Color.red, null, null, null);
         }
     }
 }

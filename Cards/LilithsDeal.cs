@@ -39,15 +39,15 @@ namespace RootCards.Cards
         }
         protected override string GetDescription()
         {
-            return "You know it is tempting, what could posibly go wrong?";
+            return "You know it is tempting; what could posibly go wrong?";
         }
         protected override GameObject GetCardArt()
         {
-            return null;
+            return RootCards.ArtAssets.LoadAsset<GameObject>("C_LILITH_DEAL");
         }
         protected override CardInfo.Rarity GetRarity()
         {
-            return CardInfo.Rarity.Common;
+            return CardInfo.Rarity.Uncommon;
         }
         protected override CardInfoStat[] GetStats()
         {
@@ -71,7 +71,7 @@ namespace RootCards.Cards
         }
         protected override CardThemeColor.CardThemeColorType GetTheme()
         {
-            return CardThemeColor.CardThemeColorType.ColdBlue;
+            return CardThemeColor.CardThemeColorType.EvilPurple;
         }
         public override string GetModName()
         {

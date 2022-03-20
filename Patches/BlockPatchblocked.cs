@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using RootCards.Extensions;
+using UnboundLib;
 
 namespace RootCards.Patches
 {
@@ -17,6 +18,10 @@ namespace RootCards.Patches
             ProjectileHit proj = projectile.GetComponent<ProjectileHit>();
             HealthHandler healthHandler = (HealthHandler)Traverse.Create(__instance).Field("health").GetValue();
             Player player = (Player)Traverse.Create(healthHandler).Field("player").GetValue();
+            if(player.data.stats.GetRootData().witchTimeDuration > 0 && proj.ownPlayer.teamID != player.teamID)
+            {
+                player.gameObject.GetOrAddComponent<MonoBehaviours.WitchTime>().time_remaning = player.data.stats.GetRootData().witchTimeDuration;
+            }
             if (player.data.stats.GetRootData().shieldEfectiveness<1)
             {
                 Vector2 damage = ((proj.bulletCanDealDeamage ? proj.damage : 1f) - ((proj.bulletCanDealDeamage ? proj.damage : 1f) * player.data.stats.GetRootData().shieldEfectiveness)) * forward.normalized;

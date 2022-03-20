@@ -19,7 +19,7 @@ namespace RootCards.Cards
             //statModifiers.movementSpeed = .5f;
             cardInfo.allowMultiple = false;
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been setup.");
-        }
+        } 
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected

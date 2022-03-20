@@ -190,3 +190,4 @@ C:\Users\Tess\Source\Repos\Tess-y\RootCards\obj\Debug\netstandard2.1\RootCards.d
 C:\Users\Tess\Source\Repos\Tess-y\RootCards\obj\Debug\netstandard2.1\RootCards.pdb
 C:\Users\Tess\Source\Repos\Tess-y\RootCards\bin\Debug\netstandard2.1\PhotonUnityNetworking.Demos.dll
 C:\Users\Tess\Source\Repos\Tess-y\RootCards\bin\Debug\netstandard2.1\PhotonUnityNetworking.Utilities.dll
+C:\Users\Tess\source\repos\Tess-y\RootCards\bin\Debug\netstandard2.1\ItemShops.dll

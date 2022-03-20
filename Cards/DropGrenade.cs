@@ -42,7 +42,7 @@ namespace RootCards.Cards
         }
         protected override GameObject GetCardArt()
         {
-            return null;
+            return RootCards.ArtAssets.LoadAsset<GameObject>("C_DROP_GRENADE");
         }
         protected override CardInfo.Rarity GetRarity()
         {
@@ -77,7 +77,7 @@ namespace RootCards.Cards
         }
         protected override CardThemeColor.CardThemeColorType GetTheme()
         {
-            return CardThemeColor.CardThemeColorType.ColdBlue;
+            return CardThemeColor.CardThemeColorType.FirepowerYellow;
         }
         public override string GetModName()
         {

@@ -18,12 +18,19 @@ namespace RootCards.Cards
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
             block.cdMultiplier = .5f;
-            
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been setup.");
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
+            Transform[] allChildren = player.gameObject.GetComponentsInChildren<Transform>();
+            foreach (Transform child in allChildren)
+            {
+                if(child.gameObject.name == "ShieldStone")
+                {
+                    child.localScale *= 0.75f;
+                }
+            }
             characterStats.GetRootData().shieldEfectiveness *= 0.5f;
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
         }
@@ -43,7 +50,7 @@ namespace RootCards.Cards
         }
         protected override GameObject GetCardArt()
         {
-            return null;
+            return RootCards.ArtAssets.LoadAsset<GameObject>("C_QUICK_SHEILD");
         }
         protected override CardInfo.Rarity GetRarity()
         {
@@ -71,7 +78,7 @@ namespace RootCards.Cards
         }
         protected override CardThemeColor.CardThemeColorType GetTheme()
         {
-            return CardThemeColor.CardThemeColorType.ColdBlue;
+            return CardThemeColor.CardThemeColorType.DefensiveBlue;
         }
         public override string GetModName()
         {
