@@ -7,20 +7,25 @@ A card pack for Rounds
 - Johnson's Ingenuity (By Tess)-- Increases damage and bullet size by 65% and gives your bullets extra drag
 - Box of Used Ammo (By Lilith)-- Gives you a random amount(3-10) of extra ammo.
 - Lilith's Deal (By Lilith)-- Adds 20% health per second regen, but makes your attacks more **painful** for you.
-- Distill Power (By Tess)-- Gives two random rares. Adds 3 Nulls to futre hands.
+- Distill Power (By Tess)-- Gives two random rares. Adds 3 Nulls to future hands.
+- Distill Knowledge (by Lilith)-- keeps redawing cards to choose from with more nulls each time, untill you take a null.
 
+- 5 cards that add simple states to your nulls.
 
 ### Uncommons
-- Battle Rage (By Tess)-- Adds 10% extra health, and buffs your damage and movement speed every time you get hurt during a round.
+- Battle Rage (By Tess)-- Adds 10% extra health, and buffs your damage and movement speed every time you get hurt during a round. (Curentyl removed)
 - Down?Up? Here (By Tess)-- Gives you the ability to flip your gravity by pressing jump. Will also flip it automaticly if your height doesn't change for too long.
 - Quick Shield (By Lilith)-- Reduces your block cooldown by 50% but makes it so your block only stops 50% bullet damage.
 - Witch Time (By Lilith)-- Blocking your opponent's bullets causes the world around you to slow down for a short while.
 - Stay Hungry (By Tess)-- Your damage grows with every shot, reseting when you hit someone.
+- Distill Acquisition (By Tess) -- Lets you take all the cards offered, but nulls out half of future cards
+
 
 ### Rares
 - One Hit Wonder (By Tess)-- Sets your health to basically 0, but makes your attacks kill on hit.
-- Time Loop (By Tess)-- Every 5 seconds, your health and location is reset to what it was 2 seconds prior.
-- Genie (By Lilith)-- Lets you name a card to add it to your cardbar, similar to sandbox mode.
+- Time Loop (By Tess)-- Every 5 seconds, your health, ammo, block and location are reset to what they were 3 seconds prior.
+- Genie (By Lilith) -- Lets you get any card in the game, at a price. Price is based on rarity of card taken.
+- Reforge Integraty (By Tess)-- Turns all null cards you've taken back into normal cards.
 
 
 ### Genie outcomes
@@ -32,6 +37,15 @@ A card pack for Rounds
 
 
 ## Change log:
+
+##### 0.6.1
+- Bug and art fixes for Null.
+
+##### 0.6.0
+- Updated Time Loop to bring it inline with its original idea.
+- Masively overhalls the Null system.
+- Removed Battle Rage for being too buggy
+- Art for new cards to come.
 
 ##### 0.5.4
 - Minor patch to genie code

@@ -8,6 +8,8 @@ using System.Reflection;
 using RootCards.Extensions;
 using UnityEngine;
 using System.Linq;
+using Photon.Pun;
+using System.Collections;
 
 namespace RootCards.Patches
 {
@@ -15,31 +17,26 @@ namespace RootCards.Patches
     [HarmonyPatch(typeof(CardChoice), "Spawn")]
     internal class CardChoicePatchSpawn
     {
+        private static int nulls = 0;
         [HarmonyPriority(int.MinValue)] 
-        private static void Prefix(CardChoice __instance, ref GameObject objToSpawn, ref AdjustedCards __state, int ___pickrID, List<GameObject> ___spawnedCards, Transform[] ___children)
+        private static bool Prefix(CardChoice __instance, ref GameObject objToSpawn, ref AdjustedCards __state, int ___pickrID, List<GameObject> ___spawnedCards, Transform[] ___children, ref GameObject __result, Vector3 pos, Quaternion rot)
         {
             __state = new AdjustedCards();
             if (__instance.IsPicking)
             {
                 var player = GetPlayerWithID(___pickrID);
-
+                /*
                 CardInfo[] spawnedCards = ___spawnedCards.Select(obj => obj.GetComponent<CardInfo>().sourceCard).ToArray();
                 int nulls = 0;
                 foreach(CardInfo card in spawnedCards)
                 {
-                    if(card.cardName == "NULL")
+                    if(card.gameObject.GetComponent<Cards.NullCard>() != null)
                     {
                         nulls++;
                     }
-                }
-                if(nulls < player.data.stats.GetRootData().nulls)
-                {
-                    objToSpawn = Cards.Null.NULLCARD.gameObject;
-
-                    __state.adjusted = true;
-                    __state.newCard = Cards.Null.NULLCARD;
-                }
-                if(player.data.stats.GetRootData().lockedCard != null)
+                }*/
+                RootCards.Debug(nulls);
+                if (player.data.stats.GetRootData().lockedCard != null)
                 {
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
                     objToSpawn = player.data.stats.GetRootData().lockedCard.gameObject;
@@ -50,7 +47,19 @@ namespace RootCards.Patches
                     __state.newCard = player.data.stats.GetRootData().lockedCard;
 #pragma warning restore CS8601 // Possible null reference assignment.
                 }
+                else if (nulls < player.data.stats.GetRootData().nulls)
+                {
+                    nulls++;
+                    __state.adjusted = true;
+                    __state.newCard = Cards.Null.Cards[player.playerID];
+                    __state.nulledCard = objToSpawn.GetComponent<CardInfo>();
+                    objToSpawn = __state.newCard.gameObject;
+                    objToSpawn.GetComponent<CardInfo>().cardName = __state.newCard.cardName;
+                    __result = PhotonNetwork.Instantiate(objToSpawn.name, pos, rot, 0, new object[] { __state.nulledCard.cardName });
+                    return false;
+                }
             }
+            return true;
         }
         internal static Player GetPlayerWithID(int playerID)
         {
@@ -65,11 +74,16 @@ namespace RootCards.Patches
         }
 
         [HarmonyPriority(Priority.First)]
-        static void Postfix(CardChoice __instance, GameObject __result, AdjustedCards __state)
+        private static void Postfix(CardChoice __instance, ref GameObject __result, ref AdjustedCards __state)
         {
             if (__state.adjusted)
             {
-                RootCards.instance.ExecuteAfterFrames(2, () => { __result.GetComponent<CardInfo>().sourceCard = __state.newCard; });
+                __result.GetComponent<CardInfo>().sourceCard = __state.newCard; 
+                if(__state.nulledCard != null)
+                {
+                    __result.GetComponent<CardInfo>().cardName = __state.nulledCard.cardName;
+
+                }
             }
         }
 
@@ -77,6 +91,13 @@ namespace RootCards.Patches
         {
             public bool adjusted = false;
             public CardInfo newCard;
+            public CardInfo nulledCard;
+        }
+
+        public static IEnumerator resetNull()
+        {
+            nulls = 0;
+            yield break;
         }
     }
 }

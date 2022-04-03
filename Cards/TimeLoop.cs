@@ -25,7 +25,7 @@ namespace RootCards.Cards
         {
             //Edits values on player when card is selected
 
-            var abyssalCard = CardChoice.instance.cards.First(c => c.name.Equals("AbyssalCountdown"));
+            var abyssalCard = ModdingUtils.Utils.Cards.all.First(c => c.name.Equals("AbyssalCountdown"));
             var statMods = abyssalCard.gameObject.GetComponentInChildren<CharacterStatModifiers>();
             var abyssalObj = statMods.AddObjectToPlayer;
 
@@ -39,8 +39,6 @@ namespace RootCards.Cards
             RootCards.Debug("Abyssal made");
 
             loopedTime = loopObject.AddComponent<LoopedTime>();
-            loopedTime.player = player;
-            loopedTime.gun = player.data.weaponHandler.gun;
 
             loopedTime.timeToFill = 5f;
             loopedTime.timeToEmpty = 0f;
@@ -49,6 +47,9 @@ namespace RootCards.Cards
             loopedTime.rotator = abyssal.rotator;
             loopedTime.still = abyssal.still;
             loopedTime.player = player;
+            loopedTime.gun = player.data.weaponHandler.gun;
+            loopedTime.gunAmmo = gun.GetComponentInChildren<GunAmmo>();
+            loopedTime.block = block;
 
 
 
@@ -93,7 +94,7 @@ namespace RootCards.Cards
         }
         protected override string GetDescription()
         {
-            return "Every five seconds, travel two seconds back in time.";
+            return "Every five seconds, travel three seconds back in time.";
         }
         protected override GameObject GetCardArt()
         {

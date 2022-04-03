@@ -32,7 +32,7 @@ namespace RootCards
         public static ConfigEntry<bool> DEBUG;
         private const string ModId = "com.Root.Cards";
         private const string ModName = "RootCards";
-        public const string Version = "0.5.4"; // What version are we On (major.minor.patch)?
+        public const string Version = "0.6.1"; // What version are we On (major.minor.patch)?
         internal static AssetBundle ArtAssets;
         //private static readonly AssetBundle Bundle = Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("rootassets", typeof(RootCards).Assembly);
         public const string ModInitials = "Root";
@@ -56,7 +56,7 @@ namespace RootCards
         void Start()
         {
             instance = this;
-            Unbound.RegisterMenu("<b>Root Settings</b>", delegate () { }, new Action<GameObject>(this.NewGUI), null, true);
+            Unbound.RegisterMenu("Root Settings", delegate () { }, new Action<GameObject>(this.NewGUI), null, true);
 
             ArtAssets =  Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("rootassets", typeof(RootCards).Assembly);
 
@@ -67,20 +67,30 @@ namespace RootCards
             CustomCard.BuildCard<LilithsDeal>(LilithsDeal.callback);
             //CustomCard.BuildCard<FrozenPotato>(FrozenPotato.callback); card is currently bugged.
             CustomCard.BuildCard<OneHitWonder>(OneHitWonder.callback); 
-            CustomCard.BuildCard<BattleRage>(BattleRage.callback); 
+            //CustomCard.BuildCard<BattleRage>(BattleRage.callback); 
             CustomCard.BuildCard<TimeLoop>(TimeLoop.callback); 
             CustomCard.BuildCard<DropGrenade>(DropGrenade.callback);
             CustomCard.BuildCard<QuickShield>(QuickShield.callback);
             CustomCard.BuildCard<Genie>(Genie.callback);
-            CustomCard.BuildCard<Null>(Null.callback);
-            CustomCard.BuildCard<DistillPower>(DistillPower.callback); //work in progress 
             CustomCard.BuildCard<WitchTime>(WitchTime.callback);
             CustomCard.BuildCard<StayHungry>(StayHungry.callback);
+            CustomCard.BuildCard<TacticalInversion>(TacticalInversion.callback);
+            //CustomCard.BuildCard<Drilling_Ammo_Card>(Drilling_Ammo_Card.callback);
 
-            //CustomCard.BuildCard<DistillAcquisition>(DistillAcquisition.callback);
+
+            CustomCard.BuildCard<Null>(Null.callback);
+            CustomCard.BuildCard<DistillKnowledge>(DistillKnowledge.callback);
+            CustomCard.BuildCard<DistillAcquisition>(DistillAcquisition.callback);
+            CustomCard.BuildCard<DistillPower>(DistillPower.callback);
+            //CustomCard.BuildCard<ReforgeSoul>(ReforgeSoul.callback);
+            CustomCard.BuildCard<ReforgeVitality>(ReforgeVitality.callback);
+            CustomCard.BuildCard<ReforgeOffense>(ReforgeOffense.callback);
+            CustomCard.BuildCard<ReforgeDefence>(ReforgeDefence.callback);
+            CustomCard.BuildCard<ReforgeReflection>(ReforgeReflection.callback);
+            CustomCard.BuildCard<ReforgeIntegraty>(ReforgeIntegraty.callback);
 
             ///Genie Outcomes/
-            
+
             CustomCard.BuildCard<GenieDeath>(GenieDeath.callback);
             CustomCard.BuildCard<GenieFee>(GenieFee.callback);
             CustomCard.BuildCard<GenieGranted>(GenieGranted.callback);
@@ -93,6 +103,9 @@ namespace RootCards
             GameModeManager.AddHook(GameModeHooks.HookPickEnd, (gm) => Genie.WaitTillShopDone());
             GameModeManager.AddHook(GameModeHooks.HookGameStart, (gm) => Genie.RestCardLock());
             GameModeManager.AddHook(GameModeHooks.HookGameStart, (gm) => Null.clearNulls());
+            GameModeManager.AddHook(GameModeHooks.HookGameStart, (gm) => BuildNull.SetUpPlayerNullCards());
+            GameModeManager.AddHook(GameModeHooks.HookPlayerPickEnd, (gm) => DistillKnowledge.ExtraPicks());
+            GameModeManager.AddHook(GameModeHooks.HookPlayerPickStart, (gm) => CardChoicePatchSpawn.resetNull());
 
 
             CurrencyManager.instance.RegisterCurrencyIcon("Wish",(image) =>

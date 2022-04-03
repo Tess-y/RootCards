@@ -8,28 +8,28 @@ using UnboundLib.Cards;
 using UnityEngine;
 using RootCards.Cards.Util.Authors;
 using RootCards.MonoBehaviours;
-using CardChoiceSpawnUniqueCardPatch.CustomCategories;
-using System.Collections;
+using RootCards.Extensions;
 
 namespace RootCards.Cards
 {
-    class Null : CustomCard
+    class ReforgeVitality : CustomCard
     {
-        public static CardInfo NULLCARD;
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
-          /*  System.Random random = new System.Random();
-            cardInfo.cardDestription = Guid.NewGuid().ToString();
-            cardInfo.cardColor = new Color(random.Next(255), random.Next(255), random.Next(255));*/
-            cardInfo.categories = new CardCategory[] { CustomCardCategories.instance.CardCategory("NoRandom") };
+            cardInfo.categories = new CardCategory[] { Null.NeedsNull };
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been setup.");
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
+            int nullcount = data.currentCards.FindAll(c => c == Null.Cards[player.playerID]).Count;
+            data.maxHealth *= Mathf.Pow(1.1f, nullcount);
+            characterStats.movementSpeed *= Mathf.Pow(1.1f, nullcount);
+            characterStats.GetRootData().nullData.Health_multiplier *= 1.1f;
+            characterStats.GetRootData().nullData.MovmentSpeed_multiplier *= 1.1f;
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
-        }
+        } 
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Run when the card is removed from the player
@@ -38,15 +38,15 @@ namespace RootCards.Cards
 
         protected override string GetTitle()
         {
-            return "NULL";
+            return "Reforge Vitality";
         }
         protected override string GetDescription()
         {
-            return "";
+            return "Null cards you have now provide +10% heath and +10% movment speed.";
         }
         protected override GameObject GetCardArt()
         {
-            return RootCards.ArtAssets.LoadAsset<GameObject>("C_NULL");
+            return null;
         }
         protected override CardInfo.Rarity GetRarity()
         {
@@ -54,47 +54,22 @@ namespace RootCards.Cards
         }
         protected override CardInfoStat[] GetStats()
         {
-            return new CardInfoStat[] { };
+            return new CardInfoStat[]
+            {
+            };
         }
         protected override CardThemeColor.CardThemeColorType GetTheme()
         {
-            return CardThemeColor.CardThemeColorType.TechWhite;
+            return CardThemeColor.CardThemeColorType.PoisonGreen;
         }
         public override string GetModName()
         {
-            return "";
-        }
-
-        public override bool GetEnabled()
-        {
-            return false;  
+            return RootCards.ModInitials;
         }
 
         internal static void callback(CardInfo card)
         {
-            card.gameObject.AddComponent<NullCard>();
-            ModdingUtils.Utils.Cards.instance.AddHiddenCard(card);
-            NULLCARD = card;
-        }
-
-        internal static IEnumerator clearNulls()
-        {
-            foreach (Player player in PlayerManager.instance.players.ToArray())
-            {
-                Extensions.CharacterStatModifiersExtension.GetRootData(player.data.stats).nulls = 0;
-            }
-            yield break;
-        }
-    }
-
-    internal class NullCard : MonoBehaviour
-    {
-        public void Update()
-        {
-            if(gameObject.GetComponent<CardInfo>().sourceCard != Null.NULLCARD)
-            {
-                gameObject.GetComponent<CardInfo>().sourceCard = Null.NULLCARD;
-            }
+            card.gameObject.AddComponent<Lilith>();//set the author of the card
         }
     }
 }

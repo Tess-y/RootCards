@@ -36,7 +36,7 @@ namespace RootCards.Cards
                         CardChoice.instance.Pick(card);
                     }
                 }
-                Extensions.CharacterStatModifiersExtension.GetRootData(characterStats).nulls += (int)cards.Count / 2;
+                Extensions.CharacterStatModifiersExtension.AjustNulls(characterStats, (int)((cards.Count+1) / 2));
             }
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
         } 
@@ -60,7 +60,7 @@ namespace RootCards.Cards
         }
         protected override CardInfo.Rarity GetRarity()
         {
-            return CardInfo.Rarity.Common;
+            return CardInfo.Rarity.Uncommon;
         }
         protected override CardInfoStat[] GetStats()
         {
@@ -77,7 +77,7 @@ namespace RootCards.Cards
         }
         protected override CardThemeColor.CardThemeColorType GetTheme()
         {
-            return CardThemeColor.CardThemeColorType.ColdBlue;
+            return CardThemeColor.CardThemeColorType.MagicPink;
         }
         public override string GetModName()
         {
@@ -86,7 +86,7 @@ namespace RootCards.Cards
 
         internal static void callback(CardInfo card)
         {
-            card.gameObject.AddComponent<None>();//set the author of the card
+            card.gameObject.AddComponent<Tess>();//set the author of the card
         }
     }
 }

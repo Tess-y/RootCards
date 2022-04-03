@@ -44,7 +44,7 @@ namespace RootCards.Cards
                 ModdingUtils.Utils.CardBarUtils.instance.ShowAtEndOfPhase(player, randomCard);
             }
 
-            Extensions.CharacterStatModifiersExtension.GetRootData(characterStats).nulls += 3;
+            Extensions.CharacterStatModifiersExtension.AjustNulls(characterStats, 3);
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
         }
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)

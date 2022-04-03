@@ -14,7 +14,7 @@ namespace RootCards.Patches
 	{
 		private static void Postfix(ApplyCardStats __instance)
         {
-			RootCards.Debug(__instance);
+			//RootCards.Debug(__instance);
 			Player player = (Player)Traverse.Create(__instance).Field("playerToUpgrade").GetValue();
 			Gun gun = player.GetComponent<Holding>().holdable.GetComponent<Gun>();
 			if (player.data.stats.GetRootData().ammoCap != -1) {

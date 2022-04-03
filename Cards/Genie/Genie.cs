@@ -107,6 +107,7 @@ namespace RootCards.Cards
             if (Genie_Shop != null) ShopManager.instance.RemoveShop(Genie_Shop); 
             Genie_Shop = ShopManager.instance.CreateShop(ShopID);
             Genie_Shop.UpdateMoneyColumnName("Wishes");
+            Genie_Shop.UpdateTitle("Be Carful What You Wish For");
             yield return new WaitForSecondsRealtime(0.2f);
             RootCards.instance.StartCoroutine(SetUpShop());
             yield break;
@@ -129,30 +130,51 @@ namespace RootCards.Cards
         {
             bool done = true;
             GameObject gameObject = null;
+            GameObject timer = null;
+            float time = 120;
             PlayerManager.instance.players.ForEach(p =>
             {
                 if (p.GetAdditionalData().bankAccount.HasFunds(wishes)){ Genie_Shop.Show(p); done = false; }
             });
+
             if (!done)
             {
                 gameObject = new GameObject();
                 gameObject.AddComponent<Canvas>().sortingLayerName = "MostFront";
                 gameObject.AddComponent<TextMeshProUGUI>().text = "Wating For Players In Wish Menu";
-                gameObject.GetComponent<TextMeshProUGUI>().color = Color.magenta;
+                Color c = Color.magenta;
+                c.a = .85f;
+                gameObject.GetComponent<TextMeshProUGUI>().color = c;
                 gameObject.transform.localScale = new Vector3(.2f, .2f);
                 gameObject.transform.localPosition = new Vector3(0, 5);
-                yield return new WaitForSecondsRealtime(5f);
+                timer = new GameObject();
+                timer.AddComponent<Canvas>().sortingLayerName = "MostFront";
+                timer.transform.localScale = new Vector3(.2f, .2f);
+                timer.transform.localPosition = new Vector3(0, 16);
+                timer.AddComponent<TextMeshProUGUI>().color = c;
+                for (int i = 0; i < 5; i++)
+                {
+                    timer.GetComponent<TextMeshProUGUI>().text = ((int)time).ToString();
+                    yield return new WaitForSecondsRealtime(1f);
+                    time -= 1;
+                }
             }
             while (!done)
             {
+                timer.GetComponent<TextMeshProUGUI>().text = ((int)time).ToString();
                 done = true;
                 yield return new WaitForSecondsRealtime(0.2f);
+                time -= 0.2f;
                 PlayerManager.instance.players.ForEach(p => 
                 {
                     if (ShopManager.instance.PlayerIsInShop(p)) done = false;
                 });
+                if (time <= 0)
+                    ShopManager.instance.HideAllShops();
+
             }
             Destroy(gameObject);
+            Destroy(timer);
         }
 
         internal static IEnumerator RestCardLock()
@@ -232,7 +254,7 @@ namespace RootCards.Cards
 
         public override void OnPurchase(Player player, Purchasable item)
         {
-            var card = ((CardItem)item).Card.cardInfo;
+            var card = ((CardItem)item).Card.cardInfo; 
             System.Random r = new System.Random(Util.random.Seed());
             switch (card.rarity)
             {
