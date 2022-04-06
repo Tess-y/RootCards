@@ -31,12 +31,12 @@ namespace RootCards.Cards
                      List<int> nulls = new List<int>();
                      List<CardInfo> nulleds = new List<CardInfo>();
                      for (int i = 0; i< cards.Count; i++)
-                     {
+                     {/*
                          if (cards[i].GetComponent<NulledCardHolder>() != null)
                          {
                              nulls.Add(i);
                              nulleds.Add(cards[i].GetComponent<NullCard>().NulledCard);
-                         }
+                         }*/
                      }
                      Unbound.Instance.StartCoroutine(ModdingUtils.Utils.Cards.instance.ReplaceCards(player, nulls.ToArray(), nulleds.ToArray(), editCardBar: true));
                  });

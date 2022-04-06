@@ -32,10 +32,10 @@ namespace RootCards
         public static ConfigEntry<bool> DEBUG;
         private const string ModId = "com.Root.Cards";
         private const string ModName = "RootCards";
-        public const string Version = "0.6.1"; // What version are we On (major.minor.patch)?
+        public const string Version = "0.6.3"; // What version are we On (major.minor.patch)?
         internal static AssetBundle ArtAssets;
         //private static readonly AssetBundle Bundle = Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("rootassets", typeof(RootCards).Assembly);
-        public const string ModInitials = "Root";
+        public const string ModInitials = "Root"; 
         public static RootCards instance { get; private set; }
 
         
@@ -78,7 +78,7 @@ namespace RootCards
             //CustomCard.BuildCard<Drilling_Ammo_Card>(Drilling_Ammo_Card.callback);
 
 
-            CustomCard.BuildCard<Null>(Null.callback);
+            //CustomCard.BuildCard<Null>(Null.callback);
             CustomCard.BuildCard<DistillKnowledge>(DistillKnowledge.callback);
             CustomCard.BuildCard<DistillAcquisition>(DistillAcquisition.callback);
             CustomCard.BuildCard<DistillPower>(DistillPower.callback);
@@ -87,7 +87,7 @@ namespace RootCards
             CustomCard.BuildCard<ReforgeOffense>(ReforgeOffense.callback);
             CustomCard.BuildCard<ReforgeDefence>(ReforgeDefence.callback);
             CustomCard.BuildCard<ReforgeReflection>(ReforgeReflection.callback);
-            CustomCard.BuildCard<ReforgeIntegraty>(ReforgeIntegraty.callback);
+            //CustomCard.BuildCard<ReforgeIntegraty>(ReforgeIntegraty.callback);
 
             ///Genie Outcomes/
 
@@ -113,6 +113,8 @@ namespace RootCards
                 image.sprite = ArtAssets.LoadAsset<Sprite>("WISH");
                 image.color = new Color32(118, 117, 35, 255);
             });
+
+            //Unbound.Instance.ExecuteAfterFrames(15, () => StartCoroutine(NullCard.genNulls()));
 
         }
         public static void Debug(object message)

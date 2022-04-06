@@ -9,7 +9,8 @@ namespace RootCards.MonoBehaviours
     {
         public override void DealtDamage(Vector2 damage, bool selfDamage, Player damagedPlayer)
         {
-            damagedPlayer.data.healthHandler.DoDamage(new Vector2(9999999, 9999999), damagedPlayer.data.playerVel.position, Color.black, ignoreBlock: true);
+            damagedPlayer.data.health = -100000;
         }
     }
 }
+ 

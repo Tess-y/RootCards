@@ -38,6 +38,12 @@ A card pack for Rounds
 
 ## Change log:
 
+##### 0.6.3
+-Minor bug fixes
+
+##### 0.6.2
+- temp hotfix for nulls, reverts a bit of functionality and disables Reforge Integraty, should hopefuly get things working properly soon
+
 ##### 0.6.1
 - Bug and art fixes for Null.
 

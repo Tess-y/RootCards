@@ -10,7 +10,7 @@ using UnboundLib.GameModes;
 namespace RootCards.MonoBehaviours
 {
     internal class NullLife : MonoBehaviour
-    {
+    {/*
         private Player player;
         bool triggered = false;
         public int nulllive = 0;
@@ -47,6 +47,6 @@ namespace RootCards.MonoBehaviours
             for (; nulllive > 0; nulllive--)
                 ModdingUtils.Utils.Cards.instance.RemoveCardFromPlayer(player, Null.NULLCARD, ModdingUtils.Utils.Cards.SelectionType.Oldest);
             yield break;
-        }
+        }*/
     }
 }

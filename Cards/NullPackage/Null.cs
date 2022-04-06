@@ -15,365 +15,310 @@ using TMPro;
 using UnityEngine.UI;
 using HarmonyLib;
 using Photon.Pun;
+using UnboundLib.Utils;
+using System.Collections.ObjectModel;
 
 namespace RootCards.Cards
 {
-    class Null : CustomCard
-    {
-        public static CardInfo NULLCARD;
-        public static CardCategory NeedsNull = CustomCardCategories.instance.CardCategory("NeedsNull");
-        public static Dictionary<int, CardInfo> Cards = new Dictionary<int, CardInfo>();
-        public static Dictionary<string, CardInfo> nulledCards = new Dictionary<string, CardInfo>();
-        public CardInfo NulledCard;
-        public int playerID = -1;
-        public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
-        {
-            //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
-            cardInfo.categories = new CardCategory[] { CustomCardCategories.instance.CardCategory("NoRandom") };
-            RootCards.Debug($"[{RootCards.ModInitials}][Card] {this.GetComponent<CardInfo>().cardName} has been setup.");
-        }
-        public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
-        {
-            //Edits values on player when card is selected
-            data.maxHealth *= characterStats.GetRootData().nullData.Health_multiplier;
-            characterStats.movementSpeed *= characterStats.GetRootData().nullData.MovmentSpeed_multiplier;
-            characterStats.lifeSteal += characterStats.GetRootData().nullData.Lifesteal;
-            block.cdMultiplier *= characterStats.GetRootData().nullData.block_cdMultiplier;
-            gun.damage *= characterStats.GetRootData().nullData.Damage_multiplier;
-            gun.reflects += characterStats.GetRootData().nullData.gun_Reflects;
-            gunAmmo.maxAmmo += characterStats.GetRootData().nullData.gun_Ammo;
-            Extensions.CharacterStatModifiersExtension.AjustNulls(characterStats, -1);
-            RootCards.Debug($"[{RootCards.ModInitials}][Card] {this.GetComponent<CardInfo>().cardName} has been added to player {player.playerID}.");
-        }
-        public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
-        {
-            //Run when the card is removed from the player
-            Extensions.CharacterStatModifiersExtension.AjustNulls(characterStats, 1);
-            RootCards.Debug($"[{RootCards.ModInitials}][Card] {this.GetComponent<CardInfo>().cardName} has been removed from player {player.playerID}.");
-        }
 
-        protected override string GetTitle()
-        {
-            return "NULL";
-        }
-        protected override string GetDescription()
-        {
-            return "";
-        }
-        protected override GameObject GetCardArt()
-        {
-            return RootCards.ArtAssets.LoadAsset<GameObject>("C_NULL");
-        }
-        protected override CardInfo.Rarity GetRarity()
-        {
-            return CardInfo.Rarity.Common;
-        }
-        protected override CardInfoStat[] GetStats()
-        {
-            return new CardInfoStat[] {
-                new CardInfoStat()
-                {
-                    positive = true,
-                    stat = "Null",
-                    amount = "-1",
-                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
-                }
-            };
-        }
-        protected override CardThemeColor.CardThemeColorType GetTheme()
-        {
-            return CardThemeColor.CardThemeColorType.TechWhite;
-        }
-        public override string GetModName()
-        {
-            return "";
-        }
+	//File recovered via dnSpy
+	//TODO: Clean up code for readableility 
+	internal class Null : CustomCard
+	{
+		public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
+		{
+			cardInfo.categories = new CardCategory[]
+			{
+				CustomCardCategories.instance.CardCategory("NoRandom")
+			};
+			RootCards.Debug("[Root][Card] " + this.GetTitle() + " has been setup.");
+		}
 
-        public override bool GetEnabled()
-        {
-            return false;
-        }
+		public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
+		{
+			data.maxHealth *= characterStats.GetRootData().nullData.Health_multiplier;
+			characterStats.movementSpeed *= characterStats.GetRootData().nullData.MovmentSpeed_multiplier;
+			characterStats.lifeSteal += characterStats.GetRootData().nullData.Lifesteal;
+			block.cdMultiplier *= characterStats.GetRootData().nullData.block_cdMultiplier;
+			gun.damage *= characterStats.GetRootData().nullData.Damage_multiplier;
+			gun.reflects += characterStats.GetRootData().nullData.gun_Reflects;
+			gunAmmo.maxAmmo += characterStats.GetRootData().nullData.gun_Ammo;
+			characterStats.AjustNulls(-1);
+			RootCards.Debug(string.Format("[{0}][Card] {1} has been added to player {2}.", "Root", this.GetTitle(), player.playerID));
+		}
 
-        internal static void callback(CardInfo card)
-        {
-            card.gameObject.AddComponent<NullCard>();
-            ModdingUtils.Utils.Cards.instance.AddHiddenCard(card);
-            NULLCARD = card;
-        }
+		public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
+		{
+			characterStats.AjustNulls(1);
+			RootCards.Debug(string.Format("[{0}][Card] {1} has been removed from player {2}.", "Root", this.GetTitle(), player.playerID));
+		}
 
-        internal static IEnumerator clearNulls()
-        {
-            foreach (Player player in PlayerManager.instance.players.ToArray())
-            {
-                Extensions.CharacterStatModifiersExtension.GetRootData(player.data.stats).nulls = 0;
-                ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(player.data.stats).blacklistedCategories.Add(Null.NeedsNull);
-            }
-            yield break;
-        }
+		protected override string GetTitle()
+		{
+			return "NULL";
+		}
 
-        public static CardInfoStat[] GetStatsForPlayer(int playerID)
-        {
-            NullData nullData = PlayerManager.instance.players.Find(p => p.playerID == playerID).data.stats.GetRootData().nullData;
-            List<CardInfoStat> stats = new List<CardInfoStat>();
-            stats.Add(new CardInfoStat()
-            {
-                positive = true,
-                stat = "Null",
-                amount = "-1",
-                simepleAmount = CardInfoStat.SimpleAmount.notAssigned
-            });
-            if (nullData.Health_multiplier > 1)
-                stats.Add(new CardInfoStat()
-                {
-                    positive = true,
-                    stat = "Health",
-                    amount = $"+{(int)((nullData.Health_multiplier - 1) * 100)}%",
-                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
-                });
+		protected override string GetDescription()
+		{
+			return "";
+		}
+		protected override GameObject GetCardArt()
+		{
+			return RootCards.ArtAssets.LoadAsset<GameObject>("C_NULL");
+		}
 
-            if (nullData.MovmentSpeed_multiplier > 1)
-                stats.Add(new CardInfoStat()
-                {
-                    positive = true,
-                    stat = "Movemet Speed",
-                    amount = $"+{(int)((nullData.MovmentSpeed_multiplier - 1) * 100)}%",
-                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
-                });
+		protected override CardInfo.Rarity GetRarity()
+		{
+			return CardInfo.Rarity.Common;
+		}
 
-            if (nullData.Lifesteal > 0)
-                stats.Add(new CardInfoStat()
-                {
-                    positive = true,
-                    stat = "Lifesteal",
-                    amount = $"+{(int)((nullData.Lifesteal) * 100)}%",
-                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
-                });
+		protected override CardInfoStat[] GetStats()
+		{
+			return new CardInfoStat[]
+			{
+				new CardInfoStat
+				{
+					positive = true,
+					stat = "Null",
+					amount = "-1",
+					simepleAmount = CardInfoStat.SimpleAmount.notAssigned
+				}
+			};
+		}
 
-            if (nullData.block_cdMultiplier < 1)
-                stats.Add(new CardInfoStat()
-                {
-                    positive = true,
-                    stat = "Block Cooldown",
-                    amount = $"-{(int)((1-nullData.block_cdMultiplier) * 100)}%",
-                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
-                });
+		protected override CardThemeColor.CardThemeColorType GetTheme()
+		{
+			return CardThemeColor.CardThemeColorType.TechWhite;
+		}
 
-            if (nullData.Damage_multiplier > 1)
-                stats.Add(new CardInfoStat()
-                {
-                    positive = true,
-                    stat = "Damage",
-                    amount = $"+{(int)((nullData.Damage_multiplier - 1) * 100)}%",
-                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
-                });
+		public override string GetModName()
+		{
+			return "";
+		}
 
-            if (nullData.gun_Reflects > 0)
-                stats.Add(new CardInfoStat()
-                {
-                    positive = true,
-                    stat = "Bounces",
-                    amount = $"+{nullData.gun_Reflects}%",
-                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
-                });
+		public override bool GetEnabled()
+		{
+			return false;
+		}
+		internal static void callback(CardInfo card)
+		{
+			card.gameObject.AddComponent<NullCard>();
+			ModdingUtils.Utils.Cards.instance.AddHiddenCard(card);
+			Null.NULLCARD = card;
+		}
 
-            if (nullData.gun_Ammo > 0)
-                stats.Add(new CardInfoStat()
-                {
-                    positive = true,
-                    stat = "Ammo",
-                    amount = $"+{nullData.gun_Ammo}%",
-                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
-                });
-            return stats.ToArray();
-        }
+		internal static IEnumerator clearNulls()
+		{
+			foreach (Player player in PlayerManager.instance.players.ToArray())
+			{
+				player.data.stats.GetRootData().nulls = 0;
+				ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(player.data.stats).blacklistedCategories.Add(Null.NeedsNull);
+			}
+			Player[] array = null;
+			yield break;
+		}
 
-        internal static GameObject CardArt()
-        {
-            return RootCards.ArtAssets.LoadAsset<GameObject>("C_NULL");
-        }
-    }
+		public static CardInfoStat[] GetStatsForPlayer(int playerID)
+		{
+			NullData nullData = PlayerManager.instance.players.Find(p => p.playerID == playerID).data.stats.GetRootData().nullData;
+			List<CardInfoStat> stats = new List<CardInfoStat>();
+			stats.Add(new CardInfoStat()
+			{
+				positive = true,
+				stat = "Null",
+				amount = "-1",
+				simepleAmount = CardInfoStat.SimpleAmount.notAssigned
+			});
+			if (nullData.Health_multiplier > 1)
+				stats.Add(new CardInfoStat()
+				{
+					positive = true,
+					stat = "Health",
+					amount = $"+{(int)((nullData.Health_multiplier - 1) * 100)}%",
+					simepleAmount = CardInfoStat.SimpleAmount.notAssigned
+				});
 
-    internal class NullCard : MonoBehaviour
-    {
+			if (nullData.MovmentSpeed_multiplier > 1)
+				stats.Add(new CardInfoStat()
+				{
+					positive = true,
+					stat = "Movemet Speed",
+					amount = $"+{(int)((nullData.MovmentSpeed_multiplier - 1) * 100)}%",
+					simepleAmount = CardInfoStat.SimpleAmount.notAssigned
+				});
 
-        private TextMeshProUGUI description;
-        private TextMeshProUGUI cardName;
-        public CardInfo NulledCard;
-        public CardInfo card;
-        public bool updated = true;
-        public string title = "NULL";
-        LayoutElement statHolder;
+			if (nullData.Lifesteal > 0)
+				stats.Add(new CardInfoStat()
+				{
+					positive = true,
+					stat = "Lifesteal",
+					amount = $"+{(int)((nullData.Lifesteal) * 100)}%",
+					simepleAmount = CardInfoStat.SimpleAmount.notAssigned
+				});
 
+			if (nullData.block_cdMultiplier < 1)
+				stats.Add(new CardInfoStat()
+				{
+					positive = true,
+					stat = "Block Cooldown",
+					amount = $"-{(int)((1 - nullData.block_cdMultiplier) * 100)}%",
+					simepleAmount = CardInfoStat.SimpleAmount.notAssigned
+				});
 
-        private StatHolder[] stats = new StatHolder[] { };
-        private class StatHolder
-        {
-            public TextMeshProUGUI stat;
-            public TextMeshProUGUI value;
-        }
+			if (nullData.Damage_multiplier > 1)
+				stats.Add(new CardInfoStat()
+				{
+					positive = true,
+					stat = "Damage",
+					amount = $"+{(int)((nullData.Damage_multiplier - 1) * 100)}%",
+					simepleAmount = CardInfoStat.SimpleAmount.notAssigned
+				});
 
-        private void Start()
-        {
-            TextMeshProUGUI[] allChildrenRecursive = this.gameObject.GetComponentsInChildren<TextMeshProUGUI>();
-            //GameObject effectText = allChildrenRecursive.Where(obj => obj.gameObject.name == "EffectText").FirstOrDefault().gameObject;
-            GameObject titleText = allChildrenRecursive.Where(obj => obj.gameObject.name == "Text_Name").FirstOrDefault().gameObject;
-            card = this.GetComponent<CardInfo>();
+			if (nullData.gun_Reflects > 0)
+				stats.Add(new CardInfoStat()
+				{
+					positive = true,
+					stat = "Bounces",
+					amount = $"+{nullData.gun_Reflects}",
+					simepleAmount = CardInfoStat.SimpleAmount.notAssigned
+				});
 
-            statHolder = this.gameObject.GetComponentsInChildren<LayoutElement>().Where(obj => obj.gameObject.name == "StatObject(Clone)").First();
+			if (nullData.gun_Ammo > 0)
+				stats.Add(new CardInfoStat()
+				{
+					positive = true,
+					stat = "Ammo",
+					amount = $"+{nullData.gun_Ammo}",
+					simepleAmount = CardInfoStat.SimpleAmount.notAssigned
+				});
+			return stats.ToArray();
+		}
 
-            //this.description = effectText.GetComponent<TextMeshProUGUI>();
-            this.cardName = titleText.GetComponent<TextMeshProUGUI>();
-            if (GetComponent<NulledCardHolder>() != null) return;
-            try
-            {
-                NulledCard = ModdingUtils.Utils.Cards.instance.GetCardWithName((string)gameObject.GetPhotonViewsInChildren()[0].InstantiationData[0]);
-                card.sourceCard = Null.Cards[card.GetComponent<BuildNull>().playerID];
-            }
-            catch { }
-        }
-        public void Update()
-        {
-            if (updated)
-            {
-                if (NulledCard != null) title = NulledCard.cardName;
-                var statHolders = this.gameObject.GetComponentsInChildren<LayoutElement>().Where(obj => obj.gameObject.name == "StatObject(Clone)").ToArray();
-                for (int i = 1; i < statHolders.Length; i++)
-                {
-                    Destroy(statHolders[i].gameObject);
-                }
-                cardName.text = title.ToUpper();
-                card.cardStats = Null.GetStatsForPlayer(card.GetComponent<NulledCardHolder>() == null? card.GetComponent<BuildNull>().playerID : card.GetComponent<NulledCardHolder>().playerID);
-                for (int i = 1; i < card.cardStats.Length; i++)
-                {
-                    var item = Instantiate(statHolder);
-                    item.name = "StatObject(Clone)";
-                    item.transform.SetParent(statHolder.transform.parent, false);
-                    item.gameObject.GetComponentsInChildren<TextMeshProUGUI>().Where(obj => obj.gameObject.name == "Stat").FirstOrDefault().text = card.cardStats[i].stat;
-                    item.gameObject.GetComponentsInChildren<TextMeshProUGUI>().Where(obj => obj.gameObject.name == "Value").FirstOrDefault().text = card.cardStats[i].amount;
-                }
-                if(card.GetComponent<NulledCardHolder>() == null)
-                    card.GetComponent<BuildNull>().NulledCard = NulledCard;
-                else
-                    card.GetComponent<NulledCardHolder>().NulledCard = NulledCard;
+		public static CardInfo NULLCARD;
 
-                if(NulledCard.cardArt != null)
-                {
-                    Image[] images = this.gameObject.GetComponentsInChildren<Image>();
-                    Transform art = null;
-                    foreach (Image image in images)
-                    {
-                        if (image.gameObject.name.Contains("Art"))
-                        {
-                            art = image.gameObject.transform;
-                            break;
-                        }
-                    }
-                    RootCards.Debug(art);
-                    GameObject.Instantiate(NulledCard.cardArt, art).transform.localScale = new Vector3(1f, 1f, 1f);
-                    GameObject.Instantiate(Null.CardArt(), art).transform.localScale = new Vector3(1f, 1f, 1f);
+		public static CardCategory NeedsNull = CustomCardCategories.instance.CardCategory("NeedsNull");
 
-                }
-                updated = false;
-            }
-        }
-    }
+		public static Dictionary<int, CardInfo> Cards = new Dictionary<int, CardInfo>();
 
-    class BuildNull : Null
-    {
-        public static int id = 0;
+		public static Dictionary<int, List<CardInfo>> nulled_Cards = new Dictionary<int, List<CardInfo>>();
 
+		public CardInfo NulledCard;
 
-        internal static IEnumerator SetUpPlayerNullCards()
-        {
-            Player[] players = PlayerManager.instance.players.ToArray();
-            players.OrderBy(p => p.playerID);
-            foreach (Player player in players)
-            {
-                id = player.playerID;
-                if (Null.Cards.Keys.Contains(id)) { continue; }
-                else
-                {
-                    CustomCard.BuildCard<BuildNull>(cardInfo =>
-                    {
-                        Null.Cards.Add(id, cardInfo);
-                        cardInfo.GetComponent<Null>().playerID = id;
-                        cardInfo.gameObject.AddComponent<NullCard>();
-                    });
-                    yield return new WaitForSecondsRealtime(0.2f);
-                }
-            }
-            yield break;
+		public int playerID = -1;
+	}
 
-        }
+	internal class NullCard : MonoBehaviour
+	{
+		private void Start()
+		{
+			TextMeshProUGUI[] componentsInChildren = base.gameObject.GetComponentsInChildren<TextMeshProUGUI>();
+			GameObject gameObject = (from obj in componentsInChildren
+									 where obj.gameObject.name == "Text_Name"
+									 select obj).FirstOrDefault<TextMeshProUGUI>().gameObject;
+			this.card = base.GetComponent<CardInfo>();
+			this.statHolder = (from obj in base.gameObject.GetComponentsInChildren<LayoutElement>()
+							   where obj.gameObject.name == "StatObject(Clone)"
+							   select obj).First<LayoutElement>();
+			this.cardName = gameObject.GetComponent<TextMeshProUGUI>();
+			try
+			{
+				this.NulledCard = ModdingUtils.Utils.Cards.instance.GetCardWithName((string)base.gameObject.GetPhotonViewsInChildren()[0].InstantiationData[0]);
+				this.card.sourceCard = Null.Cards[this.card.GetComponent<BuildNull>().playerID];
+			}
+			catch
+			{
+			}
+		}
 
-        public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
-        {
-            base.OnAddCard(player, gun, gunAmmo, data, health, gravity, block, characterStats);
-            if (GetComponent<NulledCardHolder>() == null)
-            {
-                RootCards.instance.StartCoroutine(NulledCardHolder.AttachToPlayer(player, GetComponent<NullCard>().NulledCard));
-                Unbound.Instance.StartCoroutine(DelayedRmove(player, Null.Cards[player.playerID], 40));
-            }
-        }
+		public void Update()
+		{
+			bool flag = this.updated;
+			if (flag)
+			{
+				bool flag2 = this.NulledCard != null;
+				if (flag2)
+				{
+					this.title = this.NulledCard.cardName;
+				}
+				LayoutElement[] array = (from obj in base.gameObject.GetComponentsInChildren<LayoutElement>()
+										 where obj.gameObject.name == "StatObject(Clone)"
+										 select obj).ToArray<LayoutElement>();
+				for (int i = 1; i < array.Length; i++)
+				{
+					Destroy(array[i].gameObject);
+				}
+				this.cardName.text = this.title.ToUpper();
+				this.card.cardStats = Null.GetStatsForPlayer(this.card.GetComponent<BuildNull>().playerID);
+				for (int j = 1; j < this.card.cardStats.Length; j++)
+				{
+					LayoutElement layoutElement = Instantiate<LayoutElement>(this.statHolder);
+					layoutElement.name = "StatObject(Clone)";
+					layoutElement.transform.SetParent(this.statHolder.transform.parent, false);
+					(from obj in layoutElement.gameObject.GetComponentsInChildren<TextMeshProUGUI>()
+					 where obj.gameObject.name == "Stat"
+					 select obj).FirstOrDefault<TextMeshProUGUI>().text = this.card.cardStats[j].stat;
+					(from obj in layoutElement.gameObject.GetComponentsInChildren<TextMeshProUGUI>()
+					 where obj.gameObject.name == "Value"
+					 select obj).FirstOrDefault<TextMeshProUGUI>().text = this.card.cardStats[j].amount;
+				}
+				this.card.GetComponent<BuildNull>().NulledCard = this.NulledCard;
+				this.updated = false;
+			}
+		}
 
-        private static IEnumerator DelayedRmove(Player player, CardInfo card, int frames)
-        {
-            for(int _ = 0; _ < frames; _++)
-                yield return new WaitForEndOfFrame();
-            ModdingUtils.Utils.Cards.instance.RemoveCardFromPlayer(player, card, ModdingUtils.Utils.Cards.SelectionType.Newest, editCardBar: true);
-        }
+		private TextMeshProUGUI description;
 
-        protected override string GetTitle()
-        {
-            return $"[]NULL[{id}]";
-        }
-    }
+		private TextMeshProUGUI cardName;
 
-    class NulledCardHolder : BuildNull
-    {
-        public static string name = "NULL";
+		public CardInfo NulledCard;
 
+		public CardInfo card;
 
-        internal static IEnumerator AttachToPlayer(Player player,CardInfo card)
-        {
-            
-            if(!Null.nulledCards.TryGetValue(card.cardName, out CardInfo nulledCard))
-            {
-                yield return new WaitUntil(() => name == "NULL");
-                name = card.cardName;
-                BuildCard<NulledCardHolder>(cardInfo => {
-                    Null.nulledCards.Add(name, cardInfo);
-                    cardInfo.gameObject.AddComponent<NullCard>().NulledCard = card;
-                    cardInfo.gameObject.AddComponent<NulledCardHolder>().NulledCard = card;
+		public bool updated = true;
 
-                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, cardInfo, false, "", 2f, 2f, true);
-                    name = "NULL";
-                });
+		public string title = "NULL";
 
-            }
-            else
-            {
-                ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, nulledCard, false, "", 2f, 2f, true);
-            }
-            yield break;
+		private LayoutElement statHolder;
 
-        }
+		private NullCard.StatHolder[] stats = new NullCard.StatHolder[0];
 
-        public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
-        {
-            playerID = player.playerID;
-            base.OnAddCard(player, gun, gunAmmo, data, health, gravity, block, characterStats);
-        }
+		private class StatHolder
+		{
+			public TextMeshProUGUI stat;
 
-        protected override CardInfo.Rarity GetRarity()
-        {
-            return ModdingUtils.Utils.Cards.instance.GetCardWithName(name).rarity;
-        }
+			public TextMeshProUGUI value;
+		}
+	}
+	internal class BuildNull : Null
+	{
+		internal static IEnumerator SetUpPlayerNullCards()
+		{
+			Player[] players = PlayerManager.instance.players.ToArray();
+			foreach (Player player in players)
+			{
+				BuildNull.id = player.playerID;
+				bool flag = Null.Cards.Keys.Contains(BuildNull.id);
+				if (!flag)
+				{
+					CustomCard.BuildCard<BuildNull>(delegate (CardInfo cardInfo)
+					{
+						Null.Cards.Add(BuildNull.id, cardInfo);
+						Null.nulled_Cards.Add(BuildNull.id, new List<CardInfo>());
+						cardInfo.GetComponent<Null>().playerID = BuildNull.id;
+						cardInfo.gameObject.AddComponent<NullCard>();
+					});
+					yield return new WaitForSecondsRealtime(0.2f);
+				}
+			}
+			Player[] array = null;
+			yield break;
+		}
 
-        protected override string GetTitle()
-        {
-            return $"[]NULL[{name}]";
-        }
-    }
+		protected override string GetTitle()
+		{
+			return string.Format("[]NULL[{0}]", BuildNull.id);
+		}
 
+		public static int id;
+	}
 }

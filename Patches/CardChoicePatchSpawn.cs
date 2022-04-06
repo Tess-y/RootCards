@@ -25,17 +25,17 @@ namespace RootCards.Patches
             if (__instance.IsPicking)
             {
                 var player = GetPlayerWithID(___pickrID);
-                /*
+                
                 CardInfo[] spawnedCards = ___spawnedCards.Select(obj => obj.GetComponent<CardInfo>().sourceCard).ToArray();
-                int nulls = 0;
+               /* int nulls = 0;
                 foreach(CardInfo card in spawnedCards)
                 {
                     if(card.gameObject.GetComponent<Cards.NullCard>() != null)
                     {
                         nulls++;
                     }
-                }*/
-                RootCards.Debug(nulls);
+                }
+                RootCards.Debug(nulls);*/
                 if (player.data.stats.GetRootData().lockedCard != null)
                 {
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
@@ -47,9 +47,8 @@ namespace RootCards.Patches
                     __state.newCard = player.data.stats.GetRootData().lockedCard;
 #pragma warning restore CS8601 // Possible null reference assignment.
                 }
-                else if (nulls < player.data.stats.GetRootData().nulls)
+                else if (spawnedCards.Length < player.data.stats.GetRootData().nulls)
                 {
-                    nulls++;
                     __state.adjusted = true;
                     __state.newCard = Cards.Null.Cards[player.playerID];
                     __state.nulledCard = objToSpawn.GetComponent<CardInfo>();

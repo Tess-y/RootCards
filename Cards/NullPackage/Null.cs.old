@@ -1,0 +1,379 @@
+﻿/*using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UnboundLib;
+using UnboundLib.Cards;
+using UnityEngine;
+using RootCards.Cards.Util.Authors;
+using RootCards.MonoBehaviours;
+using CardChoiceSpawnUniqueCardPatch.CustomCategories;
+using System.Collections;
+using RootCards.Extensions;
+using TMPro;
+using UnityEngine.UI;
+using HarmonyLib;
+using Photon.Pun;
+
+namespace RootCards.Cards
+{
+    class Null : CustomCard
+    {
+        //public static CardInfo NULLCARD;
+        public static CardCategory NeedsNull = CustomCardCategories.instance.CardCategory("NeedsNull");
+        public static Dictionary<int, CardInfo> Cards = new Dictionary<int, CardInfo>();
+        public static Dictionary<string, CardInfo> nulledCards = new Dictionary<string, CardInfo>();
+        public CardInfo NulledCard;
+        public int playerID = -1;
+        public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
+        {
+            //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
+            cardInfo.categories = new CardCategory[] { CustomCardCategories.instance.CardCategory("NoRandom") };
+            RootCards.Debug($"[{RootCards.ModInitials}][Card] {this.GetComponent<CardInfo>().cardName} has been setup.");
+        }
+        public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
+        {
+            //Edits values on player when card is selected
+            data.maxHealth *= characterStats.GetRootData().nullData.Health_multiplier;
+            characterStats.movementSpeed *= characterStats.GetRootData().nullData.MovmentSpeed_multiplier;
+            characterStats.lifeSteal += characterStats.GetRootData().nullData.Lifesteal;
+            block.cdMultiplier *= characterStats.GetRootData().nullData.block_cdMultiplier;
+            gun.damage *= characterStats.GetRootData().nullData.Damage_multiplier;
+            gun.reflects += characterStats.GetRootData().nullData.gun_Reflects;
+            gunAmmo.maxAmmo += characterStats.GetRootData().nullData.gun_Ammo;
+            Extensions.CharacterStatModifiersExtension.AjustNulls(characterStats, -1);
+            RootCards.Debug($"[{RootCards.ModInitials}][Card] {this.GetComponent<CardInfo>().cardName} has been added to player {player.playerID}.");
+        }
+        public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
+        {
+            //Run when the card is removed from the player
+            Extensions.CharacterStatModifiersExtension.AjustNulls(characterStats, 1);
+            RootCards.Debug($"[{RootCards.ModInitials}][Card] {this.GetComponent<CardInfo>().cardName} has been removed from player {player.playerID}.");
+        }
+
+        protected override string GetTitle()
+        {
+            return "NULL";
+        }
+        protected override string GetDescription()
+        {
+            return "";
+        }
+        protected override GameObject GetCardArt()
+        {
+            return RootCards.ArtAssets.LoadAsset<GameObject>("C_NULL");
+        }
+        protected override CardInfo.Rarity GetRarity()
+        {
+            return CardInfo.Rarity.Common;
+        }
+        protected override CardInfoStat[] GetStats()
+        {
+            return new CardInfoStat[] {
+                new CardInfoStat()
+                {
+                    positive = true,
+                    stat = "Null",
+                    amount = "-1",
+                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
+                }
+            };
+        }
+        protected override CardThemeColor.CardThemeColorType GetTheme()
+        {
+            return CardThemeColor.CardThemeColorType.TechWhite;
+        }
+        public override string GetModName()
+        {
+            return "null";
+        }
+
+        public override bool GetEnabled()
+        {
+            return false;
+        }
+        /*
+        internal static void callback(CardInfo card)
+        {
+            card.gameObject.AddComponent<NullCard>();
+            ModdingUtils.Utils.Cards.instance.AddHiddenCard(card);
+            NULLCARD = card;
+        }*/
+
+        internal static IEnumerator clearNulls()
+        {
+            foreach (Player player in PlayerManager.instance.players.ToArray())
+            {
+                Extensions.CharacterStatModifiersExtension.GetRootData(player.data.stats).nulls = 0;
+                ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(player.data.stats).blacklistedCategories.Add(Null.NeedsNull);
+            }
+            yield break;
+        }
+
+        public static CardInfoStat[] GetStatsForPlayer(int playerID)
+        {
+            NullData nullData = PlayerManager.instance.players.Find(p => p.playerID == playerID).data.stats.GetRootData().nullData;
+            List<CardInfoStat> stats = new List<CardInfoStat>();
+            stats.Add(new CardInfoStat()
+            {
+                positive = true,
+                stat = "Null",
+                amount = "-1",
+                simepleAmount = CardInfoStat.SimpleAmount.notAssigned
+            });
+            if (nullData.Health_multiplier > 1)
+                stats.Add(new CardInfoStat()
+                {
+                    positive = true,
+                    stat = "Health",
+                    amount = $"+{(int)((nullData.Health_multiplier - 1) * 100)}%",
+                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
+                });
+
+            if (nullData.MovmentSpeed_multiplier > 1)
+                stats.Add(new CardInfoStat()
+                {
+                    positive = true,
+                    stat = "Movemet Speed",
+                    amount = $"+{(int)((nullData.MovmentSpeed_multiplier - 1) * 100)}%",
+                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
+                });
+
+            if (nullData.Lifesteal > 0)
+                stats.Add(new CardInfoStat()
+                {
+                    positive = true,
+                    stat = "Lifesteal",
+                    amount = $"+{(int)((nullData.Lifesteal) * 100)}%",
+                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
+                });
+
+            if (nullData.block_cdMultiplier < 1)
+                stats.Add(new CardInfoStat()
+                {
+                    positive = true,
+                    stat = "Block Cooldown",
+                    amount = $"-{(int)((1-nullData.block_cdMultiplier) * 100)}%",
+                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
+                });
+
+            if (nullData.Damage_multiplier > 1)
+                stats.Add(new CardInfoStat()
+                {
+                    positive = true,
+                    stat = "Damage",
+                    amount = $"+{(int)((nullData.Damage_multiplier - 1) * 100)}%",
+                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
+                });
+
+            if (nullData.gun_Reflects > 0)
+                stats.Add(new CardInfoStat()
+                {
+                    positive = true,
+                    stat = "Bounces",
+                    amount = $"+{nullData.gun_Reflects}%",
+                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
+                });
+
+            if (nullData.gun_Ammo > 0)
+                stats.Add(new CardInfoStat()
+                {
+                    positive = true,
+                    stat = "Ammo",
+                    amount = $"+{nullData.gun_Ammo}%",
+                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
+                });
+            return stats.ToArray();
+        }
+
+        internal static GameObject CardArtreanmed()
+        {
+            return null;
+        }
+    }
+
+    internal class NullCard : MonoBehaviour
+    {
+
+        private TextMeshProUGUI description;
+        private TextMeshProUGUI cardName;
+        public CardInfo NulledCard;
+        public CardInfo card;
+        public bool updated = true;
+        public string title = "NULL";
+        LayoutElement statHolder;
+
+
+        private StatHolder[] stats = new StatHolder[] { };
+        private class StatHolder
+        {
+            public TextMeshProUGUI stat;
+            public TextMeshProUGUI value;
+        }
+
+        private void Start()
+        {
+            TextMeshProUGUI[] allChildrenRecursive = this.gameObject.GetComponentsInChildren<TextMeshProUGUI>();
+            //GameObject effectText = allChildrenRecursive.Where(obj => obj.gameObject.name == "EffectText").FirstOrDefault().gameObject;
+            GameObject titleText = allChildrenRecursive.Where(obj => obj.gameObject.name == "Text_Name").FirstOrDefault().gameObject;
+            card = this.GetComponent<CardInfo>();
+
+            statHolder = this.gameObject.GetComponentsInChildren<LayoutElement>().Where(obj => obj.gameObject.name == "StatObject(Clone)").First();
+
+            //this.description = effectText.GetComponent<TextMeshProUGUI>();
+            this.cardName = titleText.GetComponent<TextMeshProUGUI>();
+            if (GetComponent<NulledCardHolder>() != null) return;
+            try
+            {
+                NulledCard = ModdingUtils.Utils.Cards.instance.GetCardWithName((string)gameObject.GetPhotonViewsInChildren()[0].InstantiationData[0]);
+                card.sourceCard = Null.Cards[card.GetComponent<BuildNull>().playerID];
+            }
+            catch { }
+        }
+        public void Update()
+        {
+            if (updated)
+            {
+                if (NulledCard != null) title = NulledCard.cardName;
+                var statHolders = this.gameObject.GetComponentsInChildren<LayoutElement>().Where(obj => obj.gameObject.name == "StatObject(Clone)").ToArray();
+                for (int i = 1; i < statHolders.Length; i++)
+                {
+                    Destroy(statHolders[i].gameObject);
+                }
+                cardName.text = title.ToUpper();
+                card.cardStats = Null.GetStatsForPlayer(card.GetComponent<NulledCardHolder>() == null? card.GetComponent<BuildNull>().playerID : card.GetComponent<NulledCardHolder>().playerID);
+                for (int i = 1; i < card.cardStats.Length; i++)
+                {
+                    var item = Instantiate(statHolder);
+                    item.name = "StatObject(Clone)";
+                    item.transform.SetParent(statHolder.transform.parent, false);
+                    item.gameObject.GetComponentsInChildren<TextMeshProUGUI>().Where(obj => obj.gameObject.name == "Stat").FirstOrDefault().text = card.cardStats[i].stat;
+                    item.gameObject.GetComponentsInChildren<TextMeshProUGUI>().Where(obj => obj.gameObject.name == "Value").FirstOrDefault().text = card.cardStats[i].amount;
+                }
+                if(card.GetComponent<NulledCardHolder>() == null)
+                    card.GetComponent<BuildNull>().NulledCard = NulledCard;
+                else
+                    card.GetComponent<NulledCardHolder>().NulledCard = NulledCard;
+
+                if(NulledCard.cardArt != null)
+                {
+                    Image[] images = this.gameObject.GetComponentsInChildren<Image>();
+                    Transform art = null;
+                    foreach (Image image in images)
+                    {
+                        if (image.gameObject.name.Contains("Art"))
+                        {
+                            art = image.gameObject.transform;
+                            break;
+                        }
+                    }
+                    RootCards.Debug(art);
+                    GameObject.Instantiate(NulledCard.cardArt, art).transform.localScale = new Vector3(1f, 1f, 1f);
+                    GameObject.Instantiate(Null.CardArtreanmed(), art).transform.localScale = new Vector3(1f, 1f, 1f);
+
+                }
+                updated = false;
+            }
+        }
+    }
+
+    class BuildNull : Null
+    {
+        public static int id = 0;
+
+
+        internal static IEnumerator SetUpPlayerNullCards()
+        {
+            Player[] players = PlayerManager.instance.players.ToArray();
+            players.OrderBy(p => p.playerID);
+            foreach (Player player in players)
+            {
+                id = player.playerID;
+                if (Null.Cards.Keys.Contains(id)) { continue; }
+                else
+                {
+                    CustomCard.BuildCard<BuildNull>(cardInfo =>
+                    {
+                        Null.Cards.Add(id, cardInfo);
+                        cardInfo.GetComponent<Null>().playerID = id;
+                        cardInfo.gameObject.AddComponent<NullCard>();
+                    });
+                    yield return new WaitForSecondsRealtime(0.2f);
+                }
+            }
+            yield break;
+
+        }
+
+        public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
+        {
+            base.OnAddCard(player, gun, gunAmmo, data, health, gravity, block, characterStats);
+            if (GetComponent<NulledCardHolder>() == null)
+            {
+                RootCards.instance.StartCoroutine(NulledCardHolder.AttachToPlayer(player, GetComponent<NullCard>().NulledCard));
+                Unbound.Instance.StartCoroutine(DelayedRmove(player, Null.Cards[player.playerID], 40));
+            }
+        }
+
+        private static IEnumerator DelayedRmove(Player player, CardInfo card, int frames)
+        {
+            for(int _ = 0; _ < frames; _++)
+                yield return new WaitForEndOfFrame();
+            ModdingUtils.Utils.Cards.instance.RemoveCardFromPlayer(player, card, ModdingUtils.Utils.Cards.SelectionType.Newest, editCardBar: true);
+        }
+
+        protected override string GetTitle()
+        {
+            return $"[]NULL[{id}]";
+        }
+    }
+
+    class NulledCardHolder : BuildNull
+    {
+        public static string name = "NULL";
+
+
+        internal static IEnumerator AttachToPlayer(Player player,CardInfo card)
+        {
+            
+            if(!Null.nulledCards.TryGetValue(card.cardName, out CardInfo nulledCard))
+            {
+                yield return new WaitUntil(() => name == "NULL");
+                name = card.cardName;
+                BuildCard<NulledCardHolder>(cardInfo => {
+                    Null.nulledCards.Add(name, cardInfo);
+                    cardInfo.gameObject.AddComponent<NullCard>().NulledCard = card;
+                    cardInfo.gameObject.AddComponent<NulledCardHolder>().NulledCard = card;
+
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, cardInfo, false, "", 2f, 2f, true);
+                    name = "NULL";
+                });
+
+            }
+            else
+            {
+                ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, nulledCard, false, "", 2f, 2f, true);
+            }
+            yield break;
+
+        }
+
+        public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
+        {
+            playerID = player.playerID;
+            base.OnAddCard(player, gun, gunAmmo, data, health, gravity, block, characterStats);
+        }
+
+        protected override CardInfo.Rarity GetRarity()
+        {
+            return ModdingUtils.Utils.Cards.instance.GetCardWithName(name).rarity;
+        }
+
+        protected override string GetTitle()
+        {
+            return $"[]NULL[{name}]";
+        }
+    }
+
+}*/
