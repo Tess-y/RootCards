@@ -32,7 +32,7 @@ namespace RootCards
         public static ConfigEntry<bool> DEBUG;
         private const string ModId = "com.Root.Cards";
         private const string ModName = "RootCards";
-        public const string Version = "0.6.3"; // What version are we On (major.minor.patch)?
+        public const string Version = "0.7.0"; // What version are we On (major.minor.patch)?
         internal static AssetBundle ArtAssets;
         //private static readonly AssetBundle Bundle = Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("rootassets", typeof(RootCards).Assembly);
         public const string ModInitials = "Root"; 
@@ -80,7 +80,7 @@ namespace RootCards
 
             CustomCard.BuildCard<Null>(Null.callback);
             CustomCard.BuildCard<DistillKnowledge>(DistillKnowledge.callback);
-            CustomCard.BuildCard<DistillAcquisition>(DistillAcquisition.callback);
+            //CustomCard.BuildCard<DistillAcquisition>(DistillAcquisition.callback);
             CustomCard.BuildCard<DistillPower>(DistillPower.callback);
             //CustomCard.BuildCard<ReforgeSoul>(ReforgeSoul.callback);
             CustomCard.BuildCard<ReforgeVitality>(ReforgeVitality.callback);

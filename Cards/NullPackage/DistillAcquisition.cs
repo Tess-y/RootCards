@@ -31,8 +31,10 @@ namespace RootCards.Cards
             {
                 foreach(var card in cards)
                 {
-                    if(card.name.ToLower() != this.GetTitle().ToLower())
+                    RootCards.Debug(card.GetComponent<CardInfo>().cardName);
+                    if (card.GetComponent<CardInfo>().cardName.ToLower() != this.GetTitle().ToLower())
                     {
+                        RootCards.Debug("adding");
                         ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, card.GetComponent<CardInfo>(), addToCardBar: true);
                     }
                 }
