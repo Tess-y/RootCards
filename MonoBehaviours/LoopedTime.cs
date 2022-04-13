@@ -124,6 +124,7 @@ namespace RootCards.MonoBehaviours
                     pentagram = Instantiate(RootCards.ArtAssets.LoadAsset<GameObject>("PENTA"), playerPos, Quaternion.identity);
                     pentagram.GetOrAddComponent<Canvas>().sortingOrder = 10000;
                     pentagram.transform.localScale = Vector3.one * 0.1f;
+                    GameModeManager.TriggerHook("TimeLoop-" + player.playerID + "-Save");
                 }
                 else if (timer <= 5)
                 {
@@ -168,7 +169,7 @@ namespace RootCards.MonoBehaviours
                     /*
                     gunAmmo.GetType().GetField("currentAmmo", System.Reflection.BindingFlags.NonPublic
     | System.Reflection.BindingFlags.Instance).SetValue(gunAmmo,playerAmmo);*/
-
+                    GameModeManager.TriggerHook("TimeLoop-" + player.playerID + "-Load");
                     Destroy(pentagram);
                 } 
             }
