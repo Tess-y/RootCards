@@ -23,8 +23,8 @@ namespace RootCards.Cards
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            int nullcount = data.currentCards.FindAll(c => c == Null.Cards[player.playerID]).Count;
-            gun.reflects = nullcount;
+            int nullcount = data.currentCards.FindAll(c => c == Null.NULLCARD).Count;
+            gun.reflects += nullcount;
             characterStats.GetRootData().nullData.gun_Reflects += 1;
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
         } 

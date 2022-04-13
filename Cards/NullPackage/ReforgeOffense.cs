@@ -23,7 +23,7 @@ namespace RootCards.Cards
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            int nullcount = data.currentCards.FindAll(c => c == Null.Cards[player.playerID]).Count;
+            int nullcount = data.currentCards.FindAll(c => c == Null.NULLCARD).Count;
             gun.damage *= Mathf.Pow(1.1f, nullcount);
             gunAmmo.maxAmmo += nullcount;
             characterStats.GetRootData().nullData.Damage_multiplier *= 1.1f;

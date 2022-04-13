@@ -78,7 +78,7 @@ namespace RootCards
             //CustomCard.BuildCard<Drilling_Ammo_Card>(Drilling_Ammo_Card.callback);
 
 
-            //CustomCard.BuildCard<Null>(Null.callback);
+            CustomCard.BuildCard<Null>(Null.callback);
             CustomCard.BuildCard<DistillKnowledge>(DistillKnowledge.callback);
             CustomCard.BuildCard<DistillAcquisition>(DistillAcquisition.callback);
             CustomCard.BuildCard<DistillPower>(DistillPower.callback);
@@ -103,7 +103,6 @@ namespace RootCards
             GameModeManager.AddHook(GameModeHooks.HookPickEnd, (gm) => Genie.WaitTillShopDone());
             GameModeManager.AddHook(GameModeHooks.HookGameStart, (gm) => Genie.RestCardLock());
             GameModeManager.AddHook(GameModeHooks.HookGameStart, (gm) => Null.clearNulls());
-            GameModeManager.AddHook(GameModeHooks.HookGameStart, (gm) => BuildNull.SetUpPlayerNullCards());
             GameModeManager.AddHook(GameModeHooks.HookPlayerPickEnd, (gm) => DistillKnowledge.ExtraPicks());
             GameModeManager.AddHook(GameModeHooks.HookPlayerPickStart, (gm) => CardChoicePatchSpawn.resetNull());
 

@@ -28,11 +28,12 @@ namespace RootCards.Cards
         public static Shop Genie_Shop;
         public static string ShopID = "Root_Genie_Shop";
         public static Dictionary<String, int> wishes = new Dictionary<String, int>();
+        public static CardCategory GenieCategory = CustomCardCategories.instance.CardCategory("GenieCard");
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
             cardInfo.GetAdditionalData().canBeReassigned = false;
-            cardInfo.categories = new CardCategory[] { CustomCardCategories.instance.CardCategory("NoRandom") };
+            cardInfo.categories = new CardCategory[] { CustomCardCategories.instance.CardCategory("NoRandom"), GenieCategory };
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been setup.");
         } 
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
@@ -134,6 +135,7 @@ namespace RootCards.Cards
             float time = 120;
             PlayerManager.instance.players.ForEach(p =>
             {
+                ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(p.data.stats).blacklistedCategories.Add(GenieCategory);
                 if (p.GetAdditionalData().bankAccount.HasFunds(wishes)){ Genie_Shop.Show(p); done = false; }
             });
 
@@ -175,6 +177,11 @@ namespace RootCards.Cards
             }
             Destroy(gameObject);
             Destroy(timer);
+            PlayerManager.instance.players.ForEach(p =>
+            {
+                ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(p.data.stats).blacklistedCategories.Remove(GenieCategory);
+                if (p.GetAdditionalData().bankAccount.HasFunds(wishes)) { Genie_Shop.Show(p); done = false; }
+            });
         }
 
         internal static IEnumerator RestCardLock()

@@ -33,7 +33,7 @@ namespace RootCards.Cards
                 {
                     if(card.name.ToLower() != this.GetTitle().ToLower())
                     {
-                        CardChoice.instance.Pick(card);
+                        ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, card.GetComponent<CardInfo>(), addToCardBar: true);
                     }
                 }
                 Extensions.CharacterStatModifiersExtension.AjustNulls(characterStats, (int)((cards.Count+1) / 2));

@@ -120,6 +120,7 @@ namespace RootCards.Cards
 
 		public static CardInfoStat[] GetStatsForPlayer(int playerID)
 		{
+			if(playerID < 0) return new CardInfoStat[0];
 			NullData nullData = PlayerManager.instance.players.Find(p => p.playerID == playerID).data.stats.GetRootData().nullData;
 			List<CardInfoStat> stats = new List<CardInfoStat>();
 			stats.Add(new CardInfoStat()
@@ -198,13 +199,9 @@ namespace RootCards.Cards
 
 		public static CardCategory NeedsNull = CustomCardCategories.instance.CardCategory("NeedsNull");
 
-		public static Dictionary<int, CardInfo> Cards = new Dictionary<int, CardInfo>();
-
-		public static Dictionary<int, List<CardInfo>> nulled_Cards = new Dictionary<int, List<CardInfo>>();
+		public static List<CardInfo> nulled_Cards = new List<CardInfo>();
 
 		public CardInfo NulledCard;
-
-		public int playerID = -1;
 	}
 
 	internal class NullCard : MonoBehaviour
@@ -223,7 +220,8 @@ namespace RootCards.Cards
 			try
 			{
 				this.NulledCard = ModdingUtils.Utils.Cards.instance.GetCardWithName((string)base.gameObject.GetPhotonViewsInChildren()[0].InstantiationData[0]);
-				this.card.sourceCard = Null.Cards[this.card.GetComponent<BuildNull>().playerID];
+				this.playerID = (int)base.gameObject.GetPhotonViewsInChildren()[0].InstantiationData[1];
+				this.card.sourceCard = Null.NULLCARD;
 			}
 			catch
 			{
@@ -248,7 +246,7 @@ namespace RootCards.Cards
 					Destroy(array[i].gameObject);
 				}
 				this.cardName.text = this.title.ToUpper();
-				this.card.cardStats = Null.GetStatsForPlayer(this.card.GetComponent<BuildNull>().playerID);
+				this.card.cardStats = Null.GetStatsForPlayer(playerID);
 				for (int j = 1; j < this.card.cardStats.Length; j++)
 				{
 					LayoutElement layoutElement = Instantiate<LayoutElement>(this.statHolder);
@@ -261,7 +259,7 @@ namespace RootCards.Cards
 					 where obj.gameObject.name == "Value"
 					 select obj).FirstOrDefault<TextMeshProUGUI>().text = this.card.cardStats[j].amount;
 				}
-				this.card.GetComponent<BuildNull>().NulledCard = this.NulledCard;
+				this.card.GetComponent<Null>().NulledCard = this.NulledCard;
 				this.updated = false;
 			}
 		}
@@ -273,6 +271,8 @@ namespace RootCards.Cards
 		public CardInfo NulledCard;
 
 		public CardInfo card;
+
+		public int playerID = -1;
 
 		public bool updated = true;
 
@@ -289,36 +289,45 @@ namespace RootCards.Cards
 			public TextMeshProUGUI value;
 		}
 	}
-	internal class BuildNull : Null
+
+	[HarmonyPatch(typeof(CardBarButton), "OnPointerEnter")]
+	[Serializable]
+	internal class CardBarButtonPatchOnPointerEnter
 	{
-		internal static IEnumerator SetUpPlayerNullCards()
+		// Token: 0x060000B7 RID: 183 RVA: 0x000047C8 File Offset: 0x000029C8
+		private static void Postfix(CardBarButton __instance)
 		{
-			Player[] players = PlayerManager.instance.players.ToArray();
-			foreach (Player player in players)
+			bool flag = ((CardInfo)__instance.GetFieldValue("card")).cardName.ToLower() == Null.NULLCARD.cardName.ToLower();
+			if (flag)
 			{
-				BuildNull.id = player.playerID;
-				bool flag = Null.Cards.Keys.Contains(BuildNull.id);
-				if (!flag)
+				int num = __instance.gameObject.transform.GetSiblingIndex() - 1;
+				int num2 = Array.IndexOf<CardBar>((CardBar[])CardBarHandler.instance.GetFieldValue("cardBars"), __instance.gameObject.transform.parent.GetComponent<CardBar>());
+				Player player = null;
+				foreach (Player player2 in PlayerManager.instance.players)
 				{
-					CustomCard.BuildCard<BuildNull>(delegate (CardInfo cardInfo)
+					bool flag2 = player2.playerID == num2;
+					if (flag2)
 					{
-						Null.Cards.Add(BuildNull.id, cardInfo);
-						Null.nulled_Cards.Add(BuildNull.id, new List<CardInfo>());
-						cardInfo.GetComponent<Null>().playerID = BuildNull.id;
-						cardInfo.gameObject.AddComponent<NullCard>();
-					});
-					yield return new WaitForSecondsRealtime(0.2f);
+						player = player2;
+						break;
+					}
+				}
+				bool flag3 = player == null;
+				if (!flag3)
+				{
+					bool flag4 = (GameObject)__instance.GetComponentInParent<CardBar>().GetFieldValue("currentCard") == null;
+					if (!flag4)
+					{
+						NullCard component = ((GameObject)__instance.GetComponentInParent<CardBar>().GetFieldValue("currentCard")).GetOrAddComponent<NullCard>();
+						bool flag5 = component == null;
+						if (!flag5)
+						{
+							component.playerID = player.playerID;
+						}
+					}
 				}
 			}
-			Player[] array = null;
-			yield break;
 		}
-
-		protected override string GetTitle()
-		{
-			return string.Format("[]NULL[{0}]", BuildNull.id);
-		}
-
-		public static int id;
 	}
+
 }

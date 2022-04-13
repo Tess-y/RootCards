@@ -84,12 +84,15 @@ namespace RootCards.Cards
             {
                 if (Extensions.CharacterStatModifiersExtension.GetRootData(player.data.stats).knowledge)
                 {
-                    
-                    if (player.data.currentCards.Last().GetComponent<NullCard>() != null)
+                    try
                     {
-                        Extensions.CharacterStatModifiersExtension.GetRootData(player.data.stats).knowledge = false;
-                        yield break;
+                        if (player.data.currentCards.Last().GetComponent<NullCard>() != null)
+                        {
+                            Extensions.CharacterStatModifiersExtension.GetRootData(player.data.stats).knowledge = false;
+                            yield break;
+                        }
                     }
+                    catch { }
                     Extensions.CharacterStatModifiersExtension.AjustNulls(player.data.stats, 2);
                     yield return GameModeManager.TriggerHook(GameModeHooks.HookPlayerPickStart);
                     CardChoiceVisuals.instance.Show(Enumerable.Range(0, PlayerManager.instance.players.Count).Where(i => PlayerManager.instance.players[i].playerID == player.playerID).First(), true);

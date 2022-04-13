@@ -57,7 +57,7 @@ namespace RootCards.MonoBehaviours
 
         public void Start()
         {
-            GameModeManager.AddHook(GameModeHooks.HookPointStart, Reset);
+            GameModeManager.AddHook(GameModeHooks.HookPointEnd, Reset);
             GameModeManager.AddHook(GameModeHooks.HookPointStart, Enable);
         }
         private IEnumerator Enable(IGameModeHandler gm)

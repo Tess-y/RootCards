@@ -50,11 +50,11 @@ namespace RootCards.Patches
                 else if (spawnedCards.Length < player.data.stats.GetRootData().nulls)
                 {
                     __state.adjusted = true;
-                    __state.newCard = Cards.Null.Cards[player.playerID];
+                    __state.newCard = Cards.Null.NULLCARD;
                     __state.nulledCard = objToSpawn.GetComponent<CardInfo>();
                     objToSpawn = __state.newCard.gameObject;
                     objToSpawn.GetComponent<CardInfo>().cardName = __state.newCard.cardName;
-                    __result = PhotonNetwork.Instantiate(objToSpawn.name, pos, rot, 0, new object[] { __state.nulledCard.cardName });
+                    __result = PhotonNetwork.Instantiate(objToSpawn.name, pos, rot, 0, new object[] { __state.nulledCard.cardName, player.playerID });
                     return false;
                 }
             }
