@@ -21,7 +21,7 @@ namespace RootCards.Cards
             statModifiers.movementSpeed = 0.9f;
             statModifiers.jump = 0.9f;
             gun.reloadTime = 1.1f;
-            cardInfo.categories = new CardCategory[] { CustomCardCategories.instance.CardCategory("NoRandom"), CustomCardCategories.instance.CardCategory("GenieCard") };
+            cardInfo.categories = new CardCategory[] { CustomCardCategories.instance.CardCategory("NoRandom"), Genie.GenieOutcomeCategory };
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been setup.");
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)

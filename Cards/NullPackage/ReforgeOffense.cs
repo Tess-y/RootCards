@@ -42,7 +42,7 @@ namespace RootCards.Cards
         }
         protected override string GetDescription()
         {
-            return "Null cards you have now provide +1 bullet and +10% damgage.";
+            return "Null cards you have now provide +1 bullet and +10% damage.";
         }
         protected override GameObject GetCardArt()
         {

@@ -29,6 +29,7 @@ namespace RootCards.Cards
         public static string ShopID = "Root_Genie_Shop";
         public static Dictionary<String, int> wishes = new Dictionary<String, int>();
         public static CardCategory GenieCategory = CustomCardCategories.instance.CardCategory("GenieCard");
+        public static CardCategory GenieOutcomeCategory = CustomCardCategories.instance.CardCategory("GenieOutcome");
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
@@ -111,6 +112,11 @@ namespace RootCards.Cards
             Genie_Shop.UpdateTitle("Be Carful What You Wish For");
             yield return new WaitForSecondsRealtime(0.2f);
             RootCards.instance.StartCoroutine(SetUpShop());
+
+            PlayerManager.instance.players.ForEach(p =>
+            {
+                ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(p.data.stats).blacklistedCategories.Add(GenieOutcomeCategory);
+            });
             yield break;
         }
 

@@ -17,6 +17,7 @@ using HarmonyLib;
 using Photon.Pun;
 using UnboundLib.Utils;
 using System.Collections.ObjectModel;
+using RootCards.Cards.Utill;
 
 namespace RootCards.Cards
 {
@@ -29,7 +30,7 @@ namespace RootCards.Cards
 		{
 			cardInfo.categories = new CardCategory[]
 			{
-				CustomCardCategories.instance.CardCategory("NoRandom")
+				CustomCardCategories.instance.CardCategory("NoRandom"), CustomCardCategories.instance.CardCategory("nullCard")
 			};
 			RootCards.Debug("[Root][Card] " + this.GetTitle() + " has been setup.");
 		}
@@ -45,17 +46,19 @@ namespace RootCards.Cards
 			gunAmmo.maxAmmo += characterStats.GetRootData().nullData.gun_Ammo;
 			characterStats.AjustNulls(-1);
 			RootCards.Debug(string.Format("[{0}][Card] {1} has been added to player {2}.", "Root", this.GetTitle(), player.playerID));
+			NullManager.RegisterNull(player.playerID, NulledCard);
 		}
 
 		public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
 		{
 			characterStats.AjustNulls(1);
+			NullManager.RemoveNull(player.playerID, NulledCard);
 			RootCards.Debug(string.Format("[{0}][Card] {1} has been removed from player {2}.", "Root", this.GetTitle(), player.playerID));
 		}
 
 		protected override string GetTitle()
 		{
-			return "NULL";
+			return "[]NULL";
 		}
 
 		protected override string GetDescription()
@@ -201,7 +204,7 @@ namespace RootCards.Cards
 
 		public static List<CardInfo> nulled_Cards = new List<CardInfo>();
 
-		public CardInfo NulledCard;
+		public CardInfo NulledCard = null;
 	}
 
 	internal class NullCard : MonoBehaviour
@@ -230,15 +233,13 @@ namespace RootCards.Cards
 
 		public void Update()
 		{
-			bool flag = this.updated;
-			if (flag)
-			{
-				bool flag2 = this.NulledCard != null;
-				if (flag2)
-				{
-					this.title = this.NulledCard.cardName;
-				}
-				LayoutElement[] array = (from obj in base.gameObject.GetComponentsInChildren<LayoutElement>()
+			if (this.updated)
+            {
+                if (this.NulledCard != null)
+                {
+                    this.title = this.NulledCard.cardName;
+                }
+                LayoutElement[] array = (from obj in base.gameObject.GetComponentsInChildren<LayoutElement>()
 										 where obj.gameObject.name == "StatObject(Clone)"
 										 select obj).ToArray<LayoutElement>();
 				for (int i = 1; i < array.Length; i++)
@@ -297,32 +298,28 @@ namespace RootCards.Cards
 		// Token: 0x060000B7 RID: 183 RVA: 0x000047C8 File Offset: 0x000029C8
 		private static void Postfix(CardBarButton __instance)
 		{
-			bool flag = ((CardInfo)__instance.GetFieldValue("card")).cardName.ToLower() == Null.NULLCARD.cardName.ToLower();
-			if (flag)
+			if (((CardInfo)__instance.GetFieldValue("card")).cardName.ToLower() == Null.NULLCARD.cardName.ToLower())
 			{
 				int num = __instance.gameObject.transform.GetSiblingIndex() - 1;
 				int num2 = Array.IndexOf<CardBar>((CardBar[])CardBarHandler.instance.GetFieldValue("cardBars"), __instance.gameObject.transform.parent.GetComponent<CardBar>());
 				Player player = null;
 				foreach (Player player2 in PlayerManager.instance.players)
 				{
-					bool flag2 = player2.playerID == num2;
-					if (flag2)
+					if (player2.playerID == num2)
 					{
 						player = player2;
 						break;
 					}
 				}
-				bool flag3 = player == null;
-				if (!flag3)
+				if (player != null)
 				{
-					bool flag4 = (GameObject)__instance.GetComponentInParent<CardBar>().GetFieldValue("currentCard") == null;
-					if (!flag4)
+					if ((GameObject)__instance.GetComponentInParent<CardBar>().GetFieldValue("currentCard") != null)
 					{
 						NullCard component = ((GameObject)__instance.GetComponentInParent<CardBar>().GetFieldValue("currentCard")).GetOrAddComponent<NullCard>();
-						bool flag5 = component == null;
-						if (!flag5)
+						if (component != null)
 						{
 							component.playerID = player.playerID;
+							component.NulledCard = NullManager.GetNulledForPlayer(player.playerID,num);
 						}
 					}
 				}
