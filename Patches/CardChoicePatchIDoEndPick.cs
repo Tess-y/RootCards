@@ -18,7 +18,7 @@ namespace RootCards.Patches
     {
         public static void Prefix(CardChoice __instance, ref List<GameObject> ___spawnedCards, ref GameObject pickedCard, ref float ___speed)
         {
-            if (pickedCard == null || pickedCard.GetComponent<CardInfo>().cardName.ToLower() != "Distill Acquisition".ToLower()) return;
+            if (pickedCard == null || !(pickedCard.GetComponent<CardInfo>().cardName.ToLower() == "Distill Acquisition".ToLower() && pickedCard.GetComponent<DistillAcquisition>() != null)) return;
             for (int i = 0; i < ___spawnedCards.Count; i++)
             {
                 if ((bool)___spawnedCards[i])
