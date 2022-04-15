@@ -38,10 +38,13 @@ A card pack for Rounds
 
 ## Change log:
 
+##### 0.7.1
+- fixed some bugs with null cards
+
 ##### 0.7.0
 - fixed "infinite" wishes exploit with Genie and some other modded cards
 - fixed a bug with Time Loop not resting stored postions inbetween points/rounds
-- fixed a LOT of bugs with the null cards
+- fixed a LOT of bugs with the null cards 
 
 ##### 0.6.3
 - Minor bug fixes
