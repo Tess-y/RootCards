@@ -10,6 +10,7 @@ using RootCards.Cards.Util.Authors;
 using RootCards.MonoBehaviours;
 using RootCards.Extensions;
 using ModdingUtils.Extensions;
+using RootCards.Cards.Utill;
 
 namespace RootCards.Cards
 {
@@ -31,14 +32,15 @@ namespace RootCards.Cards
                      List<int> nulls = new List<int>();
                      List<CardInfo> nulleds = new List<CardInfo>();
                      for (int i = 0; i< cards.Count; i++)
-                     {/*
-                         if (cards[i].GetComponent<NulledCardHolder>() != null)
+                     {
+                         if (cards[i].GetComponent<Null>() != null)
                          {
                              nulls.Add(i);
-                             nulleds.Add(cards[i].GetComponent<NullCard>().NulledCard);
-                         }*/
+                             nulleds.Add(NullManager.GetNulledForPlayer(player.playerID,i));
+                         }
                      }
                      Unbound.Instance.StartCoroutine(ModdingUtils.Utils.Cards.instance.ReplaceCards(player, nulls.ToArray(), nulleds.ToArray(), editCardBar: true));
+                     characterStats.AjustNulls(-nulls.Count);
                  });
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
         } 
@@ -68,13 +70,6 @@ namespace RootCards.Cards
         {
             return new CardInfoStat[]
             {
-                new CardInfoStat()
-                {
-                    positive = false,
-                    stat = "Nulls",
-                    amount = "+X",
-                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
-                }
             };
         }
         protected override CardThemeColor.CardThemeColorType GetTheme()

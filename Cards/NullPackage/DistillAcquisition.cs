@@ -14,32 +14,15 @@ namespace RootCards.Cards
 {
     class DistillAcquisition : CustomCard
     {
-        private List<GameObject> cards;
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
-            cards = null;
-            try { cards = (List<GameObject>)CardChoice.instance.GetFieldValue("spawnedCards"); } catch { }
-            cardInfo.GetAdditionalData().canBeReassigned = false;
             cardInfo.categories = new CardCategory[] { CardChoiceSpawnUniqueCardPatch.CustomCategories.CustomCardCategories.instance.CardCategory("CardManipulation") };
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been setup.");
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            if(cards != null)
-            {
-                foreach(var card in cards)
-                {
-                    RootCards.Debug(card.GetComponent<CardInfo>().cardName);
-                    if (card.GetComponent<CardInfo>().cardName.ToLower() != this.GetTitle().ToLower())
-                    {
-                        RootCards.Debug("adding");
-                        ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, card.GetComponent<CardInfo>(), addToCardBar: true);
-                    }
-                }
-                Extensions.CharacterStatModifiersExtension.AjustNulls(characterStats, (int)((cards.Count+1) / 2));
-            }
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
         } 
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)

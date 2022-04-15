@@ -80,14 +80,14 @@ namespace RootCards
 
             CustomCard.BuildCard<Null>(Null.callback);
             CustomCard.BuildCard<DistillKnowledge>(DistillKnowledge.callback);
-            //CustomCard.BuildCard<DistillAcquisition>(DistillAcquisition.callback);
+            CustomCard.BuildCard<DistillAcquisition>(DistillAcquisition.callback);
             CustomCard.BuildCard<DistillPower>(DistillPower.callback);
             //CustomCard.BuildCard<ReforgeSoul>(ReforgeSoul.callback);
             CustomCard.BuildCard<ReforgeVitality>(ReforgeVitality.callback);
             CustomCard.BuildCard<ReforgeOffense>(ReforgeOffense.callback);
             CustomCard.BuildCard<ReforgeDefence>(ReforgeDefence.callback);
             CustomCard.BuildCard<ReforgeReflection>(ReforgeReflection.callback);
-            //CustomCard.BuildCard<ReforgeIntegraty>(ReforgeIntegraty.callback);
+            CustomCard.BuildCard<ReforgeIntegraty>(ReforgeIntegraty.callback);
 
             ///Genie Outcomes/
 
