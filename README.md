@@ -38,6 +38,9 @@ A card pack for Rounds
 
 ## Change log:
 
+##### 0.7.2
+- forgot some If statements
+
 ##### 0.7.1
 - fixed some bugs with null cards
 

@@ -25,11 +25,13 @@ namespace RootCards.Patches
                 {
                     if (___spawnedCards[i].gameObject != pickedCard)
                     {
-                        __instance.StartCoroutine(GrabCard(___spawnedCards[i], ___speed, __instance));
+                        if (PlayerManager.instance.players.Find(p => p.playerID == __instance.pickrID).data.view.IsMine)
+                            __instance.StartCoroutine(GrabCard(___spawnedCards[i], ___speed, __instance));
                     }
                 }
             }
-            NetworkingManager.RPC(typeof(CardChoicePatchIDoEndPick), nameof(GiveNulls), __instance.pickrID, (___spawnedCards.Count + 1) / 2);
+            if (PlayerManager.instance.players.Find(p => p.playerID == __instance.pickrID).data.view.IsMine)
+                NetworkingManager.RPC(typeof(CardChoicePatchIDoEndPick), nameof(GiveNulls), __instance.pickrID, (___spawnedCards.Count + 1) / 2);
             ___spawnedCards.Clear();
             ___spawnedCards.Add(pickedCard);
         }
