@@ -13,8 +13,8 @@ namespace RootCards.Cards.Utill
 {
     public class NullManager
     {
-        private static Dictionary<int, List<CardInfo>> NulledLibrary = new Dictionary<int, List<CardInfo>>();
-        private static Dictionary<int, List<CardInfo>> RemovedNulledLibrary = new Dictionary<int, List<CardInfo>>();
+        internal static Dictionary<int, List<CardInfo>> NulledLibrary = new Dictionary<int, List<CardInfo>>();
+        internal static Dictionary<int, List<CardInfo>> RemovedNulledLibrary = new Dictionary<int, List<CardInfo>>();
 
         public static IEnumerator ResetLibrary()
         {
