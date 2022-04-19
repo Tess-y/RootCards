@@ -27,15 +27,6 @@ namespace RootCards.Patches
                 var player = GetPlayerWithID(___pickrID);
                 
                 CardInfo[] spawnedCards = ___spawnedCards.Select(obj => obj.GetComponent<CardInfo>().sourceCard).ToArray();
-               /* int nulls = 0;
-                foreach(CardInfo card in spawnedCards)
-                {
-                    if(card.gameObject.GetComponent<Cards.NullCard>() != null)
-                    {
-                        nulls++;
-                    }
-                }
-                RootCards.Debug(nulls);*/
                 if (player.data.stats.GetRootData().lockedCard != null)
                 {
 #pragma warning disable CS8602 // Dereference of a possibly null reference.

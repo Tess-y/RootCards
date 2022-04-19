@@ -14,6 +14,7 @@ using TMPro;
 using UnboundLib.Utils.UI;
 using ItemShops.Utils;
 using UnityEngine.UI;
+using RootCards.Cards.Utill;
 
 namespace RootCards
 {
@@ -65,7 +66,7 @@ namespace RootCards
             CustomCard.BuildCard<JohsonsIngenuity>(JohsonsIngenuity.callback);
             CustomCard.BuildCard<UsedAmmo>(UsedAmmo.callback);
             CustomCard.BuildCard<LilithsDeal>(LilithsDeal.callback);
-            //CustomCard.BuildCard<FrozenPotato>(FrozenPotato.callback); card is currently bugged.
+            CustomCard.BuildCard<FrozenPotato>(FrozenPotato.callback);// card is currently bugged.
             CustomCard.BuildCard<OneHitWonder>(OneHitWonder.callback); 
             //CustomCard.BuildCard<BattleRage>(BattleRage.callback); 
             CustomCard.BuildCard<TimeLoop>(TimeLoop.callback); 
@@ -105,6 +106,8 @@ namespace RootCards
             GameModeManager.AddHook(GameModeHooks.HookGameStart, (gm) => Null.clearNulls());
             GameModeManager.AddHook(GameModeHooks.HookPlayerPickEnd, (gm) => DistillKnowledge.ExtraPicks());
             GameModeManager.AddHook(GameModeHooks.HookPlayerPickStart, (gm) => CardChoicePatchSpawn.resetNull());
+            GameModeManager.AddHook(GameModeHooks.HookGameStart, (gm) => NullManager.ResetLibrary());
+            GameModeManager.AddHook(GameModeHooks.HookRoundEnd, (gm) => NullManager.CleanupRemovedNulls());
 
 
             CurrencyManager.instance.RegisterCurrencyIcon("Wish",(image) =>

@@ -116,6 +116,7 @@ namespace RootCards.Cards
 			{
 				player.data.stats.GetRootData().nulls = 0;
 				ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(player.data.stats).blacklistedCategories.Add(Null.NeedsNull);
+				ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(player.data.stats).blacklistedCategories.Add(CustomCardCategories.instance.CardCategory("nullCard"));
 			}
 			Player[] array = null;
 			yield break;

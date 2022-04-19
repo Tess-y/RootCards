@@ -25,8 +25,7 @@ namespace RootCards.Patches
                 {
                     if (___spawnedCards[i].gameObject != pickedCard)
                     {
-                        if (PlayerManager.instance.players.Find(p => p.playerID == __instance.pickrID).data.view.IsMine)
-                            __instance.StartCoroutine(GrabCard(___spawnedCards[i], ___speed, __instance));
+                        __instance.StartCoroutine(GrabCard(___spawnedCards[i], ___speed, __instance));
                     }
                 }
             }
@@ -38,7 +37,9 @@ namespace RootCards.Patches
 
         private static IEnumerator GrabCard(GameObject card, float speed, CardChoice __instance)
         {
-            card.GetComponentInChildren<ApplyCardStats>().Pick(__instance.pickrID, forcePick: false, (PickerType)__instance.GetFieldValue("pickerType"));
+
+            if (PlayerManager.instance.players.Find(p => p.playerID == __instance.pickrID).data.view.IsMine)
+                card.GetComponentInChildren<ApplyCardStats>().Pick(__instance.pickrID, forcePick: false, (PickerType)__instance.GetFieldValue("pickerType"));
             Vector3 startPos = card.transform.position;
             Vector3 endPos = CardChoiceVisuals.instance.transform.position;
             float c2 = 0f;

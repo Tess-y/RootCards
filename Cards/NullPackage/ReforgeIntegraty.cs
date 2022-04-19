@@ -11,6 +11,8 @@ using RootCards.MonoBehaviours;
 using RootCards.Extensions;
 using ModdingUtils.Extensions;
 using RootCards.Cards.Utill;
+using System.Collections;
+using ModdingUtils.Utils;
 
 namespace RootCards.Cards
 {
@@ -39,7 +41,7 @@ namespace RootCards.Cards
                              nulleds.Add(NullManager.GetNulledForPlayer(player.playerID,i));
                          }
                      }
-                     Unbound.Instance.StartCoroutine(ModdingUtils.Utils.Cards.instance.ReplaceCards(player, nulls.ToArray(), nulleds.ToArray(), editCardBar: true));
+                     Unbound.Instance.StartCoroutine(ReplaceCards(player, nulls.ToArray(), nulleds.ToArray(), editCardBar: true));
                      characterStats.AjustNulls(-nulls.Count);
                  });
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
@@ -85,5 +87,61 @@ namespace RootCards.Cards
         {
             card.gameObject.AddComponent<Tess>();//set the author of the card
         }
+
+        public IEnumerator ReplaceCards(Player player, int[] indeces, CardInfo[] newCards, string[] twoLetterCodes = null, bool editCardBar = true)
+        {
+            if (twoLetterCodes == null)
+            {
+                twoLetterCodes = new string[indeces.Length];
+                for (int i = 0; i < twoLetterCodes.Length; i++)
+                {
+                    twoLetterCodes[i] = "";
+                }
+            }
+            List<bool> reassign = new List<bool>();
+
+            List<CardInfo> list = new List<CardInfo>();
+            foreach (CardInfo currentCard in player.data.currentCards)
+            {
+                list.Add(currentCard);
+            }
+
+            List<CardInfo> newCardsToAssign = new List<CardInfo>();
+            List<string> twoLetterCodesToAssign = new List<string>();
+            int num = 0;
+            for (int j = 0; j < list.Count; j++)
+            {
+                if (!indeces.Contains(j))
+                {
+                    newCardsToAssign.Add(list[j]);
+                    twoLetterCodesToAssign.Add("");
+                    reassign.Add(true);
+                }
+                else if (newCards[num] == null)
+                {
+                    newCardsToAssign.Add(list[j]);
+                    twoLetterCodesToAssign.Add("");
+                    num++;
+                    reassign.Add(true);
+                }
+                else
+                {
+                    newCardsToAssign.Add(newCards[num]);
+                    twoLetterCodesToAssign.Add(twoLetterCodes[num]);
+                    num++;
+                    reassign.Add(false);
+                }
+            }
+
+            ModdingUtils.Utils.Cards.instance.RemoveAllCardsFromPlayer(player, editCardBar);
+            yield return new WaitForSecondsRealtime(0.1f);
+            if (editCardBar)
+            {
+                CardBarUtils.instance.ClearCardBar(player);
+            }
+
+            ModdingUtils.Utils.Cards.instance.AddCardsToPlayer(player, newCardsToAssign.ToArray(), reassign.ToArray(), twoLetterCodesToAssign.ToArray(), null, null, editCardBar);
+        }
+
     }
 }

@@ -13,18 +13,21 @@ namespace RootCards.Cards
 {
     class FrozenPotato : CustomCard
     {
+        public static CardInfo cardInfo;
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
             //statModifiers.movementSpeed = .5f;
-            cardInfo.allowMultiple = false;
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been setup.");
         } 
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            player.gameObject.GetOrAddComponent<PotatoPass>();
-            player.gameObject.GetOrAddComponent<PotatoEffect>();
+            foreach (Player p in PlayerManager.instance.players)
+            {
+                p.gameObject.GetOrAddComponent<PotatoPass>();
+                p.gameObject.GetOrAddComponent<PotatoEffect>();
+            }
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
         }
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
@@ -39,7 +42,7 @@ namespace RootCards.Cards
         }
         protected override string GetDescription()
         {
-            return "When you hit someone, hand them your potato.  (The potato holder will glow blue)";
+            return "When you hit someone, hand them your potato.";
         }
         protected override GameObject GetCardArt()
         {
@@ -73,6 +76,7 @@ namespace RootCards.Cards
 
         internal static void callback(CardInfo card)
         {
+            cardInfo = card;
             card.gameObject.AddComponent<Lilith>();//set the author of the card
         }
     }
