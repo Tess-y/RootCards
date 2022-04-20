@@ -10,7 +10,7 @@ using RootCards.Cards.Util.Authors;
 using RootCards.MonoBehaviours;
 using RootCards.Extensions;
 using ModdingUtils.Extensions;
-using RootCards.Cards.Utill;
+using RootCards.Cards.Util;
 using System.Collections;
 using ModdingUtils.Utils;
 

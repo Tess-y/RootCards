@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using ModdingUtils.Utils;
-using RootCards.Cards.Utill;
+using RootCards.Cards.Util;
 
 namespace RootCards.Patches
 {

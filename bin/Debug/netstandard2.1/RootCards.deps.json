@@ -27,7 +27,8 @@
           "UnityEngine.Physics2DModule": "0.0.0.0",
           "UnityEngine.PhysicsModule": "0.0.0.0",
           "UnityEngine.UI": "1.0.0.0",
-          "UnityEngine.UIModule": "0.0.0.0"
+          "UnityEngine.UIModule": "0.0.0.0",
+          "WillsWackyManagers": "1.0.0.0"
         },
         "runtime": {
           "RootCards.dll": {}
@@ -182,6 +183,14 @@
           "UnityEngine.UIModule.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "WillsWackyManagers/1.0.0.0": {
+        "runtime": {
+          "WillsWackyManagers.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
           }
         }
       },
@@ -796,6 +805,11 @@
       "sha512": ""
     },
     "UnityEngine.UIModule/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "WillsWackyManagers/1.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

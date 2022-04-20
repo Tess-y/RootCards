@@ -8,8 +8,9 @@ using System.Text;
 using UnboundLib;
 using UnboundLib.Networking;
 using UnboundLib.Utils;
+using UnityEngine;
 
-namespace RootCards.Cards.Utill
+namespace RootCards.Cards.Util
 {
     public class NullManager
     {
@@ -31,7 +32,10 @@ namespace RootCards.Cards.Utill
 
         public static IEnumerator DoHandleReroll(int playerID)
         {
-            if(!Photon.Pun.PhotonNetwork.IsMasterClient || !NulledLibrary.ContainsKey(playerID)) yield break;
+            RootCards.Debug(Photon.Pun.PhotonNetwork.IsMasterClient);
+            RootCards.Debug(NulledLibrary.ContainsKey(playerID));
+            RootCards.Debug(NulledLibrary[playerID].Count);
+            if (!Photon.Pun.PhotonNetwork.IsMasterClient || !NulledLibrary.ContainsKey(playerID)) yield break;
             List<CardInfo> cardInfos = new List<CardInfo>();
             foreach(CardInfo cardInfo in NulledLibrary[playerID])
             {
@@ -39,7 +43,10 @@ namespace RootCards.Cards.Utill
                     (CardInfo c, Player _1, Gun _2, GunAmmo _3, CharacterData _4, HealthHandler _5, Gravity _6, Block _7, CharacterStatModifiers _8) => c.rarity == cardInfo.rarity));
             }
             NetworkingManager.RPC(typeof(NullManager), nameof(ClearNullsRPC), playerID);
-            foreach(CardInfo card in cardInfos)
+            yield return new WaitForSecondsRealtime(2);
+
+            RootCards.Debug($"{NulledLibrary[playerID].Count},{cardInfos.Count}");
+            foreach (CardInfo card in cardInfos)
             {
                 NetworkingManager.RPC(typeof(NullManager), nameof(RegisterNullRPC), playerID, card.cardName);
             }
@@ -70,6 +77,22 @@ namespace RootCards.Cards.Utill
             return nullcout;
         }
 
+        public static void AssignNull(int playerID, CardInfo card)
+        {
+            int nullcout = GetNullCount(playerID);
+            List<CardInfo> currentCards = PlayerManager.instance.players.Find(p => p.playerID == playerID).data.currentCards;
+            for (int i = 0; i < currentCards.Count; i++)
+            {
+                if (currentCards[i] == Null.NULLCARD) nullcout--;
+                if(nullcout == 0)
+                {
+                    PlayerManager.instance.players.Find(p => p.playerID == playerID).data.currentCards[i].GetComponent<NullCard>().NulledCard = card;
+                    break;
+                }
+            }
+
+        }
+
         [UnboundRPC]
         public static void RegisterNullRPC(int playerID, string cardName)
         {
@@ -82,16 +105,28 @@ namespace RootCards.Cards.Utill
             NulledLibrary[playerID].Clear();
         }
 
-        public static void RegisterNull(int playerID, CardInfo? card) 
+        public static void RegisterNull(int playerID, CardInfo? card)
         {
+            RootCards.Debug($"Trying to register Null:{(card == null ? "unknown" :card.cardName)}");
             if (!NulledLibrary.ContainsKey(playerID)) NulledLibrary[playerID] = new List<CardInfo>();
             if (card == null){ HandleReassign(playerID); return; }
             NulledLibrary[playerID].Add(card);
+            AssignNull(playerID,card);
         }
         public static void RemoveNull(int playerID, CardInfo? card)
         {
+            RootCards.Debug($"Trying to remove Null:{(card == null ? "unknown" : card.cardName)}");
             if (!RemovedNulledLibrary.ContainsKey(playerID)) RemovedNulledLibrary[playerID] = new List<CardInfo>();
-            if (card == null) return;
+            if (card == null) {
+                try
+                {
+                    RemovedNulledLibrary[playerID].Add(NulledLibrary[playerID][0]);
+                    RootCards.Debug($"Removing Null:{NulledLibrary[playerID][0].cardName}");
+                    NulledLibrary[playerID].RemoveAt(0);
+                    RootCards.Debug(RemovedNulledLibrary[playerID].Count);
+                }
+                catch (Exception ex) { RootCards.Debug(ex); }
+                return; }
             NulledLibrary[playerID].Remove(card);
             RemovedNulledLibrary[playerID].Add(card);
         }
@@ -99,11 +134,17 @@ namespace RootCards.Cards.Utill
 
         private static void HandleReassign(int playerID)
         {
-            if (NulledLibrary[playerID].Count <= GetNullCount(playerID)) return;
+            RootCards.Debug("Entering Handle Reassign");
+            if (NulledLibrary[playerID].Count >= GetNullCount(playerID)) { RootCards.Debug("Enough cards exist, returning");  return; } 
             if(RemovedNulledLibrary.ContainsKey(playerID) && RemovedNulledLibrary[playerID].Count > 0)
             {
+                RootCards.Debug("Removed null found using");
                 RegisterNull(playerID, RemovedNulledLibrary[playerID][0]);
+
+                AssignNull(playerID, RemovedNulledLibrary[playerID][0]);
                 RemovedNulledLibrary[playerID].RemoveAt(0);
+
+                return;
             }
             bool reassigned = false;
             PlayerManager.instance.players.ForEach(p =>
@@ -112,14 +153,17 @@ namespace RootCards.Cards.Utill
                 {
                     if (RemovedNulledLibrary[p.playerID].Count > 0)
                     {
+                        RootCards.Debug("Removed null from other player found found using");
                         reassigned = true;
                         RegisterNull(playerID, RemovedNulledLibrary[p.playerID][0]);
+                        AssignNull(playerID, RemovedNulledLibrary[p.playerID][0]);
                         RemovedNulledLibrary[p.playerID].RemoveAt(0);
                     }
                 }
             });
             if (!reassigned)
             {
+                RootCards.Debug("Everything falled, exicuting fall back method");
                 CardInfo[] allCards = ((ObservableCollection<CardInfo>)typeof(CardManager).GetField("activeCards", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null)).ToList().Concat((List<CardInfo>)typeof(CardManager).GetField("inactiveCards", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null)).ToArray();
                 CardInfo randomCard = ModdingUtils.Utils.Cards.instance.DrawRandomCardWithCondition(allCards, PlayerManager.instance.players.Find(p => p.playerID == playerID), null, null, null, null, null, null, null,
                     (CardInfo _0, Player _1, Gun _2, GunAmmo _3, CharacterData _4, HealthHandler _5, Gravity _6, Block _7, CharacterStatModifiers _8) => true);

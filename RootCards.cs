@@ -14,7 +14,8 @@ using TMPro;
 using UnboundLib.Utils.UI;
 using ItemShops.Utils;
 using UnityEngine.UI;
-using RootCards.Cards.Utill;
+using RootCards.Cards.Util;
+using WillsWackyManagers.Utils;
 
 namespace RootCards
 {
@@ -23,6 +24,7 @@ namespace RootCards
     [BepInDependency("pykess.rounds.plugins.moddingutils", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("pykess.rounds.plugins.cardchoicespawnuniquecardpatch", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("com.willuwontu.rounds.itemshops", BepInDependency.DependencyFlags.HardDependency)]
+    [BepInDependency("com.willuwontu.rounds.managers", BepInDependency.DependencyFlags.HardDependency)]
     // Declares our Mod to Bepin
     [BepInPlugin(ModId, ModName, Version)]
     // The game our Mod Is associated with
@@ -33,7 +35,7 @@ namespace RootCards
         public static ConfigEntry<bool> DEBUG;
         private const string ModId = "com.Root.Cards";
         private const string ModName = "RootCards";
-        public const string Version = "0.7.3"; // What version are we On (major.minor.patch)?
+        public const string Version = "0.7.5"; // What version are we On (major.minor.patch)?
         internal static AssetBundle ArtAssets;
         //private static readonly AssetBundle Bundle = Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("rootassets", typeof(RootCards).Assembly);
         public const string ModInitials = "Root"; 
@@ -116,9 +118,18 @@ namespace RootCards
                 image.color = new Color32(118, 117, 35, 255);
             });
 
+
+            RerollManager.instance.RegisterRerollAction(rerollAction);
             //Unbound.Instance.ExecuteAfterFrames(15, () => StartCoroutine(NullCard.genNulls()));
 
         }
+
+        public void rerollAction(Player player, CardInfo[] _)
+        {
+            RootCards.Debug("RerollAction Called");
+            StartCoroutine(NullManager.DoHandleReroll(player.playerID));
+        }
+
         public static void Debug(object message)
         {
             if (DEBUG.Value)

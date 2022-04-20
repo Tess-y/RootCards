@@ -64,6 +64,9 @@
     <Reference Include="UnityEngine.UIModule">
       <HintPath>F:\SteamLibrary\steamapps\common\ROUNDS\Rounds_Data\Managed\UnityEngine.UIModule.dll</HintPath>
     </Reference>
+    <Reference Include="WillsWackyManagers">
+      <HintPath>..\..\..\..\AppData\Roaming\Thunderstore Mod Manager\DataFolder\ROUNDS\profiles\modding\BepInEx\plugins\willuwontu-WillsWackyManagers\WillsWackyManagers.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

@@ -17,7 +17,7 @@ using HarmonyLib;
 using Photon.Pun;
 using UnboundLib.Utils;
 using System.Collections.ObjectModel;
-using RootCards.Cards.Utill;
+using RootCards.Cards.Util;
 
 namespace RootCards.Cards
 {
@@ -46,7 +46,7 @@ namespace RootCards.Cards
 			gunAmmo.maxAmmo += characterStats.GetRootData().nullData.gun_Ammo;
 			characterStats.AjustNulls(-1);
 			RootCards.Debug(string.Format("[{0}][Card] {1} has been added to player {2}.", "Root", this.GetTitle(), player.playerID));
-			NullManager.RegisterNull(player.playerID, NulledCard);
+		 	RootCards.instance.ExecuteAfterFrames(1, ()=> NullManager.RegisterNull(player.playerID, NulledCard));
 		}
 
 		public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
@@ -116,7 +116,6 @@ namespace RootCards.Cards
 			{
 				player.data.stats.GetRootData().nulls = 0;
 				ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(player.data.stats).blacklistedCategories.Add(Null.NeedsNull);
-				ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(player.data.stats).blacklistedCategories.Add(CustomCardCategories.instance.CardCategory("nullCard"));
 			}
 			Player[] array = null;
 			yield break;
@@ -239,7 +238,8 @@ namespace RootCards.Cards
                 if (this.NulledCard != null)
                 {
                     this.title = this.NulledCard.cardName;
-                }
+					this.card.GetComponent<Null>().NulledCard = this.NulledCard;
+				}
                 LayoutElement[] array = (from obj in base.gameObject.GetComponentsInChildren<LayoutElement>()
 										 where obj.gameObject.name == "StatObject(Clone)"
 										 select obj).ToArray<LayoutElement>();
@@ -261,7 +261,6 @@ namespace RootCards.Cards
 					 where obj.gameObject.name == "Value"
 					 select obj).FirstOrDefault<TextMeshProUGUI>().text = this.card.cardStats[j].amount;
 				}
-				this.card.GetComponent<Null>().NulledCard = this.NulledCard;
 				this.updated = false;
 			}
 		}
