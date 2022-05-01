@@ -8,39 +8,28 @@ using UnityEngine;
 
 namespace RootCards.MonoBehaviours
 {
-    internal class PotatoEffect : ReversibleEffect
+    internal class PotatoEffect : MonoBehaviour
     {
 
-        float movespeed = 1;
-        bool enabled = false;
-        public override void OnStart()
+        int oldPotatoCount = 0;
+        float _movespeedDelta = 0;
+        private Player _player;
+        public void Start()
         {
-
-            GameModeManager.AddHook(GameModeHooks.HookBattleStart, stats);
-            movespeed = Mathf.Pow(0.5f, player.data.currentCards.FindAll(c => c == Cards.FrozenPotato.cardInfo).Count);
-            characterStatModifiersModifier.movementSpeed_mult = movespeed;
-            SetLivesToEffect(int.MaxValue);
-            enabled = true;
+            if (_player == null) _player = gameObject.GetComponent<Player>();
         }
 
-        public override void OnUpdate()
+        public void Update()
         {
-            if (!enabled) return;
-            movespeed = Mathf.Pow(0.5f, player.data.currentCards.FindAll(c => c == Cards.FrozenPotato.cardInfo).Count);
-            if(characterStatModifiersModifier.movementSpeed_mult != movespeed)
-            {
-                UnityEngine.Debug.Log(movespeed);
-                ClearModifiers();
-                characterStatModifiersModifier.movementSpeed_mult = movespeed;
-                ApplyModifiers();
-            }
-        }
+            if (_player == null) return;
+            int potatoCount = _player.data.currentCards.FindAll(c => c == Cards.FrozenPotato.cardInfo).Count;
+            if (potatoCount == oldPotatoCount) return;
+            oldPotatoCount = potatoCount;
+            _player.data.stats.movementSpeed -= _movespeedDelta;
 
-        public IEnumerator stats(IGameModeHandler gm)
-        {
-            ClearModifiers();
-            ApplyModifiers();
-            yield break;
+            _movespeedDelta = (_player.data.stats.movementSpeed / MathF.Pow(2,potatoCount)) - _player.data.stats.movementSpeed;
+
+            _player.data.stats.movementSpeed += _movespeedDelta;
         }
     }
 }

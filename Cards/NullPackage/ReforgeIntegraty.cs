@@ -13,6 +13,7 @@ using ModdingUtils.Extensions;
 using RootCards.Cards.Util;
 using System.Collections;
 using ModdingUtils.Utils;
+using WillsWackyManagers.Utils;
 
 namespace RootCards.Cards
 {
@@ -21,7 +22,7 @@ namespace RootCards.Cards
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
-            cardInfo.categories = new CardCategory[] { Null.NeedsNull };
+            cardInfo.categories = new CardCategory[] { Null.NeedsNull, RerollManager.instance.NoFlip };
             cardInfo.GetAdditionalData().canBeReassigned = false;
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been setup.");
         }

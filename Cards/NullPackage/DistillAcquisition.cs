@@ -9,6 +9,7 @@ using UnityEngine;
 using RootCards.Cards.Util.Authors;
 using RootCards.MonoBehaviours;
 using ModdingUtils.Extensions;
+using WillsWackyManagers.Utils;
 
 namespace RootCards.Cards
 {
@@ -17,7 +18,7 @@ namespace RootCards.Cards
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
-            cardInfo.categories = new CardCategory[] { CardChoiceSpawnUniqueCardPatch.CustomCategories.CustomCardCategories.instance.CardCategory("CardManipulation") };
+            cardInfo.categories = new CardCategory[] { RerollManager.instance.NoFlip };
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been setup.");
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)

@@ -22,27 +22,31 @@ namespace RootCards.MonoBehaviours
             Player player = this.gameObject.GetComponent<Player>();
             if (player.data.view.IsMine && player.data.currentCards.Contains(Cards.FrozenPotato.cardInfo))
             {
-                NetworkingManager.RPC(typeof(PotatoPass),nameof(PassPotato),damagedPlayer.playerID,player.playerID);
+                int count = player.data.currentCards.RemoveAll(c => c == Cards.FrozenPotato.cardInfo);
+                NetworkingManager.RPC(typeof(PotatoPass),nameof(PassPotato),damagedPlayer.playerID,player.playerID, count); 
             }
         }
 
         [UnboundRPC]
-        public static void PassPotato(int playerID, int myID)
+        public static void PassPotato(int playerID, int myID, int count)
         {
             Player damagedPlayer = PlayerManager.instance.players.Find(p => p.playerID == playerID);
             Player player = PlayerManager.instance.players.Find(p => p.playerID == myID);
-            player.data.currentCards.Remove(Cards.FrozenPotato.cardInfo);
+
+            player.data.currentCards.RemoveAll(c => c == Cards.FrozenPotato.cardInfo);
             CardBar cardbar = ModdingUtils.Utils.CardBarUtils.instance.PlayersCardBar(player);
             for (int num = cardbar.transform.childCount - 1; num >= 0; num--)
             {
                 if ((CardInfo)cardbar.transform.GetChild(num).gameObject.GetComponent<CardBarButton>().GetFieldValue("card") == Cards.FrozenPotato.cardInfo)
                 {
                     Destroy(cardbar.transform.GetChild(num).gameObject);
-                    break;
                 }
             }
-            damagedPlayer.data.currentCards.Add(Cards.FrozenPotato.cardInfo);
-            ModdingUtils.Utils.Cards.SilentAddToCardBar(playerID, Cards.FrozenPotato.cardInfo);
+            for (int _ = 0; _ < count; _++)
+            {
+                damagedPlayer.data.currentCards.Add(Cards.FrozenPotato.cardInfo);
+                ModdingUtils.Utils.Cards.SilentAddToCardBar(playerID, Cards.FrozenPotato.cardInfo);
+            }
             if (damagedPlayer.data.view.IsMine)
             {
                 ModdingUtils.Utils.CardBarUtils.instance.PlayersCardBar(playerID).OnHover(Cards.FrozenPotato.cardInfo, Vector3.zero);
