@@ -192,3 +192,6 @@ C:\Users\Tess\source\repos\Tess-y\RootCards\obj\Debug\netstandard2.1\RootCards.d
 C:\Users\Tess\source\repos\Tess-y\RootCards\obj\Debug\netstandard2.1\RootCards.pdb
 C:\Users\Tess\source\repos\Tess-y\RootCards\obj\Debug\netstandard2.1\RootCards.csproj.AssemblyReference.cache
 C:\Users\Tess\source\repos\Tess-y\RootCards\bin\Debug\netstandard2.1\WillsWackyManagers.dll
+C:\Users\Tess\source\repos\Tess-y\RootCards\bin\Debug\netstandard2.1\ClassesManagerReborn.dll
+C:\Users\Tess\source\repos\Tess-y\RootCards\bin\Debug\netstandard2.1\DeckCustomization.dll
+C:\Users\Tess\source\repos\Tess-y\RootCards\bin\Debug\netstandard2.1\ClassesManagerReborn.pdb

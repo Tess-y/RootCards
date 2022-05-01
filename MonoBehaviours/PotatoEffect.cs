@@ -1,5 +1,4 @@
 ﻿using ModdingUtils.MonoBehaviours;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -27,7 +26,7 @@ namespace RootCards.MonoBehaviours
             oldPotatoCount = potatoCount;
             _player.data.stats.movementSpeed -= _movespeedDelta;
 
-            _movespeedDelta = (_player.data.stats.movementSpeed / MathF.Pow(2,potatoCount)) - _player.data.stats.movementSpeed;
+            _movespeedDelta = (_player.data.stats.movementSpeed / Mathf.Pow(2,potatoCount)) - _player.data.stats.movementSpeed;
 
             _player.data.stats.movementSpeed += _movespeedDelta;
         }

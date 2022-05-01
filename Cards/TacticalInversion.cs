@@ -21,7 +21,7 @@ namespace RootCards.Cards
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            float damage = gun.damage*55;
+            float damage = gun.damage*55 * gun.bulletDamageMultiplier;
             gun.damage = data.maxHealth/55f;
             player.data.maxHealth = damage;
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");

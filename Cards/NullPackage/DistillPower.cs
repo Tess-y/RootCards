@@ -12,6 +12,7 @@ using UnboundLib.Utils;
 using System.Reflection;
 using System.Collections.ObjectModel;
 using ModdingUtils.Extensions;
+using System.Collections;
 
 namespace RootCards.Cards
 {
@@ -28,6 +29,14 @@ namespace RootCards.Cards
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
+
+            RootCards.instance.StartCoroutine(addRandomCards(player, gun, gunAmmo, data, health, gravity, block, characterStats));
+            Extensions.CharacterStatModifiersExtension.AjustNulls(characterStats, 3);
+            RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
+        }
+
+        public IEnumerator addRandomCards(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
+        {
             for (int i = 0; i < 2; i++)
             {
                 CardInfo randomCard = ModdingUtils.Utils.Cards.instance.NORARITY_GetRandomCardWithCondition(player, gun, gunAmmo, data, health, gravity, block, characterStats, this.condition);
@@ -40,12 +49,15 @@ namespace RootCards.Cards
                 }
 
                 //ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, randomCard, false, "", 2f);
+                int cardCount = player.data.currentCards.Count();
                 ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, randomCard, addToCardBar: true);
+                yield return new WaitUntil(() =>
+                {
+                    return ((player.data.currentCards.Count > cardCount) || (player.data.currentCards[player.data.currentCards.Count - 1] == randomCard));
+                });
                 ModdingUtils.Utils.CardBarUtils.instance.ShowAtEndOfPhase(player, randomCard);
             }
-
-            Extensions.CharacterStatModifiersExtension.AjustNulls(characterStats, 3);
-            RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
+            yield break;
         }
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {

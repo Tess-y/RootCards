@@ -13,8 +13,6 @@ namespace RootCards.Cards
 {
     class StayHungry : CustomCard
     {
-        private Hunger hunger;
-        private Devourer devourer;
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
@@ -24,20 +22,18 @@ namespace RootCards.Cards
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            hunger = player.gameObject.GetOrAddComponent<Hunger>();
-            hunger.hungerGrowth++;
-            devourer = player.gameObject.GetOrAddComponent<Devourer>();
-            devourer.hunger = hunger;
+            player.gameObject.GetOrAddComponent<Hunger>().hungerGrowth++;
+            player.gameObject.GetOrAddComponent<Devourer>().hunger = player.gameObject.GetOrAddComponent<Hunger>();
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
         }
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Run when the card is removed from the player
-            hunger.hungerGrowth--;
-            if(hunger.hungerGrowth == 0)
+            player.gameObject.GetOrAddComponent<Hunger>().hungerGrowth--;
+            if(player.gameObject.GetOrAddComponent<Hunger>().hungerGrowth <= 0)
             {
-                Destroy(hunger);
-                Destroy(devourer);
+                Destroy(player.gameObject.GetOrAddComponent<Hunger>());
+                Destroy(player.gameObject.GetOrAddComponent<Devourer>());
             }
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been removed from player {player.playerID}.");
         }

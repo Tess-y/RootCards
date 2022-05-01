@@ -125,7 +125,7 @@ namespace RootCards.Cards
             List<UnboundLib.Utils.Card> allCards = UnboundLib.Utils.CardManager.cards.Values.ToList();
             foreach (UnboundLib.Utils.Card card in allCards)
             {
-                if (card != null && card.cardInfo.name.ToLower() != "genie" && card.cardInfo.name.ToLower() != "immovable object" && card.cardInfo.name.ToLower() != "unstoppable force" && UnboundLib.Utils.CardManager.IsCardActive(card.cardInfo)) {
+                if (card != null && card.cardInfo.name.ToLower() != "genie" && UnboundLib.Utils.CardManager.IsCardActive(card.cardInfo)) {
                     Genie_Shop.AddItem(new CardItem(card));
                 }
             }

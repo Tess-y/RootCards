@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using ModdingUtils.Utils;
 using RootCards.Cards.Util;
+using ClassesManagerReborn;
 
 namespace RootCards.Patches
 {
@@ -18,6 +19,12 @@ namespace RootCards.Patches
                 if (!card.allowMultiple)
                 {
                     __result = !NullManager.NulledLibrary[player.playerID].Exists(c => c.cardName == card.cardName);
+                }
+                if(__result && ClassesRegistry.Get(card) != null)
+                {
+                    List<CardInfo> cards = player.data.currentCards.FindAll(c => c != Cards.Null.NULLCARD);
+                    cards.AddRange(NullManager.NulledLibrary[player.playerID]);
+                    __result = ClassesRegistry.Get(card).SimulatedPlayerIsAllowedCard(player.playerID, cards);
                 }
             }
         }

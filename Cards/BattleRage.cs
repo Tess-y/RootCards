@@ -13,7 +13,6 @@ namespace RootCards.Cards
 {
     class BattleRage : CustomCard
     {
-        private MonoBehaviours.Rage rage_effect;
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
@@ -23,13 +22,13 @@ namespace RootCards.Cards
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            rage_effect = player.gameObject.AddComponent<MonoBehaviours.Rage>();
+            player.gameObject.AddComponent<MonoBehaviours.Rage>();
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
         }
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Run when the card is removed from the player
-            Destroy(rage_effect);
+            Destroy(player.gameObject.GetComponent<MonoBehaviours.Rage>());
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been removed from player {player.playerID}.");
         }
 

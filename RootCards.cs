@@ -25,6 +25,7 @@ namespace RootCards
     [BepInDependency("pykess.rounds.plugins.cardchoicespawnuniquecardpatch", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("com.willuwontu.rounds.itemshops", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("com.willuwontu.rounds.managers", BepInDependency.DependencyFlags.HardDependency)]
+    [BepInDependency("root.classes.manager.reborn")]
     // Declares our Mod to Bepin
     [BepInPlugin(ModId, ModName, Version)]
     // The game our Mod Is associated with
@@ -35,7 +36,7 @@ namespace RootCards
         public static ConfigEntry<bool> DEBUG;
         private const string ModId = "com.Root.Cards";
         private const string ModName = "RootCards";
-        public const string Version = "0.7.6"; // What version are we On (major.minor.patch)?
+        public const string Version = "0.7.7"; // What version are we On (major.minor.patch)?
         internal static AssetBundle ArtAssets;
         //private static readonly AssetBundle Bundle = Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("rootassets", typeof(RootCards).Assembly);
         public const string ModInitials = "Root"; 
@@ -68,7 +69,7 @@ namespace RootCards
             CustomCard.BuildCard<JohsonsIngenuity>(JohsonsIngenuity.callback);
             CustomCard.BuildCard<UsedAmmo>(UsedAmmo.callback);
             CustomCard.BuildCard<LilithsDeal>(LilithsDeal.callback);
-            CustomCard.BuildCard<FrozenPotato>(FrozenPotato.callback);// card is currently bugged.
+            CustomCard.BuildCard<FrozenPotato>(FrozenPotato.callback);
             CustomCard.BuildCard<OneHitWonder>(OneHitWonder.callback); 
             //CustomCard.BuildCard<BattleRage>(BattleRage.callback); 
             CustomCard.BuildCard<TimeLoop>(TimeLoop.callback); 
