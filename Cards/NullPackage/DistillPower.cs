@@ -51,9 +51,11 @@ namespace RootCards.Cards
                 //ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, randomCard, false, "", 2f);
                 int cardCount = player.data.currentCards.Count();
                 ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, randomCard, addToCardBar: true);
+                var time = 0f;
                 yield return new WaitUntil(() =>
                 {
-                    return ((player.data.currentCards.Count > cardCount) || (player.data.currentCards[player.data.currentCards.Count - 1] == randomCard));
+                    time += Time.deltaTime;
+                    return ((player.data.currentCards.Count > cardCount) || (player.data.currentCards[player.data.currentCards.Count - 1] == randomCard) || (time > 5f));
                 });
                 ModdingUtils.Utils.CardBarUtils.instance.ShowAtEndOfPhase(player, randomCard);
             }
