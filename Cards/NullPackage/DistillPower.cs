@@ -105,9 +105,9 @@ namespace RootCards.Cards
             return RootCards.ModInitials;
         }
 
-        internal static void callback(CardInfo card)
+        public override void Callback()
         {
-            card.gameObject.AddComponent<Tess>();//set the author of the card
+            gameObject.AddComponent<Tess>();//set the author of the card
         }
 
         public bool condition(CardInfo card, Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)

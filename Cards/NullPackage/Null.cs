@@ -103,9 +103,13 @@ namespace RootCards.Cards
 		{
 			return false;
 		}
+
+		public override void Callback()
+		{
+			gameObject.AddComponent<NullCard>();
+		}
 		internal static void callback(CardInfo card)
 		{
-			card.gameObject.AddComponent<NullCard>();
 			ModdingUtils.Utils.Cards.instance.AddHiddenCard(card);
 			Null.NULLCARD = card;
 		}

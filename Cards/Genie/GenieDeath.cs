@@ -69,9 +69,13 @@ namespace RootCards.Cards
             return false;
         }
 
+        public override void Callback()
+        {
+            gameObject.AddComponent<Lilith>();//set the author of the card
+        }
+
         internal static void callback(CardInfo card)
         {
-            card.gameObject.AddComponent<Lilith>();//set the author of the card
             ModdingUtils.Utils.Cards.instance.AddHiddenCard(card);
         }
     }

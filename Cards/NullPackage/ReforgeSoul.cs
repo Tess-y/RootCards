@@ -71,10 +71,9 @@ namespace RootCards.Cards
         {
             return RootCards.ModInitials;
         }
-
-        internal static void callback(CardInfo card)
+        public override void Callback()
         {
-            card.gameObject.AddComponent<Lilith>();//set the author of the card
+            gameObject.AddComponent<Lilith>();//set the author of the card
         }
     }
 }

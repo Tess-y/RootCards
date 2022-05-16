@@ -83,10 +83,9 @@ namespace RootCards.Cards
         {
             return RootCards.ModInitials;
         }
-
-        internal static void callback(CardInfo card)
+        public override void Callback()
         {
-            card.gameObject.AddComponent<Tess>();//set the author of the card
+            gameObject.AddComponent<Tess>();//set the author of the card
         }
 
         public IEnumerator ReplaceCards(Player player, int[] indeces, CardInfo[] newCards, string[] twoLetterCodes = null, bool editCardBar = true)
