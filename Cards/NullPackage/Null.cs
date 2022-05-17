@@ -92,7 +92,8 @@ namespace RootCards.Cards
 
 		protected override CardThemeColor.CardThemeColorType GetTheme()
 		{
-			return CardThemeColor.CardThemeColorType.TechWhite;
+			UnityEngine.Debug.Log((CardThemeColor.CardThemeColorType)(-1));
+			return (CardThemeColor.CardThemeColorType)(-1);
 		}
 
 		public override string GetModName()
@@ -200,6 +201,11 @@ namespace RootCards.Cards
 			return stats.ToArray();
 		}
 
+		internal static GameObject CardArt()
+		{
+			return RootCards.ArtAssets.LoadAsset<GameObject>("C_NULL");
+		}
+
 		public static CardInfo NULLCARD;
 
 		public static CardCategory NeedsNull = CustomCardCategories.instance.CardCategory("NeedsNull");
@@ -264,6 +270,25 @@ namespace RootCards.Cards
 					 where obj.gameObject.name == "Value"
 					 select obj).FirstOrDefault<TextMeshProUGUI>().text = this.card.cardStats[j].amount;
 				}
+
+				if (NulledCard.cardArt != null)
+				{
+					Image[] images = this.gameObject.GetComponentsInChildren<Image>();
+					Transform art = null;
+					foreach (Image image in images)
+					{
+						if (image.gameObject.name.Contains("Art"))
+						{
+							art = image.gameObject.transform;
+							break;
+						}
+					}
+					RootCards.Debug(art);
+					GameObject.Instantiate(NulledCard.cardArt, art).transform.localScale = new Vector3(1f, 1f, 1f);
+					GameObject.Instantiate(Null.CardArt(), art).transform.localScale = new Vector3(1f, 1f, 1f);
+
+				}
+
 				this.updated = false;
 			}
 		}
