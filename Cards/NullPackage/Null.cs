@@ -32,6 +32,7 @@ namespace RootCards.Cards
 			{
 				CustomCardCategories.instance.CardCategory("NoRandom"), CustomCardCategories.instance.CardCategory("nullCard")
 			};
+
 			RootCards.Debug("[Root][Card] " + this.GetTitle() + " has been setup.");
 		}
 
@@ -104,12 +105,9 @@ namespace RootCards.Cards
 			return false;
 		}
 
-		public override void Callback()
-		{
-			gameObject.AddComponent<NullCard>();
-		}
 		internal static void callback(CardInfo card)
 		{
+			card.gameObject.AddComponent<NullCard>();
 			ModdingUtils.Utils.Cards.instance.AddHiddenCard(card);
 			Null.NULLCARD = card;
 		}
@@ -215,6 +213,7 @@ namespace RootCards.Cards
 	{
 		private void Start()
 		{
+			if(transform.childCount == 0) return;
 			TextMeshProUGUI[] componentsInChildren = base.gameObject.GetComponentsInChildren<TextMeshProUGUI>();
 			GameObject gameObject = (from obj in componentsInChildren
 									 where obj.gameObject.name == "Text_Name"
@@ -237,9 +236,9 @@ namespace RootCards.Cards
 
 		public void Update()
 		{
-			if (this.updated)
-            {
-                if (this.NulledCard != null)
+			if (this.updated && transform.childCount != 0)
+			{
+				if (this.NulledCard != null)
                 {
                     this.title = this.NulledCard.cardName;
 					this.card.GetComponent<Null>().NulledCard = this.NulledCard;

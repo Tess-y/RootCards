@@ -195,3 +195,6 @@ C:\Users\Tess\source\repos\Tess-y\RootCards\bin\Debug\netstandard2.1\WillsWackyM
 C:\Users\Tess\source\repos\Tess-y\RootCards\bin\Debug\netstandard2.1\ClassesManagerReborn.dll
 C:\Users\Tess\source\repos\Tess-y\RootCards\bin\Debug\netstandard2.1\DeckCustomization.dll
 C:\Users\Tess\source\repos\Tess-y\RootCards\bin\Debug\netstandard2.1\ClassesManagerReborn.pdb
+C:\Users\Tess\source\repos\Tess-y\RootCards\bin\Debug\netstandard2.1\RarityLib.dll
+C:\Users\Tess\source\repos\Tess-y\RootCards\bin\Debug\netstandard2.1\RarityLib.pdb
+C:\Users\Tess\source\repos\Tess-y\RootCards\bin\Debug\netstandard2.1\MMHOOK_Assembly-CSharp.dll

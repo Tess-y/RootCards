@@ -11,39 +11,43 @@ using RootCards.MonoBehaviours;
 
 namespace RootCards.Cards
 {
-    class LilithsDeal : CustomCard
+    class TheDarkQueen : CustomCard
     {
         public static CardInfo card;
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
-            statModifiers.regen = 20;
+            cardInfo.allowMultiple = false;
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been setup.");
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            player.gameObject.AddComponent<PainfullAttacks>();
+            GameObject forceField = Instantiate(RootCards.ArtAssets.LoadAsset<GameObject>("DarkQueen"), player.transform);
+            player.GetComponent<Gravity>().enabled = false;
+            player.GetComponent<PlayerVelocity>().enabled = false;
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
-        }
+        } 
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Run when the card is removed from the player
-            Destroy(player.gameObject.GetComponent<PainfullAttacks>());
+            player.GetComponent<Gravity>().enabled = true;
+            player.GetComponent<PlayerVelocity>().enabled = true;
+            Destroy(player.transform.Find("DarkQueen").gameObject);
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been removed from player {player.playerID}.");
         }
 
         protected override string GetTitle()
         {
-            return "Lilith’s Deal";
+            return "The Dark Queen";
         }
         protected override string GetDescription()
         {
-            return "You know it is tempting; what could posibly go wrong?";
+            return "";
         }
         protected override GameObject GetCardArt()
         {
-            return RootCards.ArtAssets.LoadAsset<GameObject>("C_LILITH_DEAL");
+            return RootCards.ArtAssets.LoadAsset<GameObject>("C_THE_DARK_QUEEN");
         }
         protected override CardInfo.Rarity GetRarity()
         {
@@ -53,20 +57,6 @@ namespace RootCards.Cards
         {
             return new CardInfoStat[]
             {
-                new CardInfoStat()
-                {
-                    positive = true,
-                    stat = "Regeneration",
-                    amount = "+20",
-                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
-                },
-                new CardInfoStat()
-                {
-                    positive = false,
-                    stat = "attacks",
-                    amount = "+Painful",
-                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
-                }
             };
         }
         protected override CardThemeColor.CardThemeColorType GetTheme()
@@ -81,6 +71,10 @@ namespace RootCards.Cards
         public override void Callback()
         {
             gameObject.AddComponent<Lilith>();//set the author of the card
+            var m = gameObject.AddComponent<ClassesManagerReborn.Util.ClassNameMono>();
+            m.className = "";
+            m.color1 = new Color(0.9f, 0.0765f, 0.3567f);
+            m.color2 = m.color1;
         }
     }
 }

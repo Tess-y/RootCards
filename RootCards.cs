@@ -36,7 +36,7 @@ namespace RootCards
         public static ConfigEntry<bool> DEBUG;
         private const string ModId = "com.Root.Cards";
         private const string ModName = "RootCards";
-        public const string Version = "0.7.8"; // What version are we On (major.minor.patch)?
+        public const string Version = "0.8.2"; // What version are we On (major.minor.patch)?
         internal static AssetBundle ArtAssets;
         //private static readonly AssetBundle Bundle = Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("rootassets", typeof(RootCards).Assembly);
         public const string ModInitials = "Root"; 
@@ -45,7 +45,7 @@ namespace RootCards
         
 
         void Awake()
-        {
+        { 
             // Use this to call any harmony patch files your Mod may have
             var harmony = new Harmony(ModId);
             harmony.PatchAll();/*
@@ -64,34 +64,36 @@ namespace RootCards
 
             ArtAssets =  Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("rootassets", typeof(RootCards).Assembly);
 
-            CustomCard.BuildCard<BloodBullets>(BloodBullets.callback);
-            CustomCard.BuildCard<DownUpHere>(DownUpHere.callback);
-            CustomCard.BuildCard<JohsonsIngenuity>(JohsonsIngenuity.callback);
-            CustomCard.BuildCard<UsedAmmo>(UsedAmmo.callback);
-            CustomCard.BuildCard<LilithsDeal>(LilithsDeal.callback);
-            CustomCard.BuildCard<FrozenPotato>(FrozenPotato.callback);
-            CustomCard.BuildCard<OneHitWonder>(OneHitWonder.callback); 
+            CustomCard.BuildCard<BloodBullets>();
+            CustomCard.BuildCard<DownUpHere>();
+            CustomCard.BuildCard<JohsonsIngenuity>();
+            CustomCard.BuildCard<UsedAmmo>();
+            CustomCard.BuildCard<LilithsDeal>(card => LilithsDeal.card = card);
+            CustomCard.BuildCard<ContractOfSouls>(card => ContractOfSouls.card = card);
+            CustomCard.BuildCard<TheDarkQueen>(card => TheDarkQueen.card = card);
+            CustomCard.BuildCard<FrozenPotato>(); 
+            CustomCard.BuildCard<OneHitWonder>(); 
             //CustomCard.BuildCard<BattleRage>(BattleRage.callback); 
-            CustomCard.BuildCard<TimeLoop>(TimeLoop.callback); 
-            CustomCard.BuildCard<DropGrenade>(DropGrenade.callback);
-            CustomCard.BuildCard<QuickShield>(QuickShield.callback);
-            CustomCard.BuildCard<Genie>(Genie.callback);
-            CustomCard.BuildCard<WitchTime>(WitchTime.callback);
-            CustomCard.BuildCard<StayHungry>(StayHungry.callback);
-            CustomCard.BuildCard<TacticalInversion>(TacticalInversion.callback);
+            CustomCard.BuildCard<TimeLoop>(); 
+            CustomCard.BuildCard<DropGrenade>();
+            CustomCard.BuildCard<QuickShield>();
+            CustomCard.BuildCard<Genie>();
+            CustomCard.BuildCard<WitchTime>();
+            CustomCard.BuildCard<StayHungry>();
+            CustomCard.BuildCard<TacticalInversion>();
             //CustomCard.BuildCard<Drilling_Ammo_Card>(Drilling_Ammo_Card.callback);
 
 
             CustomCard.BuildCard<Null>(Null.callback);
-            CustomCard.BuildCard<DistillKnowledge>(DistillKnowledge.callback);
-            CustomCard.BuildCard<DistillAcquisition>(DistillAcquisition.callback);
-            CustomCard.BuildCard<DistillPower>(DistillPower.callback);
+            CustomCard.BuildCard<DistillKnowledge>();
+            CustomCard.BuildCard<DistillAcquisition>();
+            CustomCard.BuildCard<DistillPower>();
             //CustomCard.BuildCard<ReforgeSoul>(ReforgeSoul.callback);
-            CustomCard.BuildCard<ReforgeVitality>(ReforgeVitality.callback);
-            CustomCard.BuildCard<ReforgeOffense>(ReforgeOffense.callback);
-            CustomCard.BuildCard<ReforgeDefence>(ReforgeDefence.callback);
-            CustomCard.BuildCard<ReforgeReflection>(ReforgeReflection.callback);
-            CustomCard.BuildCard<ReforgeIntegraty>(ReforgeIntegraty.callback);
+            CustomCard.BuildCard<ReforgeVitality>();
+            CustomCard.BuildCard<ReforgeOffense>();
+            CustomCard.BuildCard<ReforgeDefence>();
+            CustomCard.BuildCard<ReforgeReflection>();
+            CustomCard.BuildCard<ReforgeIntegraty>();
 
             ///Genie Outcomes/
 

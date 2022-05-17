@@ -22,6 +22,9 @@
     <Reference Include="ClassesManagerReborn">
       <HintPath>I:\Rounds\repos\ClassesManagerReborn\bin\Debug\netstandard2.1\ClassesManagerReborn.dll</HintPath>
     </Reference>
+    <Reference Include="InControl">
+      <HintPath>F:\SteamLibrary\steamapps\common\ROUNDS\Rounds_Data\Managed\InControl.dll</HintPath>
+    </Reference>
     <Reference Include="ItemShops">
       <HintPath>..\..\..\..\AppData\Roaming\Thunderstore Mod Manager\DataFolder\ROUNDS\profiles\modding\BepInEx\plugins\willuwontu-ItemShops\ItemShops.dll</HintPath>
     </Reference>

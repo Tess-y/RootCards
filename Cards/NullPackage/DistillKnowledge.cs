@@ -88,7 +88,7 @@ namespace RootCards.Cards
                 {
                     try
                     {
-                        if (player.data.currentCards.Last().GetComponent<NullCard>() != null)
+                        if (player.data.currentCards.Last().cardName == Null.NULLCARD.cardName)
                         {
                             Extensions.CharacterStatModifiersExtension.GetRootData(player.data.stats).knowledge = false;
                             yield break;

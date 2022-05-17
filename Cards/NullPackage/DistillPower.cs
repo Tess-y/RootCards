@@ -73,7 +73,7 @@ namespace RootCards.Cards
         }
         protected override string GetDescription()
         {
-            return "Gain two random <color=#ff00ffff>rares</color>";
+            return "Gain two random <color=#ff00ffff>rares</color>\n\n\n <i>(Does not work right if it is your first card, we don't know why)</i>";
         }
         protected override GameObject GetCardArt()
         {

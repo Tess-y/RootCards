@@ -11,39 +11,40 @@ using RootCards.MonoBehaviours;
 
 namespace RootCards.Cards
 {
-    class LilithsDeal : CustomCard
+    class ContractOfSouls : CustomCard
     {
         public static CardInfo card;
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
+            cardInfo.allowMultiple = false;
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
-            statModifiers.regen = 20;
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been setup.");
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
+            player.gameObject.AddComponent<SoulContract>();
             //Edits values on player when card is selected
-            player.gameObject.AddComponent<PainfullAttacks>();
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
-        }
+        } 
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
+            Destroy(player.GetComponent<SoulContract>());
             //Run when the card is removed from the player
-            Destroy(player.gameObject.GetComponent<PainfullAttacks>());
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been removed from player {player.playerID}.");
         }
 
         protected override string GetTitle()
         {
-            return "Lilith’s Deal";
+            return "Contract Of Souls";
         }
         protected override string GetDescription()
         {
-            return "You know it is tempting; what could posibly go wrong?";
+            return "So many contracts, so many souls signed away.\nThey all belong to me now.\n\n\n\nSelf Damage is partially redirected to nearby opponents";
+
         }
         protected override GameObject GetCardArt()
         {
-            return RootCards.ArtAssets.LoadAsset<GameObject>("C_LILITH_DEAL");
+            return null;
         }
         protected override CardInfo.Rarity GetRarity()
         {
@@ -51,23 +52,7 @@ namespace RootCards.Cards
         }
         protected override CardInfoStat[] GetStats()
         {
-            return new CardInfoStat[]
-            {
-                new CardInfoStat()
-                {
-                    positive = true,
-                    stat = "Regeneration",
-                    amount = "+20",
-                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
-                },
-                new CardInfoStat()
-                {
-                    positive = false,
-                    stat = "attacks",
-                    amount = "+Painful",
-                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
-                }
-            };
+            return new CardInfoStat[]{};
         }
         protected override CardThemeColor.CardThemeColorType GetTheme()
         {
