@@ -13,6 +13,7 @@
           "Assembly-CSharp": "0.0.0.0",
           "BepInEx": "5.4.11.0",
           "CardChoiceSpawnUniqueCardPatch": "1.0.0.0",
+          "CardThemeLib": "1.0.0.0",
           "ClassesManagerReborn": "1.0.0.0",
           "InControl": "0.0.0.0",
           "ItemShops": "1.0.0.0",
@@ -21,7 +22,7 @@
           "PhotonUnityNetworking.Demos": "0.0.0.0",
           "PhotonUnityNetworking": "0.0.0.0",
           "PhotonUnityNetworking.Utilities": "0.0.0.0",
-          "UnboundLib": "2.11.2.0",
+          "UnboundLib": "2.12.0.0",
           "Unity.TextMeshPro": "0.0.0.0",
           "UnityEngine.AssetBundleModule": "0.0.0.0",
           "UnityEngine.CoreModule": "0.0.0.0",
@@ -63,6 +64,14 @@
       "CardChoiceSpawnUniqueCardPatch/1.0.0.0": {
         "runtime": {
           "CardChoiceSpawnUniqueCardPatch.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "CardThemeLib/1.0.0.0": {
+        "runtime": {
+          "CardThemeLib.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
@@ -132,11 +141,11 @@
           }
         }
       },
-      "UnboundLib/2.11.2.0": {
+      "UnboundLib/2.12.0.0": {
         "runtime": {
           "UnboundLib.dll": {
-            "assemblyVersion": "2.11.2.0",
-            "fileVersion": "2.11.2.0"
+            "assemblyVersion": "2.12.0.0",
+            "fileVersion": "2.12.0.0"
           }
         }
       },
@@ -417,6 +426,14 @@
           "RarityLib.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "MMHOOK_Assembly-CSharp/0.0.0.0": {
+        "runtime": {
+          "MMHOOK_Assembly-CSharp.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
           }
         }
       },
@@ -760,6 +777,11 @@
       "serviceable": false,
       "sha512": ""
     },
+    "CardThemeLib/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
     "ClassesManagerReborn/1.0.0.0": {
       "type": "reference",
       "serviceable": false,
@@ -800,7 +822,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "UnboundLib/2.11.2.0": {
+    "UnboundLib/2.12.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -976,6 +998,11 @@
       "sha512": ""
     },
     "RarityLib/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MMHOOK_Assembly-CSharp/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

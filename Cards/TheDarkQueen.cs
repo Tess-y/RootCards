@@ -61,7 +61,7 @@ namespace RootCards.Cards
         }
         protected override CardThemeColor.CardThemeColorType GetTheme()
         {
-            return CardThemeColor.CardThemeColorType.EvilPurple;
+            return CardThemeLib.CardThemeLib.instance.CreateOrGetType("DarknessBlack");
         }
         public override string GetModName()
         {

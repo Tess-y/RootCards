@@ -92,7 +92,6 @@ namespace RootCards.Cards
 
 		protected override CardThemeColor.CardThemeColorType GetTheme()
 		{
-			UnityEngine.Debug.Log((CardThemeColor.CardThemeColorType)(-1));
 			return (CardThemeColor.CardThemeColorType)(-1);
 		}
 

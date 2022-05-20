@@ -14,6 +14,7 @@ namespace RootCards.Patches
     {
         public static void Postfix(ref bool __result, Player player, CardInfo card)
         {
+            if (player == null || card == null) return;
             if (__result && NullManager.NulledLibrary.ContainsKey(player.playerID))
             {
                 if (!card.allowMultiple)

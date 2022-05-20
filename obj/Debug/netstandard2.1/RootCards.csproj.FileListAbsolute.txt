@@ -198,3 +198,5 @@ C:\Users\Tess\source\repos\Tess-y\RootCards\bin\Debug\netstandard2.1\ClassesMana
 C:\Users\Tess\source\repos\Tess-y\RootCards\bin\Debug\netstandard2.1\RarityLib.dll
 C:\Users\Tess\source\repos\Tess-y\RootCards\bin\Debug\netstandard2.1\RarityLib.pdb
 C:\Users\Tess\source\repos\Tess-y\RootCards\bin\Debug\netstandard2.1\MMHOOK_Assembly-CSharp.dll
+C:\Users\Tess\source\repos\Tess-y\RootCards\bin\Debug\netstandard2.1\CardThemeLib.dll
+C:\Users\Tess\source\repos\Tess-y\RootCards\bin\Debug\netstandard2.1\CardThemeLib.pdb
