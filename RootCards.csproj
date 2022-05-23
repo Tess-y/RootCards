@@ -46,6 +46,9 @@
     <Reference Include="PhotonUnityNetworking.Utilities">
       <HintPath>F:\SteamLibrary\steamapps\common\ROUNDS\Rounds_Data\Managed\PhotonUnityNetworking.Utilities.dll</HintPath>
     </Reference>
+    <Reference Include="RarityLib">
+      <HintPath>I:\Rounds\repos\RarityLib\bin\Debug\netstandard2.1\RarityLib.dll</HintPath>
+    </Reference>
     <Reference Include="UnboundLib">
       <HintPath>C:\Users\Tess\AppData\Roaming\Thunderstore Mod Manager\DataFolder\ROUNDS\profiles\modding\BepInEx\plugins\willis81808-UnboundLib\UnboundLib.dll</HintPath>
     </Reference>

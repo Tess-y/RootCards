@@ -19,6 +19,7 @@ using TMPro;
 using ItemShops.Extensions;
 using System.ArrayExtensions;
 using ModdingUtils.Extensions;
+using RarityLib.Utils;
 
 namespace RootCards.Cards
 {
@@ -305,6 +306,82 @@ namespace RootCards.Cards
                     }
                     break;
             }
+
+            float rarity = RarityUtils.GetRarityData(card.rarity).relativeRarity;
+            float Commonrarity = RarityUtils.GetRarityData(CardInfo.Rarity.Common).relativeRarity;
+            float Uncommonrarity = RarityUtils.GetRarityData(CardInfo.Rarity.Uncommon).relativeRarity;
+            float Rarerarity = RarityUtils.GetRarityData(CardInfo.Rarity.Uncommon).relativeRarity;
+            if(rarity >= Commonrarity)
+            {
+                if (r.Next(Mathf.Max(1,(int)(10 *(Commonrarity/rarity)))) == 0)
+                {
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithName("Genie: Smiles"), false, "", 2f, 2f);
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, card, false, "", 2f, 2f);
+                }
+                else
+                {
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithName("Genie: Granted"), false, "", 2f, 2f);
+                }
+            }
+            else if(rarity >= Uncommonrarity)
+            {
+                float percent = ((rarity - Commonrarity) / (Uncommonrarity - Commonrarity))*100;
+                float odds = (float)(r.NextDouble() * 100);
+                if (odds < 10-percent)
+                {
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithName("Genie: Smiles"), false, "", 2f, 2f);
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, card, false, "", 2f, 2f);
+                }
+                else if(odds < 100- (percent*2))
+                {
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithName("Genie: Granted"), false, "", 2f, 2f);
+                }
+                else if(odds < 390 - (percent * 3))
+                {
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithName("Genie: Fee"), false, "", 2f, 2f);
+                }
+                else
+                {
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithName("Genie: Eternity"), false, "", 2f, 2f);
+                    player.data.stats.GetRootData().lockedCard = card;
+                }
+            }
+            else if(rarity >= Rarerarity)
+            {
+                float percent = ((rarity - Uncommonrarity) / (Rarerarity - Uncommonrarity)) * 100;
+                float odds = (float)(r.NextDouble() * 100);
+                if (odds < 90 - (percent*2))
+                {
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithName("Genie: Fee"), false, "", 2f, 2f);
+                }
+                else if (odds > (percent * 2) && odds < 100 - percent/10)
+                {
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithName("Genie: Eternity"), false, "", 2f, 2f);
+                    player.data.stats.GetRootData().lockedCard = card;
+                }
+                else if (odds < 390 - (percent * 3))
+                {
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithName("Genie: Death"), false, "", 2f, 2f);
+                }
+                else
+                {
+                    ModdingUtils.Utils.Cards.instance.RemoveAllCardsFromPlayer(player);
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithName("Genie: Greed"), false, "", 2f, 2f);
+                }
+            }
+            else
+            {
+                if (r.Next(Mathf.Max(1, (int)(10 * (rarity / Rarerarity)))) == 0)
+                {
+                    ModdingUtils.Utils.Cards.instance.RemoveAllCardsFromPlayer(player);
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithName("Genie: Greed"), false, "", 2f, 2f);
+                }
+                else
+                {
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithName("Genie: Death"), false, "", 2f, 2f);
+                }
+            }
+            
 
             ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, card, false, "", 2f, 2f);
             RootCards.instance.StartCoroutine(ShowCard(player, card));

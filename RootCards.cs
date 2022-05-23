@@ -27,6 +27,7 @@ namespace RootCards
     [BepInDependency("com.willuwontu.rounds.managers", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("root.classes.manager.reborn")]
     [BepInDependency("root.cardtheme.lib")]
+    [BepInDependency("root.rarity.lib")]
     // Declares our Mod to Bepin
     [BepInPlugin(ModId, ModName, Version)]
     // The game our Mod Is associated with
@@ -37,7 +38,7 @@ namespace RootCards
         public static ConfigEntry<bool> DEBUG;
         private const string ModId = "com.Root.Cards";
         private const string ModName = "RootCards";
-        public const string Version = "0.8.4"; // What version are we On (major.minor.patch)?
+        public const string Version = "0.8.5"; // What version are we On (major.minor.patch)?
         internal static AssetBundle ArtAssets;
         //private static readonly AssetBundle Bundle = Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("rootassets", typeof(RootCards).Assembly);
         public const string ModInitials = "Root"; 
