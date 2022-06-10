@@ -105,32 +105,40 @@ namespace RootCards.Cards
 
         internal static IEnumerator Wish()
         {
-            wishes = new Dictionary<String, int>();
+            wishes = new Dictionary<string, int>();
             wishes.Add("Wish", 1);
             if (Genie_Shop != null) ShopManager.instance.RemoveShop(Genie_Shop); 
             Genie_Shop = ShopManager.instance.CreateShop(ShopID);
             Genie_Shop.UpdateMoneyColumnName("Wishes");
             Genie_Shop.UpdateTitle("Be Carful What You Wish For");
-            yield return new WaitForSecondsRealtime(0.2f);
-            RootCards.instance.StartCoroutine(SetUpShop());
 
             PlayerManager.instance.players.ForEach(p =>
             {
                 ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(p.data.stats).blacklistedCategories.Add(GenieOutcomeCategory);
             });
+            //GameModeManager.AddOnceHook(GameModeHooks.HookPickStart, (gm) => SetUpShopStart());
+            RootCards.instance.StartCoroutine(SetUpShop());
             yield break;
         }
+
+        internal static IEnumerator SetUpShopStart()
+        {
+            RootCards.instance.StartCoroutine(SetUpShop());
+            yield break;
+        }
+
 
         internal static IEnumerator SetUpShop()
         {
             List<UnboundLib.Utils.Card> allCards = UnboundLib.Utils.CardManager.cards.Values.ToList();
+            List<CardItem> items = new List<CardItem>();
             foreach (UnboundLib.Utils.Card card in allCards)
             {
                 if (card != null && card.cardInfo.name.ToLower() != "genie" && UnboundLib.Utils.CardManager.IsCardActive(card.cardInfo)) {
-                    Genie_Shop.AddItem(new CardItem(card));
+                    items.Add(new CardItem(card));
                 }
             }
-
+            Genie_Shop.AddItems(items.Select(c => c.Card.cardInfo.name).ToArray(), items.ToArray());
             yield break;
         }
 
@@ -187,7 +195,6 @@ namespace RootCards.Cards
             PlayerManager.instance.players.ForEach(p =>
             {
                 ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(p.data.stats).blacklistedCategories.Remove(GenieCategory);
-                if (p.GetAdditionalData().bankAccount.HasFunds(wishes)) { Genie_Shop.Show(p); done = false; }
             });
         }
 
@@ -202,14 +209,14 @@ namespace RootCards.Cards
         }
     internal class CardItem : Purchasable
     {
-        private UnboundLib.Utils.Card Card;
+        internal UnboundLib.Utils.Card Card;
         private Dictionary<string, int> cost = new Dictionary<string, int>();
         public CardItem(UnboundLib.Utils.Card card)
         {
             Card = card;
             cost.Add("Wish", 1);
         }
-        public override string Name { get { return Card.cardInfo.name; } }
+        public override string Name { get { return Card.cardInfo.cardName; } }
 
         public override Dictionary<string, int> Cost { get{ return cost; } } 
 
@@ -269,7 +276,7 @@ namespace RootCards.Cards
         public override void OnPurchase(Player player, Purchasable item)
         {
             var card = ((CardItem)item).Card.cardInfo; 
-            System.Random r = new System.Random(Util.random.Seed());
+            System.Random r = new System.Random(Util.random.Seed());/*
             switch (card.rarity)
             {
                 case CardInfo.Rarity.Common:
@@ -305,7 +312,7 @@ namespace RootCards.Cards
                         ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithName("Genie: Death"), false, "", 2f, 2f);
                     }
                     break;
-            }
+            }*/
 
             float rarity = RarityUtils.GetRarityData(card.rarity).relativeRarity;
             float Commonrarity = RarityUtils.GetRarityData(CardInfo.Rarity.Common).relativeRarity;
@@ -325,7 +332,7 @@ namespace RootCards.Cards
             }
             else if(rarity >= Uncommonrarity)
             {
-                float percent = ((rarity - Commonrarity) / (Uncommonrarity - Commonrarity))*100;
+                float percent = ((rarity - Commonrarity) / (Uncommonrarity - Commonrarity))* 100;
                 float odds = (float)(r.NextDouble() * 100);
                 if (odds < 10-percent)
                 {
@@ -385,6 +392,7 @@ namespace RootCards.Cards
 
             ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, card, false, "", 2f, 2f);
             RootCards.instance.StartCoroutine(ShowCard(player, card));
+            if (player.data.view.IsMine && !player.GetAdditionalData().bankAccount.HasFunds(Genie.wishes)) Genie.Genie_Shop.Hide();
         }
         public static IEnumerator ShowCard(Player player, CardInfo card)
         {
