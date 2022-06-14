@@ -45,10 +45,10 @@ namespace RootCards.Cards
                 player.GetAdditionalData().bankAccount.Deposit("Wish",1);
             else
             {
-                ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName("__root__Empty Lamp"), false, "", 0, 0, true);
+                ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName("__Root__Empty Lamp"), false, "", 0, 0, true);
                 RootCards.instance.ExecuteAfterFrames(10, () => {
                     UnityEngine.Debug.Log("No Genie for you.");
-                    ModdingUtils.Utils.Cards.instance.RemoveCardFromPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName("__root__Genie"),ModdingUtils.Utils.Cards.SelectionType.Newest);
+                    ModdingUtils.Utils.Cards.instance.RemoveCardFromPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName("__Root__Genie"),ModdingUtils.Utils.Cards.SelectionType.Newest);
                     // ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithName("Empty Lamp"),false,"",0,0,true);
                     //ModdingUtils.Utils.Cards.instance.ReplaceCard(player, ModdingUtils.Utils.Cards.instance.GetCardWithName("Genie"), ModdingUtils.Utils.Cards.instance.GetCardWithName("Empty Lamp"),"",0,0,ModdingUtils.Utils.Cards.SelectionType.Newest);
                 });
@@ -325,12 +325,12 @@ namespace RootCards.Cards
             {
                 if (r.Next(Mathf.Max(1,(int)(10 *(Commonrarity/rarity)))) == 0)
                 {
-                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName("__root__Genie: Smiles"), false, "", 2f, 2f);
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName("__Root__Genie: Smiles"), false, "", 2f, 2f);
                     ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, card, false, "", 2f, 2f);
                 }
                 else
                 {
-                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName("__root__Genie: Granted"), false, "", 2f, 2f);
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName("__Root__Genie: Granted"), false, "", 2f, 2f);
                 }
             }
             else if(rarity >= Uncommonrarity)
@@ -339,20 +339,20 @@ namespace RootCards.Cards
                 float odds = (float)(r.NextDouble() * 100);
                 if (odds < 10-percent)
                 {
-                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName("__root__Genie: Smiles"), false, "", 2f, 2f);
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName("__Root__Genie: Smiles"), false, "", 2f, 2f);
                     ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, card, false, "", 2f, 2f);
                 }
                 else if(odds < 100- (percent*2))
                 {
-                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName("__root__Genie: Granted"), false, "", 2f, 2f);
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName("__Root__Genie: Granted"), false, "", 2f, 2f);
                 }
                 else if(odds < 390 - (percent * 3))
                 {
-                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName("__root__Genie: Fee"), false, "", 2f, 2f);
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName("__Root__Genie: Fee"), false, "", 2f, 2f);
                 }
                 else
                 {
-                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName("__root__Genie: Eternity"), false, "", 2f, 2f);
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName("__Root__Genie: Eternity"), false, "", 2f, 2f);
                     player.data.stats.GetRootData().lockedCard = card;
                 }
             }
@@ -362,21 +362,21 @@ namespace RootCards.Cards
                 float odds = (float)(r.NextDouble() * 100);
                 if (odds < 90 - (percent*2))
                 {
-                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName("__root__Genie: Fee"), false, "", 2f, 2f);
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName("__Root__Genie: Fee"), false, "", 2f, 2f);
                 }
                 else if (odds > (percent * 2) && odds < 100 - percent/10)
                 {
-                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName("__root__Genie: Eternity"), false, "", 2f, 2f);
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName("__Root__Genie: Eternity"), false, "", 2f, 2f);
                     player.data.stats.GetRootData().lockedCard = card;
                 }
                 else if (odds < 390 - (percent * 3))
                 {
-                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName("__root__Genie: Death"), false, "", 2f, 2f);
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName("__Root__Genie: Death"), false, "", 2f, 2f);
                 }
                 else
                 {
                     ModdingUtils.Utils.Cards.instance.RemoveAllCardsFromPlayer(player);
-                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName("__root__Genie: Greed"), false, "", 2f, 2f);
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName("__Root__Genie: Greed"), false, "", 2f, 2f);
                 }
             }
             else
@@ -384,11 +384,11 @@ namespace RootCards.Cards
                 if (r.Next(Mathf.Max(1, (int)(10 * (rarity / Rarerarity)))) == 0)
                 {
                     ModdingUtils.Utils.Cards.instance.RemoveAllCardsFromPlayer(player);
-                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName("__root__Genie: Greed"), false, "", 2f, 2f);
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName("__Root__Genie: Greed"), false, "", 2f, 2f);
                 }
                 else
                 {
-                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName("__root__Genie: Death"), false, "", 2f, 2f);
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName("__Root__Genie: Death"), false, "", 2f, 2f);
                 }
             }
             
