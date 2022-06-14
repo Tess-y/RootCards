@@ -18,6 +18,7 @@ namespace RootCards.Cards
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
             //statModifiers.movementSpeed = .5f;
+            cardInfo.categories = new CardCategory[] { RootCards.PotatoCategory };
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been setup.");
         } 
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)

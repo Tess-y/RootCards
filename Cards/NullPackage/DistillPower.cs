@@ -30,7 +30,7 @@ namespace RootCards.Cards
         {
             //Edits values on player when card is selected
 
-            RootCards.instance.StartCoroutine(addRandomCards(player, gun, gunAmmo, data, health, gravity, block, characterStats));
+            RootCards.instance.ExecuteAfterFrames(2, ()=> { RootCards.instance.StartCoroutine(addRandomCards(player, gun, gunAmmo, data, health, gravity, block, characterStats)); });
             Extensions.CharacterStatModifiersExtension.AjustNulls(characterStats, 3);
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
         }

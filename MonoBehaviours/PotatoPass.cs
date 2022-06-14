@@ -20,36 +20,37 @@ namespace RootCards.MonoBehaviours
         {
             if (selfDamage) return;
             Player player = this.gameObject.GetComponent<Player>();
-            if (player.data.view.IsMine && player.data.currentCards.Contains(Cards.FrozenPotato.cardInfo))
+            if (player.data.view.IsMine && player.data.currentCards.Any(c => c.categories.Contains(RootCards.PotatoCategory)))
             {
-                int count = player.data.currentCards.RemoveAll(c => c == Cards.FrozenPotato.cardInfo);
-                NetworkingManager.RPC(typeof(PotatoPass),nameof(PassPotato),damagedPlayer.playerID,player.playerID, count); 
+                player.data.currentCards.Remove(player.data.currentCards.Find(c => c.categories.Contains(RootCards.PotatoCategory)));
+                NetworkingManager.RPC(typeof(PotatoPass),nameof(PassPotato),damagedPlayer.playerID,player.playerID); 
             }
         }
 
         [UnboundRPC]
-        public static void PassPotato(int playerID, int myID, int count)
+        public static void PassPotato(int playerID, int myID)
         {
             Player damagedPlayer = PlayerManager.instance.players.Find(p => p.playerID == playerID);
+            damagedPlayer.gameObject.GetOrAddComponent<PotatoEffect>(); damagedPlayer.gameObject.GetOrAddComponent<PotatoPass>();
             Player player = PlayerManager.instance.players.Find(p => p.playerID == myID);
-
-            player.data.currentCards.RemoveAll(c => c == Cards.FrozenPotato.cardInfo);
+            if (!player.data.view.IsMine)
+                player.data.currentCards.Remove(player.data.currentCards.Find(c => c.categories.Contains(RootCards.PotatoCategory)));
             CardBar cardbar = ModdingUtils.Utils.CardBarUtils.instance.PlayersCardBar(player);
+            CardInfo card = null;
             for (int num = cardbar.transform.childCount - 1; num >= 0; num--)
             {
-                if ((CardInfo)cardbar.transform.GetChild(num).gameObject.GetComponent<CardBarButton>().GetFieldValue("card") == Cards.FrozenPotato.cardInfo)
+                if (((CardInfo)cardbar.transform.GetChild(num).gameObject.GetComponent<CardBarButton>().GetFieldValue("card")).categories.Contains(RootCards.PotatoCategory))
                 {
+                    card = (CardInfo)cardbar.transform.GetChild(num).gameObject.GetComponent<CardBarButton>().GetFieldValue("card");
                     Destroy(cardbar.transform.GetChild(num).gameObject);
+                    break;
                 }
             }
-            for (int _ = 0; _ < count; _++)
-            {
-                damagedPlayer.data.currentCards.Add(Cards.FrozenPotato.cardInfo);
-                ModdingUtils.Utils.Cards.SilentAddToCardBar(playerID, Cards.FrozenPotato.cardInfo);
-            }
+            damagedPlayer.data.currentCards.Add(card);
+            ModdingUtils.Utils.Cards.SilentAddToCardBar(playerID, card);
             if (damagedPlayer.data.view.IsMine)
             {
-                ModdingUtils.Utils.CardBarUtils.instance.PlayersCardBar(playerID).OnHover(Cards.FrozenPotato.cardInfo, Vector3.zero);
+                ModdingUtils.Utils.CardBarUtils.instance.PlayersCardBar(playerID).OnHover(card, Vector3.zero);
                 ((GameObject)Traverse.Create(ModdingUtils.Utils.CardBarUtils.instance.PlayersCardBar(playerID)).Field("currentCard").GetValue()).gameObject.transform.localScale = Vector3.one * ModdingUtils.Utils.CardBarUtils.cardLocalScaleMult;
 
                 RootCards.instance.ExecuteAfterSeconds(0.75f, () => ModdingUtils.Utils.CardBarUtils.instance.PlayersCardBar(playerID).StopHover());

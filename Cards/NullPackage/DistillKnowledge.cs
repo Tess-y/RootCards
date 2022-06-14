@@ -51,7 +51,7 @@ namespace RootCards.Cards
         }
         protected override CardInfo.Rarity GetRarity()
         {
-            return CardInfo.Rarity.Common;
+            return CardInfo.Rarity.Rare;
         }
         protected override CardInfoStat[] GetStats()
         {
@@ -95,11 +95,11 @@ namespace RootCards.Cards
                         }
                     }
                     catch { }
-                    Extensions.CharacterStatModifiersExtension.AjustNulls(player.data.stats, 2);
                     yield return GameModeManager.TriggerHook(GameModeHooks.HookPlayerPickStart);
                     CardChoiceVisuals.instance.Show(Enumerable.Range(0, PlayerManager.instance.players.Count).Where(i => PlayerManager.instance.players[i].playerID == player.playerID).First(), true);
                     yield return CardChoice.instance.DoPick(1, player.playerID, PickerType.Player);
                     yield return new WaitForSecondsRealtime(0.1f);
+                    Extensions.CharacterStatModifiersExtension.AjustNulls(player.data.stats, 2);
                     yield return GameModeManager.TriggerHook(GameModeHooks.HookPlayerPickEnd);
                 }
             }

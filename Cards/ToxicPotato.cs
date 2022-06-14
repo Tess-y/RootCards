@@ -11,35 +11,39 @@ using RootCards.MonoBehaviours;
 
 namespace RootCards.Cards
 {
-    class ReforgeSoul : CustomCard
+    class ToxicPotato : CustomCard
     {
+        public static CardInfo cardInfo;
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
-            cardInfo.allowMultiple = false;
-            cardInfo.categories = new CardCategory[] { Null.NeedsNull };
+            //statModifiers.movementSpeed = .5f;
+            cardInfo.categories = new CardCategory[] { RootCards.PotatoCategory };
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been setup.");
-        }
+        } 
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            player.gameObject.GetOrAddComponent<NullLife>();
+            foreach (Player p in PlayerManager.instance.players)
+            {
+                p.gameObject.GetOrAddComponent<PotatoPass>();
+                p.gameObject.GetOrAddComponent<PotatoEffect>();
+            }
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
-        } 
+        }
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Run when the card is removed from the player
-            Destroy(player.gameObject.GetOrAddComponent<NullLife>());
             RootCards.Debug($"[{RootCards.ModInitials}][Card] {GetTitle()} has been removed from player {player.playerID}.");
         }
 
         protected override string GetTitle()
         {
-            return "Reforge Soul";
+            return "Toxic Potato";
         }
         protected override string GetDescription()
         {
-            return "If you would die while you have a null card, sacrife it to heal to full instead.";
+            return "When you hit someone, hand them your potato.";
         }
         protected override GameObject GetCardArt()
         {
@@ -47,7 +51,7 @@ namespace RootCards.Cards
         }
         protected override CardInfo.Rarity GetRarity()
         {
-            return CardInfo.Rarity.Common;
+            return CardInfo.Rarity.Uncommon;
         }
         protected override CardInfoStat[] GetStats()
         {
@@ -55,24 +59,25 @@ namespace RootCards.Cards
             {
                 new CardInfoStat()
                 {
-                    positive = true,
-                    stat = "Per null card",
-                    amount = "+1 Temp life",
+                    positive = false,
+                    stat = "HP/second",
+                    amount = "-5%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 }
             };
         }
         protected override CardThemeColor.CardThemeColorType GetTheme()
         {
-            return CardThemeColor.CardThemeColorType.MagicPink;
+            return CardThemeColor.CardThemeColorType.PoisonGreen;
         }
         public override string GetModName()
         {
             return RootCards.ModInitials;
         }
+
         public override void Callback()
         {
-            gameObject.AddComponent<Lilith>();//set the author of the card
+            gameObject.AddComponent<Tess>();//set the author of the card
         }
     }
 }

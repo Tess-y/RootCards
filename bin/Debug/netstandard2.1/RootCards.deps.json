@@ -9,21 +9,22 @@
     ".NETStandard,Version=v2.1/": {
       "RootCards/1.0.0": {
         "dependencies": {
-          "0Harmony": "2.4.2.0",
+          "0Harmony": "2.9.0.0",
           "Assembly-CSharp": "0.0.0.0",
-          "BepInEx": "5.4.11.0",
+          "BepInEx": "5.4.19.0",
           "CardChoiceSpawnUniqueCardPatch": "1.0.0.0",
           "CardThemeLib": "1.0.0.0",
           "ClassesManagerReborn": "1.0.0.0",
           "InControl": "0.0.0.0",
           "ItemShops": "1.0.0.0",
           "ModdingUtils": "1.0.0.0",
+          "Photon3Unity3D": "4.1.4.8",
           "PhotonRealtime": "0.0.0.0",
           "PhotonUnityNetworking.Demos": "0.0.0.0",
           "PhotonUnityNetworking": "0.0.0.0",
           "PhotonUnityNetworking.Utilities": "0.0.0.0",
           "RarityLib": "1.0.0.0",
-          "UnboundLib": "3.0.0.0",
+          "UnboundLib": "3.1.0.0",
           "Unity.TextMeshPro": "0.0.0.0",
           "UnityEngine.AssetBundleModule": "0.0.0.0",
           "UnityEngine.CoreModule": "0.0.0.0",
@@ -38,11 +39,11 @@
           "RootCards.dll": {}
         }
       },
-      "0Harmony/2.4.2.0": {
+      "0Harmony/2.9.0.0": {
         "runtime": {
           "0Harmony.dll": {
-            "assemblyVersion": "2.4.2.0",
-            "fileVersion": "2.4.2.0"
+            "assemblyVersion": "2.9.0.0",
+            "fileVersion": "2.9.0.0"
           }
         }
       },
@@ -54,11 +55,11 @@
           }
         }
       },
-      "BepInEx/5.4.11.0": {
+      "BepInEx/5.4.19.0": {
         "runtime": {
           "BepInEx.dll": {
-            "assemblyVersion": "5.4.11.0",
-            "fileVersion": "5.4.11.0"
+            "assemblyVersion": "5.4.19.0",
+            "fileVersion": "5.4.19.0"
           }
         }
       },
@@ -110,6 +111,14 @@
           }
         }
       },
+      "Photon3Unity3D/4.1.4.8": {
+        "runtime": {
+          "Photon3Unity3D.dll": {
+            "assemblyVersion": "4.1.4.8",
+            "fileVersion": "4.1.4.8"
+          }
+        }
+      },
       "PhotonRealtime/0.0.0.0": {
         "runtime": {
           "PhotonRealtime.dll": {
@@ -150,11 +159,11 @@
           }
         }
       },
-      "UnboundLib/3.0.0.0": {
+      "UnboundLib/3.1.0.0": {
         "runtime": {
           "UnboundLib.dll": {
-            "assemblyVersion": "3.0.0.0",
-            "fileVersion": "3.0.0.0"
+            "assemblyVersion": "3.1.0.0",
+            "fileVersion": "3.1.0.0"
           }
         }
       },
@@ -238,19 +247,19 @@
           }
         }
       },
-      "MonoMod.Utils/21.4.21.3": {
+      "MonoMod.Utils/22.1.29.1": {
         "runtime": {
           "MonoMod.Utils.dll": {
-            "assemblyVersion": "21.4.21.3",
-            "fileVersion": "21.4.21.3"
+            "assemblyVersion": "22.1.29.1",
+            "fileVersion": "22.1.29.1"
           }
         }
       },
-      "MonoMod.RuntimeDetour/21.4.21.3": {
+      "MonoMod.RuntimeDetour/22.1.29.1": {
         "runtime": {
           "MonoMod.RuntimeDetour.dll": {
-            "assemblyVersion": "21.4.21.3",
-            "fileVersion": "21.4.21.3"
+            "assemblyVersion": "22.1.29.1",
+            "fileVersion": "22.1.29.1"
           }
         }
       },
@@ -299,14 +308,6 @@
           "UnityEngine.AudioModule.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
-          }
-        }
-      },
-      "Photon3Unity3D/4.1.4.8": {
-        "runtime": {
-          "Photon3Unity3D.dll": {
-            "assemblyVersion": "4.1.4.8",
-            "fileVersion": "4.1.4.8"
           }
         }
       },
@@ -758,7 +759,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "0Harmony/2.4.2.0": {
+    "0Harmony/2.9.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -768,7 +769,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "BepInEx/5.4.11.0": {
+    "BepInEx/5.4.19.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -803,6 +804,11 @@
       "serviceable": false,
       "sha512": ""
     },
+    "Photon3Unity3D/4.1.4.8": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
     "PhotonRealtime/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
@@ -828,7 +834,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "UnboundLib/3.0.0.0": {
+    "UnboundLib/3.1.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -883,12 +889,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "MonoMod.Utils/21.4.21.3": {
+    "MonoMod.Utils/22.1.29.1": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
-    "MonoMod.RuntimeDetour/21.4.21.3": {
+    "MonoMod.RuntimeDetour/22.1.29.1": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -919,11 +925,6 @@
       "sha512": ""
     },
     "UnityEngine.AudioModule/0.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "Photon3Unity3D/4.1.4.8": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

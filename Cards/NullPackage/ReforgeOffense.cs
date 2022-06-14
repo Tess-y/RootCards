@@ -9,6 +9,7 @@ using UnityEngine;
 using RootCards.Cards.Util.Authors;
 using RootCards.MonoBehaviours;
 using RootCards.Extensions;
+using RarityLib.Utils;
 
 namespace RootCards.Cards
 {
@@ -50,7 +51,7 @@ namespace RootCards.Cards
         }
         protected override CardInfo.Rarity GetRarity()
         {
-            return CardInfo.Rarity.Common;
+            return RarityUtils.GetRarity("Trinket");
         }
         protected override CardInfoStat[] GetStats()
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RootCards.Extensions;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -30,6 +31,22 @@ namespace RootCards.Cards.Util
             yield break;
         }
 
+        public static IEnumerator CalculateNulls()
+        {
+            foreach (Player player in PlayerManager.instance.players) {
+                CharacterStatModifiers characterstats = player.data.stats;
+                if (characterstats.GetRootData().nulls > 0 || NulledLibrary[player.playerID].Count > 0)
+                {
+                    ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(characterstats).blacklistedCategories.Remove(Null.NeedsNull);
+                }
+                else
+                {
+                    ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(characterstats).blacklistedCategories.Add(Null.NeedsNull);
+                }
+            }
+            yield break;
+        }
+
         public static IEnumerator DoHandleReroll(int playerID)
         {
             RootCards.Debug(Photon.Pun.PhotonNetwork.IsMasterClient);
@@ -48,7 +65,7 @@ namespace RootCards.Cards.Util
             RootCards.Debug($"{NulledLibrary[playerID].Count},{cardInfos.Count}");
             foreach (CardInfo card in cardInfos)
             {
-                NetworkingManager.RPC(typeof(NullManager), nameof(RegisterNullRPC), playerID, card.cardName);
+                NetworkingManager.RPC(typeof(NullManager), nameof(RegisterNullRPC), playerID, card.name);
             }
             yield break;
         }
@@ -96,7 +113,7 @@ namespace RootCards.Cards.Util
         [UnboundRPC]
         public static void RegisterNullRPC(int playerID, string cardName)
         {
-            RegisterNull(playerID, ModdingUtils.Utils.Cards.instance.GetCardWithName(cardName));
+            RegisterNull(playerID, ModdingUtils.Utils.Cards.instance.GetCardWithObjectName(cardName));
         }
 
         [UnboundRPC]
@@ -168,7 +185,7 @@ namespace RootCards.Cards.Util
                 CardInfo randomCard = ModdingUtils.Utils.Cards.instance.DrawRandomCardWithCondition(allCards, PlayerManager.instance.players.Find(p => p.playerID == playerID), null, null, null, null, null, null, null,
                     (CardInfo _0, Player _1, Gun _2, GunAmmo _3, CharacterData _4, HealthHandler _5, Gravity _6, Block _7, CharacterStatModifiers _8) => true);
                 if (PlayerManager.instance.players.Find(p => p.playerID == playerID).data.view.IsMine)
-                    NetworkingManager.RPC(typeof(NullManager), nameof(RegisterNullRPC), playerID, randomCard.cardName);
+                    NetworkingManager.RPC(typeof(NullManager), nameof(RegisterNullRPC), playerID, randomCard.name);
             }
         }
 

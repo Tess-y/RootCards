@@ -78,14 +78,6 @@ namespace RootCards.Extensions
         public static void AjustNulls(this CharacterStatModifiers characterstats, int value)
         {
             characterstats.GetRootData().nulls = Mathf.Clamp(characterstats.GetRootData().nulls+value,0,100);
-            if(characterstats.GetRootData().nulls > 0)
-            {
-                ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(characterstats).blacklistedCategories.Remove(Null.NeedsNull);
-            }
-            else
-            {
-                ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(characterstats).blacklistedCategories.Add(Null.NeedsNull);
-            }
         }
 
 

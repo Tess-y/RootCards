@@ -55,7 +55,7 @@ namespace RootCards.Cards
                 new CardInfoStat()
                 {
                     positive = false,
-                    stat = "Per 2 cards",
+                    stat = "Per card",
                     amount = "+1 Null",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 }

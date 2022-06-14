@@ -16,6 +16,7 @@ using ItemShops.Utils;
 using UnityEngine.UI;
 using RootCards.Cards.Util;
 using WillsWackyManagers.Utils;
+using RarityLib.Utils;
 
 namespace RootCards
 {
@@ -38,13 +39,13 @@ namespace RootCards
         public static ConfigEntry<bool> DEBUG;
         private const string ModId = "com.Root.Cards";
         private const string ModName = "RootCards";
-        public const string Version = "0.8.6"; // What version are we On (major.minor.patch)?
+        public const string Version = "0.9.1"; // What version are we On (major.minor.patch)?
         internal static AssetBundle ArtAssets;
         //private static readonly AssetBundle Bundle = Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("rootassets", typeof(RootCards).Assembly);
         public const string ModInitials = "Root"; 
         public static RootCards instance { get; private set; }
+        public static CardCategory PotatoCategory; 
 
-        
 
         void Awake()
         { 
@@ -59,6 +60,7 @@ namespace RootCards
 
             DEBUG = base.Config.Bind<bool>(ModInitials, "Debug", false, "Enable to turn on concole spam from our mod");
             CardThemeLib.CardThemeLib.instance.CreateOrGetType("DarknessBlack", new CardThemeColor() { bgColor = new Color(0.1978f, 0.1088f, 0.1321f), targetColor = new Color(0.0978f, 0.1088f, 0.1321f) });
+            RarityUtils.AddRarity("Trinket", 3, new Color(0.38f, 0.38f, 0.38f), new Color(0.0978f, 0.1088f, 0.1321f));
         }
         void Start()
         {
@@ -66,6 +68,8 @@ namespace RootCards
             Unbound.RegisterMenu("Root Settings", delegate () { }, new Action<GameObject>(this.NewGUI), null, true);
 
             ArtAssets =  Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("rootassets", typeof(RootCards).Assembly);
+            PotatoCategory = CustomCardCategories.instance.CardCategory("PotatoCard");
+
 
             CustomCard.BuildCard<BloodBullets>();
             CustomCard.BuildCard<DownUpHere>();
@@ -74,7 +78,8 @@ namespace RootCards
             CustomCard.BuildCard<LilithsDeal>(card => LilithsDeal.card = card);
             CustomCard.BuildCard<ContractOfSouls>(card => ContractOfSouls.card = card);
             CustomCard.BuildCard<TheDarkQueen>(card => TheDarkQueen.card = card);
-            CustomCard.BuildCard<FrozenPotato>(); 
+            CustomCard.BuildCard<FrozenPotato>(card => FrozenPotato.cardInfo = card); 
+            CustomCard.BuildCard<ToxicPotato>(card => ToxicPotato.cardInfo = card); 
             CustomCard.BuildCard<OneHitWonder>(); 
             //CustomCard.BuildCard<BattleRage>(BattleRage.callback); 
             CustomCard.BuildCard<TimeLoop>(); 
@@ -106,6 +111,7 @@ namespace RootCards
             CustomCard.BuildCard<GenieGreed>(GenieGreed.callback);
             CustomCard.BuildCard<GenieSmiles>(GenieSmiles.callback);
             CustomCard.BuildCard<GenieEternity>(GenieEternity.callback);
+            CustomCard.BuildCard<EmptyLamp>(EmptyLamp.callback);
             ///End Outcomes
 
             GameModeManager.AddHook(GameModeHooks.HookGameStart, (gm) => Genie.Wish());
@@ -116,6 +122,7 @@ namespace RootCards
             GameModeManager.AddHook(GameModeHooks.HookPlayerPickStart, (gm) => CardChoicePatchSpawn.resetNull());
             GameModeManager.AddHook(GameModeHooks.HookGameStart, (gm) => NullManager.ResetLibrary());
             GameModeManager.AddHook(GameModeHooks.HookRoundEnd, (gm) => NullManager.CleanupRemovedNulls());
+            GameModeManager.AddHook(GameModeHooks.HookPlayerPickStart, (gm) => NullManager.CalculateNulls());
 
 
             CurrencyManager.instance.RegisterCurrencyIcon("Wish",(image) =>
